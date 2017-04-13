@@ -1,0 +1,38 @@
+---
+title: "MCTs 05"
+output: pdf_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## DATA
+
+Protein
+```{r pdf_attempt.R}
+summary(Daily_Prot)
+```
+
+Carbs
+```{r }
+summary(Daily_Carbs)
+```
+
+Fat
+```{r }
+summary(Daily_Fat)
+```
+
+Cals
+```{r}
+summary(Daily_Cals)
+```
+
+## Protein Plot
+
+
+
+```{r  echo=FALSE}
+plot(Daily_Prot,type = "b", col = "red", xlab = "Day", ylab = "Prot Amount",main = "Protein Intake")
+```
+
+
