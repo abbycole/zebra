@@ -1,3 +1,7 @@
+setwd("/User") # set to zebra directory
+
+map <- read.table("/data/new_ma", sep = "\t", header = TRUE, comment = "") #load mapping file
+
 items <- read.csv("MCTs_20239_Items.csv", TRUE, ",")
 test <- items[items$UserName == "MCTs05",]
 Protein <- mean(test$PROT)
