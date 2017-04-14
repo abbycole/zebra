@@ -1,38 +1,36 @@
 ---
-title: "MCTs 05"
 output: pdf_document
+params: 
+    set_title: "My Title!"
 ---
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+
+---
+title: `r id`
+---
+
+
+##Protein Intake Mean
+
+```{r, echo=FALSE}
+mean(subgroup$PROT)
 ```
-## DATA
+##FAT Intake Mean
 
-Protein
-```{r pdf_attempt.R}
-summary(Daily_Prot)
+```{r, echo=FALSE}
+mean(subgroup$TFAT)
 ```
+##Cals Intake Mean
 
-Carbs
-```{r }
-summary(Daily_Carbs)
+```{r, echo=FALSE}
+mean(subgroup$KCAL)
 ```
+##Carbs Intake Mean
 
-Fat
-```{r }
-summary(Daily_Fat)
+```{r, echo=FALSE}
+mean(subgroup$CARB)
 ```
+##Protein Plot
 
-Cals
-```{r}
-summary(Daily_Cals)
+```{r, echo=FALSE}
+plot(subgroup$StudyDayNo,subgroup$PROT,type = "b", col = "red", xlab = "Day", ylab = "Prot Amount",main = "Protein Intake")
 ```
-
-## Protein Plot
-
-
-
-```{r  echo=FALSE}
-plot(Daily_Prot,type = "b", col = "red", xlab = "Day", ylab = "Prot Amount",main = "Protein Intake")
-```
-
-

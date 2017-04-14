@@ -1,20 +1,11 @@
-setwd("/User") # set to zebra directory
+setwd("C:\\Users\\Surface Pro 3\\Documents\\GitHub\\zebra\\raw") # set to zebra directory
 
-map <- read.table("/data/new_ma", sep = "\t", header = TRUE, comment = "") #load mapping file
+map <- read.table("new_map_with_treatment.txt", sep = "\t", header = TRUE, comment = "") #load mapping file
 
-items <- read.csv("MCTs_20239_Items.csv", TRUE, ",")
-test <- items[items$UserName == "MCTs05",]
-Protein <- mean(test$PROT)
-FAT <- mean(test$TFAT)
-Cals <- mean(test$KCAL)
-Carbs <- mean(test$CARB)
-
-## @knitr part1
-Daily_Prot <- by( test$PROT, test$RecordDayNo, mean)
-Daily_Fat <- by( test$PROT, test$RecordDayNo, mean)
-Daily_Cals <- by( test$PROT, test$RecordDayNo, mean)
-Daily_Carbs <- by( test$PROT, test$RecordDayNo, mean)
-
-## @knitr part2
-plot(Daily_Prot,type = "b", col = "red", xlab = "Day", ylab = "Prot Amount",main = "Protein Intake")
-
+setwd("C:\\Users\\Surface Pro 3\\Documents\\GitHub\\zebra\\lib")
+library("rmarkdown")
+library("knitr")
+for (id in unique(map$UserName)){
+  subgroup <- map[map$UserName == id,]
+  render("MCTS_pdf.rmd",output_file = paste0('report.', id, '.pdf'),"pdf_document")    
+}
