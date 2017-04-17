@@ -33,4 +33,6 @@ mean(subgroup$CARB)
 
 ```{r, echo=FALSE}
 plot(subgroup$StudyDayNo,subgroup$PROT,type = "b", col = "red", xlab = "Day", ylab = "Prot Amount",main = "Protein Intake")
+
+ggplot(subgroup, aes(x=factor(StudyDayNo), y=PROT)) + stat_summary(fun.y="mean", geom="bar")
 ```
