@@ -30,8 +30,9 @@ ggplot(dfm,aes(x = StudyDayNo,y = value)) +
 
 ##Daily Calorie Intake
 ```{r, echo=FALSE}
+
 p <- ggplot(subgroup,aes(x = StudyDayNo,y = KCAL)) + 
      geom_bar(aes(fill = StudyDayNo),stat = "identity",position = "dodge") + scale_x_discrete(labels = abbreviate)
-
 p+guides(fill=FALSE)
+
 ```

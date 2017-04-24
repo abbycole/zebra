@@ -2,13 +2,16 @@ library(rmarkdown)
 library(knitr)
 library(ggplot2)
 library(reshape2)
-setwd("C:\\Users\\Surface Pro 3\\Documents\\GitHub\\zebra") # set to zebra directory
+
+setwd("/Users/abby/Documents/Projects/zebra") # set to zebra directory
+
 
 map <- read.table(".\\raw\\new_map_with_treatment.txt", sep = "\t", header = TRUE, comment = "") #load mapping file
+
 
 for (id in unique(map$UserName)){
   subgroup <- map[map$UserName == id,]
   render(input = ".\\lib\\MCTS_pdf.rmd",output_file = paste0('report.', id, '.pdf'),"pdf_document",
-         output_dir = "C:\\Users\\Surface Pro 3\\Documents\\GitHub\\zebra\\output") 
+         output_dir = ".\\output") 
 }
 
