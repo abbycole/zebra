@@ -4,33 +4,34 @@ params:
     set_title: "My Title!"
 ---
 
+
 ---
 title: `r id`
 ---
 
 
-##Protein Intake Mean
+| Type       | Your Average                     | Total Average                          |
+|------------|----------------------------------|----------------------------------------|
+| CALORIES   | `r round(mean(subgroup$KCAL),2)` | `r round(mean(map$KCAL,na.rm=TRUE),2)` |
+| PROTEIN    | `r round(mean(subgroup$PROT),2)` | `r round(mean(map$PROT,na.rm=TRUE),2)` |
+| TOTAL FAT  | `r round(mean(subgroup$TFAT),2)` | `r round(mean(map$TFAT,na.rm=TRUE),2)` |
+| CARBS      | `r round(mean(subgroup$CARB),2)` | `r round(mean(map$CARB,na.rm=TRUE),2)` |
+| FIBER      | `r round(mean(subgroup$FIBE),2)` | `r round(mean(map$FIBE,na.rm=TRUE),2)` |
+
+
+
+##MicroNutrients
 
 ```{r, echo=FALSE}
-mean(subgroup$PROT)
+dfm <- melt(subgroup[,c('StudyDayNo','PROT','TFAT','FIBE','CAFF','FIBE','SUGR')],id.vars = 1)
+ggplot(dfm,aes(x = StudyDayNo,y = value)) + 
+    geom_bar(aes(fill = variable),stat = "identity",position = "stack") + scale_x_discrete(labels = abbreviate)
 ```
-##FAT Intake Mean
 
+##Daily Calorie Intake
 ```{r, echo=FALSE}
-mean(subgroup$TFAT)
-```
-##Cals Intake Mean
+p <- ggplot(subgroup,aes(x = StudyDayNo,y = KCAL)) + 
+     geom_bar(aes(fill = StudyDayNo),stat = "identity",position = "dodge") + scale_x_discrete(labels = abbreviate)
 
-```{r, echo=FALSE}
-mean(subgroup$KCAL)
-```
-##Carbs Intake Mean
-
-```{r, echo=FALSE}
-mean(subgroup$CARB)
-```
-##Protein Plot
-
-```{r, echo=FALSE}
-plot(subgroup$StudyDayNo,subgroup$PROT,type = "b", col = "red", xlab = "Day", ylab = "Prot Amount",main = "Protein Intake")
+p+guides(fill=FALSE)
 ```

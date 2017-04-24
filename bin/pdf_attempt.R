@@ -9,6 +9,6 @@ map <- read.table(".\\raw\\new_map_with_treatment.txt", sep = "\t", header = TRU
 for (id in unique(map$UserName)){
   subgroup <- map[map$UserName == id,]
   render(input = ".\\lib\\MCTS_pdf.rmd",output_file = paste0('report.', id, '.pdf'),"pdf_document",
-         output_dir = ".\\output") 
+         output_dir = "C:\\Users\\Surface Pro 3\\Documents\\GitHub\\zebra\\output") 
 }
 
