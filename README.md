@@ -6,10 +6,9 @@ Note: need to have LaTex installed prior to running this code
 Example from Stack Exchange that might help: 
 http://stackoverflow.com/questions/15396755/using-loops-with-knitr-to-produce-multiple-pdf-reports-need-a-little-help-to
 
-## April 17
-This weeks To Do: 
-* Make the main script output to the output folder.
-* Make it possible to run everything using the single file in bin.
-* Learn ggplot
-  1. Stretch goal to make a stacked barchart that shows total intake by macronutrient (Carb, Pro, Fat) per day
-  2. Attainable goal is just get a graph in ggplot to work.
+## May Tasks 
+* Add microbiome data to the script
+  * Generate micorbiome summary data for each person (averaged over the study)
+* Add food units to the script
+  * General food unit summary data for each person (averaged over the study)
+* Add streamplots for each person per day for both food and microbiome information
