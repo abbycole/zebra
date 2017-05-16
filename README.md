@@ -8,7 +8,9 @@ http://stackoverflow.com/questions/15396755/using-loops-with-knitr-to-produce-mu
 
 ## May Tasks 
 * Add microbiome data to the script
+  * Basic pre-processing
   * Generate micorbiome summary data for each person (averaged over the study)
+  * Relative abundance of the top 10 speices per day per person
 * Add food units to the script
   * General food unit summary data for each person (averaged over the study)
 * Add streamplots for each person per day for both food and microbiome information
