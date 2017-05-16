@@ -12,18 +12,18 @@ title: `r id`
 
 | Type       | Your Average                     | Total Average                          |
 |------------|----------------------------------|----------------------------------------|
-| CALORIES   | `r round(mean(subgroup$KCAL),2)` | `r round(mean(map$KCAL,na.rm=TRUE),2)` |
-| PROTEIN    | `r round(mean(subgroup$PROT),2)` | `r round(mean(map$PROT,na.rm=TRUE),2)` |
-| TOTAL FAT  | `r round(mean(subgroup$TFAT),2)` | `r round(mean(map$TFAT,na.rm=TRUE),2)` |
-| CARBS      | `r round(mean(subgroup$CARB),2)` | `r round(mean(map$CARB,na.rm=TRUE),2)` |
-| FIBER      | `r round(mean(subgroup$FIBE),2)` | `r round(mean(map$FIBE,na.rm=TRUE),2)` |
+| CALORIES   | `r round(mean(submap$KCAL),2)` | `r round(mean(map$KCAL,na.rm=TRUE),2)` |
+| PROTEIN    | `r round(mean(submap$PROT),2)` | `r round(mean(map$PROT,na.rm=TRUE),2)` |
+| TOTAL FAT  | `r round(mean(submap$TFAT),2)` | `r round(mean(map$TFAT,na.rm=TRUE),2)` |
+| CARBS      | `r round(mean(submap$CARB),2)` | `r round(mean(map$CARB,na.rm=TRUE),2)` |
+| FIBER      | `r round(mean(submap$FIBE),2)` | `r round(mean(map$FIBE,na.rm=TRUE),2)` |
 
 
 
 ##MicroNutrients
 
 ```{r, echo=FALSE}
-dfm <- melt(subgroup[,c('StudyDayNo','PROT','TFAT','FIBE','CAFF','FIBE','SUGR')],id.vars = 1)
+dfm <- melt(submap[,c('StudyDayNo','PROT','TFAT','FIBE','CAFF','FIBE','SUGR')],id.vars = 1)
 ggplot(dfm,aes(x = StudyDayNo,y = value)) + 
     geom_bar(aes(fill = variable),stat = "identity",position = "stack") + scale_x_discrete(labels = abbreviate)
 ```
@@ -31,7 +31,14 @@ ggplot(dfm,aes(x = StudyDayNo,y = value)) +
 ##Daily Calorie Intake
 ```{r, echo=FALSE}
 
-p <- ggplot(subgroup,aes(x = StudyDayNo,y = KCAL)) + 
+p <- ggplot(submap,aes(x = StudyDayNo,y = KCAL)) + 
      geom_bar(aes(fill = StudyDayNo),stat = "identity",position = "dodge") + scale_x_discrete(labels = abbreviate)
 p+guides(fill=FALSE)
 ```
+
+##Microbiome Daily Relative Abundance
+```{r}
+# make ggplot bar chart of top 10 most abundant species per day 
+
+```
+
