@@ -64,4 +64,11 @@ ggplot(mergedf, aes(x = StudyDayNo, y = value, fill = rn)) +
 ```
 
 
+```{r}
+#make gg plot line graph of subject alpha diversity per day
+ggplot(merged_alpha, aes(x=StudyDayNo, y=alphad, group = UserName)) +
+  geom_point() +
+  geom_smooth()
+```
+
 
