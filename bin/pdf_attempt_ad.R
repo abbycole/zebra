@@ -114,5 +114,7 @@ for (id in unique(map$UserName)){
 #transpose 
 subtaxaalpha <- t(subtaxaalpha)
 
+#test
+
 
 
