@@ -41,7 +41,7 @@ p+guides(fill=FALSE)
 # make ggplot bar chart of top 10 most abundant species per day
 
 
-ggplot(mergedf2, aes(x = StudyDayNo, y = value, fill = rn)) +
+ggplot(mergedf, aes(x = StudyDayNo, y = value, fill = rn)) +
   geom_bar(stat = "identity") +
   scale_x_discrete(drop = FALSE) +
   theme_classic() +
@@ -64,15 +64,4 @@ ggplot(mergedf2, aes(x = StudyDayNo, y = value, fill = rn)) +
 ```
 
 
-for(i in names(subtaxa)){
-    dates <- names(subtaxa) #timestamp for each observed sample
-    abund <-subtaxa[,dates[i]] #abundances for selected timestamps
-    mostabund<- tail(sort(abund),10) #vector of 10 most abundant species (their counts, at least)
-    
-}
 
-lst <- list()
-
-for(i in names(subtaxa)){
-   lst[[i]]<- (subtaxa[,i])
-}
