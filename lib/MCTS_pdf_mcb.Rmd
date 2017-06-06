@@ -71,4 +71,11 @@ ggplot(merged_alpha, aes(x=StudyDayNo, y=alphad, group = UserName)) +
   geom_smooth()
 ```
 
+```{r}
+#create PCOA plot of beta diversities of pertinent subjects
+
+ggplot(PCOA) +
+  geom_point(aes(x=PC1,y=PC2, color=UserName)) +  #gives axes and item of focus
+  labs(title="PCOA plot")
+```
 
