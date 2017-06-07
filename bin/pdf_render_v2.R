@@ -14,8 +14,7 @@ library(dplyr)
 ####Pre Processing####
 
 #set to working directory to project zebra directory
-setwd("C:/Users/arzan/Desktop/Bioinformatics/MCT/zebra-master/zebra-master")
-
+setwd("C:/Users/arzan/Desktop/Bioinformatics/MCT/GIT/zebra")
 #### Read in mapping file ####
 map <- read.table("raw/new_map_with_treatment.txt", sep = "\t", header = TRUE, comment = "")
 
@@ -39,7 +38,8 @@ taxa <- rowsum(taxa,taxaStrings)                                    # Collapse b
 
 
 #### Massaging ####
-taxa = taxa[,colSums(taxa)>=20000]
+taxa = taxa[,colSums(taxa)>=20000]                  #use taxa var to create OTU table (counts)
+qtaxa = taxa[,colSums(taxa)>=20000]                #use taxa var to create OTU table (counts)
 staxa = taxa                                         #staxa is utilized for relative abundances, taxa for counts
 staxa = sweep(staxa,2,colSums(staxa),'/');           # Normalize
 staxa = staxa[order(rowMeans(staxa),decreasing=F),]; # Sort by avg. abundance
@@ -48,6 +48,17 @@ staxa = staxa[rowSums(staxa > 0) > 10,];             # Drop rare taxa (prevalenc
 
 
 ###Instantiate Plots###
+
+for (id in unique(map$UserName)){
+  
+  submap <- map[map$UserName == id,]
+  subtaxa <- staxa[(colnames(staxa) %in% submap[,"X.SampleID"])]
+  subtaxasp <- setDT(subtaxa, keep.rownames=TRUE) 
+  subtaxaalpha <- taxa[(colnames(taxa) %in% submap[,"X.SampleID"])]
+  render(input = "lib/MCTS_pdf_mcb_v2.Rmd",output_file = paste0('report.', id, '.pdf'),"pdf_document",
+         output_dir = "output/A") 
+  
+}
 
 
 for (id in unique(map$UserName)){

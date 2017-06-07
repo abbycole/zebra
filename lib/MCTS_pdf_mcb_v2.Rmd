@@ -39,7 +39,7 @@ p+guides(fill=FALSE) +
 ```
 
 ##Microbiome Daily Relative Abundance
-```{r}
+```{r, echo-FALSE}
 # make ggplot bar chart of top 10 most abundant species per day
 #melt subtaxasp to get our dataframe in the long format for future usage
   meltdf<- melt(subtaxasp)
@@ -103,7 +103,7 @@ ggplot(merged_alpha, aes(x=StudyDayNo, y=alphad, group = UserName)) +
   theme_classic()
 ```
 
-```{r}
+```{r, echo=FALSE}
 #create PCOA plot of beta diversities of pertinent subjects
 # 
 # ggplot(PCOA) +
