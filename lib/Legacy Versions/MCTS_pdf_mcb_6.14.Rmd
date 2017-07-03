@@ -1,0 +1,225 @@
+---
+output: pdf_document
+fig_caption: true
+params: 
+    set_title: "My Title!"
+---
+
+
+---
+title: `r id`
+---
+
+
+| Type       | Your Average                     | Total Average                          |
+|------------|----------------------------------|----------------------------------------|
+| CALORIES   | `r round(mean(submap$KCAL),2)` | `r round(mean(map$KCAL,na.rm=TRUE),2)` |
+| PROTEIN    | `r round(mean(submap$PROT),2)` | `r round(mean(map$PROT,na.rm=TRUE),2)` |
+| TOTAL FAT  | `r round(mean(submap$TFAT),2)` | `r round(mean(map$TFAT,na.rm=TRUE),2)` |
+| CARBS      | `r round(mean(submap$CARB),2)` | `r round(mean(map$CARB,na.rm=TRUE),2)` |
+| FIBER      | `r round(mean(submap$FIBE),2)` | `r round(mean(map$FIBE,na.rm=TRUE),2)` |
+
+
+<!-- MicroNutrients -->
+
+```{r, warning=F, message=F, echo=FALSE, fig.cap='Figure 1 visualizes your variation in micronutrient consumption on a day-to-day basis.                                                                                                       '}
+dfm <- melt(submap[,c('StudyDayNo','PROT','TFAT','FIBE','CAFF','FIBE','SUGR')],id.vars = 1)
+ggplot(dfm,aes(x = StudyDayNo,y = value)) + 
+    geom_bar(aes(fill = variable),stat = "identity",position = "stack") + scale_x_discrete(labels = abbreviate) +
+  theme_classic(base_family = "Helvetica")+
+   theme(plot.title = element_text(hjust = 0.5)) +
+  labs(x="Study Day Number", y="Micronutrient Consumption levels in grams")+
+  ggtitle("Daily Micronutrient Levels")
+```
+
+<!-- Daily Calorie Intake -->
+
+```{r, warning=F, message=F, echo=FALSE, fig.cap='Figure 2 visualizes your calorie intake on a day-to-day basis.'}
+
+p <- ggplot(submap,aes(x = StudyDayNo,y = KCAL)) + 
+     geom_bar(aes(fill = StudyDayNo),stat = "identity",position = "dodge") + scale_x_discrete(labels = abbreviate)
+p+guides(fill=FALSE) +
+  theme_classic(base_family = "Helvetica")+
+   theme(plot.title = element_text(hjust = 0.5)) +
+  labs(x="Study Day Number", y= "KCAL")+
+  ggtitle("Daily Calorie Intake")
+```
+
+<!-- Microbiome Daily Relative Abundance -->
+
+```{r, warning=F, message=F, echo=FALSE, fig.cap='Figure 3 depicts the most abundant bacterial species within your gut per each day of the study. The "<10% abundance" column represents a sum of bacterial species that individually account for less than 10% of'}
+# make ggplot bar chart of top 10 most abundant species per day
+#melt subtaxasp to get our dataframe in the long format for future usage
+  meltdf<- melt(subtaxasp)
+  
+  #merge to get access to Day var
+  mergedf<- merge(x=meltdf, y=map, by.x = "variable", by.y= "X.SampleID", all.x=TRUE)
+  
+  #convert our dataframe species (rn) column to a character
+  mergedf$rn <- as.character(mergedf$rn) 
+  
+  #series of gsub commands meant to neaten and clarify legend content
+  mergedf$rn <- gsub(".*s__", "", mergedf$rn)
+  mergedf$rn <- gsub("\\[", "",mergedf$rn)
+  mergedf$rn <- gsub("\\]", "",mergedf$rn)
+  mergedf$rn <- gsub("_", " ",mergedf$rn)
+  
+  
+  #create <10% abundance category
+  mergedf$rn[mergedf$value < 0.1] <- "<10% abundance"
+  
+
+ggplot(mergedf, aes(x = StudyDayNo, y = value, fill = rn)) +
+  geom_bar(stat = "identity") +
+  scale_x_discrete(drop = FALSE) +
+  theme_classic(base_family = "Helvetica") +
+  theme(strip.text.y = element_text(angle = 0, size = 8, face = "italic", family = "Helvetica"),
+        axis.text.x = element_text(angle = 45, hjust = 1, family = "Helvetica"),
+        axis.title.x = element_blank(),
+        plot.title =  element_text(hjust = 0.5, family = "Helvetica"),
+        strip.background = element_rect(color = "grey")) +
+  guides(fill = guide_legend(reverse = TRUE, 
+                             keywidth = 1, 
+                             keyheight = 1, 
+                             ncol = 1,
+                             title= "Bacterial Species")) +
+  ylab("Relative Abundance\n") +
+  ggtitle("Main species within your gut per day")
+
+
+
+
+
+```
+
+
+<!--Subject Day-to-Day Variation in Alpha Diversity of the Microbiome-->
+
+
+```{r, warning=F, message=F, echo=FALSE, fig.cap='Figure 4 details how the bacterial diversity exhibited within your gut changes on a daily basis. '}
+ #transpose
+   subtaxaalpha <- t(subtaxaalpha)
+ 
+  #calculate alpha diversity and assign to variable alphad
+   alphad <- diversity(subtaxaalpha, index = "shannon", MARGIN = 1, base = exp(1))
+   alphad <- as.data.frame(alphad)
+   alphad <- rownames_to_column(alphad, var = "X.SampleID")
+   
+   #merge melted df with map to get access to StudyDay variable
+   merged_alpha<- merge(x=alphad, y=map, all.x=TRUE)
+
+#make gg plot line graph of subject alpha diversity per day
+ggplot(merged_alpha, aes(x=StudyDayNo, y=alphad, group = UserName)) +
+  geom_point() +
+  theme_classic(base_family = "Helvetica") +
+  theme(axis.title.x =element_text(family = "Helvetica"), axis.title.y =element_text(family = "Helvetica"),
+        plot.title = element_text(hjust = 0.5))+
+  geom_smooth() +
+  labs(x= "Study Day Number",y="Alpha Diversity (Shannon)")+
+  ggtitle(" Day-to-Day Variation in Alpha Diversity of the Gut Microbiome")
+  
+```
+
+
+<!--Subject Day-To-Day Variation in Beta Diversity of the Microbiome-->
+
+```{r,fig.width=10, fig.height=10, echo=FALSE, fig.cap='Figure 5 is a plot that represents how dissimilar certain individuals microbiomes are relative to each other. The shape corresponding to your (subject number) represents your microbiome - multiple of the same shapes correspond to each of the multiple days of testing.'}
+#create PCOA plot of beta diversities of pertinent subjects
+# 
+
+betad<-vegdist(betataxa, method="bray", binary=FALSE, diag=FALSE, upper=FALSE,
+        na.rm = FALSE) 
+
+#betad as matrix 
+betad <- as.matrix(dist(betad))
+
+#column name is "IDs"
+IDs <-colnames(betad)
+
+# Run the pcoa() function on the beta diversity table, and store the vectors generated as a dataframe 
+PCOA <- data.frame(pcoa(betad)$vectors)
+
+#create vector with placeholders
+
+new_names <- rep("",ncol(PCOA))
+
+#create for loop which gives column names (currently named "axis") the name of PC1, PC2, PC3.. so forth
+#Each column for the PCOA matrix is a new PC (number).
+
+for(i in 1:ncol(PCOA)){
+  new_names[i] <- paste("PC",i,sep="")  
+}
+
+#code above uses a for loop - from the range of 1 to the number of columns in the PCOA
+#matrix, the for loop accesses the new name variable and names it PC + i (which is 1,2,3  depending on column
+#as indicated by for loop - for loop increases in increments of 1 (i goes up by 1) and goes thru columns)
+
+#new_names (PC1, PC2, etc..) replace the current colnames
+names(PCOA) <- new_names
+
+#creates column that is sampleID
+PCOA$X.SampleID <- IDs
+
+
+#merge map and PCOA by SampleID - select both lines and run together - won't work otherwise
+
+PCOA <- merge(PCOA, map, by = 'X.SampleID')
+
+
+PCOA <- merge(PCOA, map, by = 'UserName')
+
+
+#### Plot PCOA ####
+
+
+#instantiate shape and color palettes 
+
+shape_pal <- c(1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8)
+shape_pal2 <- c(1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3)
+shape_pal3 <- c(15,19,17,18,15,19,17,18,15,19,17,18,15,19,17,18,15,19,17,18,15,19,17,18,15,19,17,18,15,19,17,18,15,19,17,18,15,19,17,18)
+colpal<- colorRampPalette(brewer.pal(9,"Set3"))(37)
+
+
+#use ggplot to plot
+ggplot(PCOA) +
+  geom_point(aes(x=PC1,y=PC2, col=UserName, shape=UserName, size=4),alpha=.085) + #gives axes and item of focus
+  labs(title=" Day-To-Day Variation in Beta Diversity of the Gut Microbiome - PCOA") +
+   guides( colour = guide_legend(override.aes = list(size=5,alpha=1))) +
+  scale_shape_manual(values=shape_pal3) +
+  scale_color_manual(values=colpal)+
+  theme_classic(base_family = "Helvetica") +
+  theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
+
+ 
+
+
+  
+```
+
+
+
+
+```{r plot kcal summarized by subject, echo = F, fig.height=10, fig.width=10}
+
+
+long_plot <- submap %>% select(X.SampleID, KCAL, PROT, TFAT, CARB, UserName)
+long_plot$PROT <- long_plot$PROT*4/long_plot$KCAL
+long_plot$TFAT <- long_plot$TFAT*9/long_plot$KCAL
+long_plot$CARB <- long_plot$CARB*4/long_plot$KCAL
+
+
+long_plot <- melt(long_plot, id.vars = c("X.SampleID", "UserName", "KCAL"), 
+                  measure.vars = c("PROT", "TFAT", "CARB"), 
+                  variable.name = "Macro", value.name = "PCT")
+
+# plot kcal filled with % protein, fat, and carb
+ggplot(long_plot, aes(x = X.SampleID, y = KCAL*PCT, fill = Macro)) +
+  geom_bar(stat = "identity") +
+  facet_grid(.~UserName, scales = "free") +
+  theme_classic() +
+  scale_fill_brewer(palette = "Set2") +
+  labs(fill = "% Macronutrient", y = "Average reported intake (Kcal)") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 6),
+        axis.title.x = element_blank())
+
+``` 

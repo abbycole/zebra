@@ -22,14 +22,32 @@ title: `r id`
 
 <!-- MicroNutrients -->
 
-```{r, warning=F, message=F, echo=FALSE, fig.cap='Figure 1 visualizes your variation in micronutrient consumption on a day-to-day basis.                                                                                                       '}
-dfm <- melt(submap[,c('StudyDayNo','PROT','TFAT','FIBE','CAFF','FIBE','SUGR')],id.vars = 1)
-ggplot(dfm,aes(x = StudyDayNo,y = value)) + 
-    geom_bar(aes(fill = variable),stat = "identity",position = "stack") + scale_x_discrete(labels = abbreviate) +
-  theme_classic(base_family = "Helvetica")+
-  labs(x="Study Day Number", y="Micronutrient Consumption levels in grams")+
-  ggtitle("Daily Micronutrient Levels")
-```
+```{r, echo = F, warning=FALSE, message=FALSE,  fig.height=6.5, fig.width=7,fig.cap='Figure 1 visualizes day to day variation in your consumption of micronutrients viewed as a percentage of total kilocalorie intake.'}
+
+
+long_plot <- submap %>% select(X.SampleID, KCAL, PROT, TFAT, CARB, UserName)
+long_plot$PROT <- long_plot$PROT*4/long_plot$KCAL
+long_plot$TFAT <- long_plot$TFAT*9/long_plot$KCAL
+long_plot$CARB <- long_plot$CARB*4/long_plot$KCAL
+
+
+long_plot <- melt(long_plot, id.vars = c("X.SampleID", "UserName", "KCAL"), 
+                  measure.vars = c("PROT", "TFAT", "CARB"), 
+                  variable.name = "Macro", value.name = "PCT")
+
+# plot kcal filled with % protein, fat, and carb
+ggplot(long_plot, aes(x = X.SampleID, y = KCAL*PCT, fill = Macro)) +
+  geom_bar(stat = "identity") +
+  facet_grid(.~UserName, scales = "free") +
+  theme_classic() +
+  scale_fill_brewer(palette = "Set2") +
+  labs(fill = "% Macronutrient", y = "Average reported intake (Kcal)", x = "Study Day Number") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 6),
+        axis.title.x =element_text(family = "Helvetica"), axis.title.y =element_text(family = "Helvetica"),
+        plot.title = element_text(hjust = 0.5))+
+ggtitle("Daily Micronutrient Consumption as a percentage of Kilocalorie Intake")
+
+``` 
 
 <!-- Daily Calorie Intake -->
 
@@ -39,6 +57,7 @@ p <- ggplot(submap,aes(x = StudyDayNo,y = KCAL)) +
      geom_bar(aes(fill = StudyDayNo),stat = "identity",position = "dodge") + scale_x_discrete(labels = abbreviate)
 p+guides(fill=FALSE) +
   theme_classic(base_family = "Helvetica")+
+   theme(plot.title = element_text(hjust = 0.5)) +
   labs(x="Study Day Number", y= "KCAL")+
   ggtitle("Daily Calorie Intake")
 ```
@@ -110,7 +129,8 @@ ggplot(mergedf, aes(x = StudyDayNo, y = value, fill = rn)) +
 ggplot(merged_alpha, aes(x=StudyDayNo, y=alphad, group = UserName)) +
   geom_point() +
   theme_classic(base_family = "Helvetica") +
-  theme(axis.title.x =element_text(family = "Helvetica"), axis.title.y =element_text(family = "Helvetica"))+
+  theme(axis.title.x =element_text(family = "Helvetica"), axis.title.y =element_text(family = "Helvetica"),
+        plot.title = element_text(hjust = 0.5))+
   geom_smooth() +
   labs(x= "Study Day Number",y="Alpha Diversity (Shannon)")+
   ggtitle(" Day-to-Day Variation in Alpha Diversity of the Gut Microbiome")
@@ -185,10 +205,14 @@ ggplot(PCOA) +
   scale_shape_manual(values=shape_pal3) +
   scale_color_manual(values=colpal)+
   theme_classic(base_family = "Helvetica") +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
+
  
 
 
   
 ```
+
+
+
 
