@@ -20,7 +20,7 @@ Your average daily nutritional intakes contrasted to recommended nutritional int
 | Type                | Your Average                   | Study Average                          |Recommended Daily Allowances(Male/Female)|
 |---------------------|--------------------------------|----------------------------------------|-----------------------------------------| 
 | CALORIES (kcal)     | `r round(mean(submap$KCAL),2)` | `r round(mean(map$KCAL,na.rm=TRUE),2)` |                                         |
-| PROTEIN (g)         | `r round(mean(submap$PROT),2)` | `r round(mean(map$PROT,na.rm=TRUE),2)` |56 / 46                                  |
+| PROTEIN (g)         | `r round(mean(submap$PROT),2)` | `r round(mean(map$PROT,na.rm=TRUE),2)` |          56 / 46                        |
 | TOTAL FAT (g)       | `r round(mean(submap$TFAT),2)` | `r round(mean(map$TFAT,na.rm=TRUE),2)` |                                         | 
 | CARBS (g)           | `r round(mean(submap$CARB),2)` | `r round(mean(map$CARB,na.rm=TRUE),2)` |130                                      |
 | FIBER (g)           | `r round(mean(submap$FIBE),2)` | `r round(mean(map$FIBE,na.rm=TRUE),2)` |38 / 25 *                                |
