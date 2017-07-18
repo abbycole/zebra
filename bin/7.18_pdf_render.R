@@ -52,7 +52,7 @@ staxa = staxa[rowSums(staxa > 0) > 10,];             # Drop rare taxa (prevalenc
 ###Instantiate Plots###
 
 colnames(map)[2] <- "UserName" #Change col name from UserName.x to UserName - compatibility purposes
-colnames(map)[3] <- "StudyDayNo"
+colnames(map)[3] <- "StudyDayNo" #Change col name from StudyDayNo.x to StudyDayNo - compatibility purposes
 
 for (id in unique(map$UserName)){
   

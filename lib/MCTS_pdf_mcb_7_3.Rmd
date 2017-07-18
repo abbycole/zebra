@@ -14,30 +14,43 @@ title: `r "Microbiome Diet Study Participant Report"`
 Thank you for participating in the Knights Lab citizen science project: The Microbiome Diet Study. Included in this report is some high-level information about your daily dietary intake and your daily microbiome variation. This report does not provide any medical advice and is not intended to be used to diagnose disease. If you have questions about your report, or you would like access to your raw data, please contact the study coordinator Abby Cole at cole0463@umn.edu
 
 
-Your average daily nutritional intakes contrasted to recommended nutritional intake levels:
+
+
+Here are your average daily macronutrient nutritional intakes contrasted to recommended macronutrient nutritional intake levels:
+
+&nbsp;
+
+| Type                | Your Average                   | Study Average                          |
+|---------------------|--------------------------------|----------------------------------------|
+| CALORIES (kcal)     | `r round(mean(submap$KCAL),2)` | `r round(mean(map$KCAL,na.rm=TRUE),2)` |                                       
+| PROTEIN (g)         | `r round(mean(submap$PROT),2)` | `r round(mean(map$PROT,na.rm=TRUE),2)` |                                  
+| TOTAL FAT (g)       | `r round(mean(submap$TFAT),2)` | `r round(mean(map$TFAT,na.rm=TRUE),2)` |                                         
+| CARBS (g)           | `r round(mean(submap$CARB),2)` | `r round(mean(map$CARB,na.rm=TRUE),2)` |                                      
+| FIBER (g)           | `r round(mean(submap$FIBE),2)` | `r round(mean(map$FIBE,na.rm=TRUE),2)` |
+
+&nbsp;
+
+These are your average daily micronutrient nutritional intakes contrasted to recommended micronutrient nutritional intake levels:
 
 
 | Type                | Your Average                   | Study Average                          |Recommended Daily Allowances(Male/Female)|
-|---------------------|--------------------------------|----------------------------------------|-----------------------------------------| 
-| CALORIES (kcal)     | `r round(mean(submap$KCAL),2)` | `r round(mean(map$KCAL,na.rm=TRUE),2)` |                                         |
-| PROTEIN (g)         | `r round(mean(submap$PROT),2)` | `r round(mean(map$PROT,na.rm=TRUE),2)` |          56 / 46                        |
-| TOTAL FAT (g)       | `r round(mean(submap$TFAT),2)` | `r round(mean(map$TFAT,na.rm=TRUE),2)` |                                         | 
-| CARBS (g)           | `r round(mean(submap$CARB),2)` | `r round(mean(map$CARB,na.rm=TRUE),2)` |130                                      |
-| FIBER (g)           | `r round(mean(submap$FIBE),2)` | `r round(mean(map$FIBE,na.rm=TRUE),2)` |38 / 25 *                                |
-| FOLATE (ug)         | `r round(mean(submap$FOLA),2)` | `r round(mean(map$FOLA,na.rm=TRUE),2)` |400                                      |
-| SELENIUM (ug)       | `r round(mean(submap$SELE),2)` | `r round(mean(map$SELE,na.rm=TRUE),2)` |55                                       | 
-| CALCIUM (mg)        | `r round(mean(submap$CALC),2)` | `r round(mean(map$CALC,na.rm=TRUE),2)` |1000 *                                   |
-| POTASSIUM (mg)      | `r round(mean(submap$POTA),2)` | `r round(mean(map$POTA,na.rm=TRUE),2)` |4.7                                      |
-| MAGNESIUM (mg)      | `r round(mean(submap$MAGN),2)` | `r round(mean(map$MAGN,na.rm=TRUE),2)` |400 / 310 *                              | 
-| ZINC (mg)           | `r round(mean(submap$ZINC),2)` | `r round(mean(map$ZINC,na.rm=TRUE),2)` |11 / 8  *                                |
-| VITAMIN A (ug)      | `r round(mean(submap$VARA),2)` | `r round(mean(map$VARA,na.rm=TRUE),2)` |900 / 700                                |
-| VITAMIN B12 (ug)    | `r round(mean(submap$VB12),2)` | `r round(mean(map$VB12,na.rm=TRUE),2)` |2.4                                      |
-| VITAMIN D (ug)      | `r round(mean(submap$VITD),2)` | `r round(mean(map$VITD,na.rm=TRUE),2)` |15 *                                     |
-| VITAMIN E (mg)      | `r round(mean(submap$ATOC),2)` | `r round(mean(map$ATOC,na.rm=TRUE),2)` |15                                       |
-| VITAMIN K (ug)      | `r round(mean(submap$VK),2)`   | `r round(mean(map$VK,na.rm=TRUE),2)`   |120  / 90                                |
+|---------------------|--------------------------------|----------------------------------------|-----------------------------------------|          
+| FOLATE (ug)         | `r round(mean(submap$FOLA),2)` | `r round(mean(map$FOLA,na.rm=TRUE),2)` |                 400                     |
+| SELENIUM (ug)       | `r round(mean(submap$SELE),2)` | `r round(mean(map$SELE,na.rm=TRUE),2)` |                 55                      | 
+| CALCIUM (mg)        | `r round(mean(submap$CALC),2)` | `r round(mean(map$CALC,na.rm=TRUE),2)` |                 1000 *                  |
+| POTASSIUM (mg)      | `r round(mean(submap$POTA),2)` | `r round(mean(map$POTA,na.rm=TRUE),2)` |                 4.7                     |
+| MAGNESIUM (mg)      | `r round(mean(submap$MAGN),2)` | `r round(mean(map$MAGN,na.rm=TRUE),2)` |               400 / 310 *               | 
+| ZINC (mg)           | `r round(mean(submap$ZINC),2)` | `r round(mean(map$ZINC,na.rm=TRUE),2)` |                11 / 8  *                |
+| VITAMIN A (ug)      | `r round(mean(submap$VARA),2)` | `r round(mean(map$VARA,na.rm=TRUE),2)` |               900 / 700                 |
+| VITAMIN B12 (ug)    | `r round(mean(submap$VB12),2)` | `r round(mean(map$VB12,na.rm=TRUE),2)` |                 2.4                     |
+| VITAMIN D (ug)      | `r round(mean(submap$VITD),2)` | `r round(mean(map$VITD,na.rm=TRUE),2)` |                 15 *                    |
+| VITAMIN E (mg)      | `r round(mean(submap$ATOC),2)` | `r round(mean(map$ATOC,na.rm=TRUE),2)` |                 15                      |
+| VITAMIN K (ug)      | `r round(mean(submap$VK),2)`   | `r round(mean(map$VK,na.rm=TRUE),2)`   |               120 / 90                  |
 
 
-The above table shows your average daily intake of key macro and micro nutrients during the study period. For your reference also shown here are the overall average for the other participants in the study and the recommended intake levels by gender. Recommended intakes for individuals over 30 may be higher or lower, visit https://ods.od.nih.gov/Health_Information/Dietary_Reference_Intakes.aspx for a comphrenhensive breakdown of dietary reference intakes by age and gender.
+&nbsp;
+
+The above tables show your average daily intakes of key macro and micro nutrients during the study period. For your reference also shown here are the overall average for the other participants in the study and the recommended intake levels by gender. Values marked with asterisks are indicative of recommended values that may vary for individuals over 30 may be higher or lower, visit https://ods.od.nih.gov/Health_Information/Dietary_Reference_Intakes.aspx for a comphrenhensive breakdown of dietary reference intakes by age and gender.
 
 <!-- MicroNutrients -->
 
@@ -54,7 +67,10 @@ long_plot <- melt(long_plot, id.vars = c("X.SampleID", "UserName", "KCAL"),
                   measure.vars = c("PROT", "TFAT", "CARB"), 
                   variable.name = "Macro", value.name = "PCT")
 
-colpal<- colorRampPalette(brewer.pal(9,"Set3"))(37)
+
+#instantiate color brewer and axis tick mark amount
+colpal <- colorRampPalette(brewer.pal(9,"Set3"))(37)
+colpal <- sample(colpal,37,replace = FALSE)
 tick_label <- seq(1:17)
 
 # plot kcal filled with % protein, fat, and carb
@@ -73,27 +89,29 @@ ggtitle("Daily Micronutrient Consumption as a percentage of Kilocalorie Intake")
 
 ``` 
 
-<!-- Daily Calorie Intake -->
+<!-- Daily Fiber Intake -->
 
 ```{r, warning=F, message=F, echo=FALSE, fig.cap='Figure 2 visualizes your Fiber intake on a day-to-day basis. Add blurb pertaining to microbiome importance'}
 
+#instantiate color brewer and axis tick mark amounts
 colpal<- colorRampPalette(brewer.pal(9,"Set3"))(37)
+colpal<- sample(colpal,37, replace = FALSE)
 tick_label <- seq(1:17) 
 
 p <- ggplot(submap,aes(x = StudyDayNo,y = FIBE)) + 
-     geom_bar(aes(fill = StudyDayNo),stat = "identity",position = "dodge") + scale_x_discrete(labels = abbreviate)
+     geom_bar(aes(fill = colpal[1]),stat = "identity",position = "dodge") + scale_x_discrete(labels = abbreviate) #fill = studydayno
 p+guides(fill=FALSE) +
   theme_classic(base_family = "Helvetica")+
    theme(plot.title = element_text(hjust = 0.5)) +
   scale_x_discrete(labels=c(tick_label))+
-   scale_fill_manual(values =colpal)+
+   scale_fill_manual(values = colpal)+
   labs(x="Study Day Number", y= "Fiber levels in grams")+
   ggtitle("Daily Fiber Intake")
 ```
 
 <!-- Microbiome Daily Relative Abundance -->
 
-```{r, warning=F, message=F, echo=FALSE, fig.cap='Figure 3 depicts the most abundant bacterial species within your gut per each day of the study. The "<10% abundance" column represents a sum of bacterial species that individually account for less than 10% of'}
+```{r, warning=F, message=F, echo=FALSE, fig.cap='Figure 3 depicts the most abundant bacterial species within your gut per each day of the study. The "<7% abundance" column represents a sum of bacterial species that individually account for less than 7% of'}
 # make ggplot bar chart of top 10 most abundant species per day
 #melt subtaxasp to get our dataframe in the long format for future usage
   meltdf<- melt(subtaxasp)
@@ -112,11 +130,12 @@ p+guides(fill=FALSE) +
   
 
   
-  
   #create <10% abundance category
   mergedf$rn[mergedf$value < 0.07] <- "<7% abundance"
   
+  #instantiate color brewer and axes tick mark amount
   colpal<- colorRampPalette(brewer.pal(9,"Set3"))(37)
+  colpal<- sample(colpal,37, replace = FALSE)
   tick_label <- seq(1:17)
 
   
@@ -164,12 +183,11 @@ ggplot(mergedf, aes(x = StudyDayNo, y = value, fill = rn)) +
 #make gg plot line graph of subject alpha diversity per day
 ggplot(merged_alpha, aes(x=StudyDayNo, y=alphad, group = UserName)) +
   geom_point() +
-  theme_classic(base_family = "Helvetica") +
-  theme(axis.title.x =element_text(family = "Helvetica"), axis.title.y =element_text(family = "Helvetica"),
+  theme(
         plot.title = element_text(hjust = 0.5),
         axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
-  geom_smooth() +
-  scale_color_manual(values=colpal)+
+  theme_classic()+
+  geom_smooth(aes(fill=colpal[1])) +
   labs(x= "Study Day Number",y="Alpha Diversity (Shannon)")+
   ggtitle(" Day-to-Day Variation in Alpha Diversity of the Gut Microbiome")
   
