@@ -16,6 +16,9 @@ library(extrafont)
 
 #set to working directory to project zebra directory
 setwd("C:/Users/arzan/Desktop/Bioinformatics/MCT/GIT/zebra")
+
+
+
 #### Read in mapping file ####
 map <- read.table("raw/new_map_with_treatment.txt", sep = "\t", header = TRUE, comment = "")
 
@@ -53,8 +56,9 @@ for (id in unique(map$UserName)){
   betataxa<- staxa[(colnames(staxa) %in% map[,"X.SampleID"])] #Create table with just taxa and subjects
   betataxa <- t(betataxa) #transpose 
   render(input = "lib/MCTS_pdf_mcb_7_3.Rmd",output_file = paste0('report.', id, '.pdf'),"pdf_document",
-         output_dir = "output/7.14.output") 
+         output_dir = "output/7.18.output") 
 }
+
 
 
 

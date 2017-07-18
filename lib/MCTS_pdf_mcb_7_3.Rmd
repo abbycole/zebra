@@ -17,28 +17,27 @@ Thank you for participating in the Knights Lab citizen science project: The Micr
 Your average daily nutritional intakes contrasted to recommended nutritional intake levels:
 
 
-| Type                | Your Average                   | Study Average                          |Recommended Daily Allowances|
-|---------------------|--------------------------------|----------------------------------------|----------------------------|  
-| CALORIES (kcal)     | `r round(mean(submap$KCAL),2)` | `r round(mean(map$KCAL,na.rm=TRUE),2)` |
-| PROTEIN (g)         | `r round(mean(submap$PROT),2)` | `r round(mean(map$PROT,na.rm=TRUE),2)` |
-| TOTAL FAT (g)       | `r round(mean(submap$TFAT),2)` | `r round(mean(map$TFAT,na.rm=TRUE),2)` |
-| CARBS (g)           | `r round(mean(submap$CARB),2)` | `r round(mean(map$CARB,na.rm=TRUE),2)` |
-| FIBER (g)           | `r round(mean(submap$FIBE),2)` | `r round(mean(map$FIBE,na.rm=TRUE),2)` |
-| FOLATE (mcg)        | `r round(mean(submap$FOLA),2)` | `r round(mean(map$FOLA,na.rm=TRUE),2)` |
-| SELENIUM (mcg)      | `r round(mean(submap$SELE),2)` | `r round(mean(map$SELE,na.rm=TRUE),2)` |
-| CALCIUM (mg)        | `r round(mean(submap$CALC),2)` | `r round(mean(map$CALC,na.rm=TRUE),2)` |
-| POTASSIUM (mg)      | `r round(mean(submap$POTA),2)` | `r round(mean(map$POTA,na.rm=TRUE),2)` |
-| MAGNESIUM (mg)      | `r round(mean(submap$MAGN),2)` | `r round(mean(map$MAGN,na.rm=TRUE),2)` |
-| ZINC (mg)           | `r round(mean(submap$ZINC),2)` | `r round(mean(map$ZINC,na.rm=TRUE),2)` |
-| VITAMIN A (mcg)     | `r round(mean(submap$VARA),2)` | `r round(mean(map$VARA,na.rm=TRUE),2)` |
-| VITAMIN B6 (mg)     | `r round(mean(submap$VB6),2)`  | `r round(mean(map$VB6,na.rm=TRUE),2)`  | 
-| VITAMIN B12 (mcg)   | `r round(mean(submap$VB12),2)` | `r round(mean(map$VB12,na.rm=TRUE),2)` |
-| VITAMIN D (mcg)     | `r round(mean(submap$VITD),2)` | `r round(mean(map$VITD,na.rm=TRUE),2)` |
-| VITAMIN E (mg)      | `r round(mean(submap$ATOC),2)` | `r round(mean(map$ATOC,na.rm=TRUE),2)` |
-| VITAMIN K (mcg)     | `r round(mean(submap$VK),2)`   | `r round(mean(map$VK,na.rm=TRUE),2)`   |
+| Type                | Your Average                   | Study Average                          |Recommended Daily Allowances(Male/Female)|
+|---------------------|--------------------------------|----------------------------------------|-----------------------------------------| 
+| CALORIES (kcal)     | `r round(mean(submap$KCAL),2)` | `r round(mean(map$KCAL,na.rm=TRUE),2)` |                                         |
+| PROTEIN (g)         | `r round(mean(submap$PROT),2)` | `r round(mean(map$PROT,na.rm=TRUE),2)` |56 / 46                                  |
+| TOTAL FAT (g)       | `r round(mean(submap$TFAT),2)` | `r round(mean(map$TFAT,na.rm=TRUE),2)` |                                         | 
+| CARBS (g)           | `r round(mean(submap$CARB),2)` | `r round(mean(map$CARB,na.rm=TRUE),2)` |130                                      |
+| FIBER (g)           | `r round(mean(submap$FIBE),2)` | `r round(mean(map$FIBE,na.rm=TRUE),2)` |38 / 25 *                                |
+| FOLATE (ug)         | `r round(mean(submap$FOLA),2)` | `r round(mean(map$FOLA,na.rm=TRUE),2)` |400                                      |
+| SELENIUM (ug)       | `r round(mean(submap$SELE),2)` | `r round(mean(map$SELE,na.rm=TRUE),2)` |55                                       | 
+| CALCIUM (mg)        | `r round(mean(submap$CALC),2)` | `r round(mean(map$CALC,na.rm=TRUE),2)` |1000 *                                   |
+| POTASSIUM (mg)      | `r round(mean(submap$POTA),2)` | `r round(mean(map$POTA,na.rm=TRUE),2)` |4.7                                      |
+| MAGNESIUM (mg)      | `r round(mean(submap$MAGN),2)` | `r round(mean(map$MAGN,na.rm=TRUE),2)` |400 / 310 *                              | 
+| ZINC (mg)           | `r round(mean(submap$ZINC),2)` | `r round(mean(map$ZINC,na.rm=TRUE),2)` |11 / 8  *                                |
+| VITAMIN A (ug)      | `r round(mean(submap$VARA),2)` | `r round(mean(map$VARA,na.rm=TRUE),2)` |900 / 700                                |
+| VITAMIN B12 (ug)    | `r round(mean(submap$VB12),2)` | `r round(mean(map$VB12,na.rm=TRUE),2)` |2.4                                      |
+| VITAMIN D (ug)      | `r round(mean(submap$VITD),2)` | `r round(mean(map$VITD,na.rm=TRUE),2)` |15 *                                     |
+| VITAMIN E (mg)      | `r round(mean(submap$ATOC),2)` | `r round(mean(map$ATOC,na.rm=TRUE),2)` |15                                       |
+| VITAMIN K (ug)      | `r round(mean(submap$VK),2)`   | `r round(mean(map$VK,na.rm=TRUE),2)`   |120  / 90                                |
 
 
-The above table shows your average daily intake of key macro and micro nutrients during the study period. For your reference also shown here are the overall average for the other participants in the study and the recommended intake levels by gender. 
+The above table shows your average daily intake of key macro and micro nutrients during the study period. For your reference also shown here are the overall average for the other participants in the study and the recommended intake levels by gender. Recommended intakes for individuals over 30 may be higher or lower, visit https://ods.od.nih.gov/Health_Information/Dietary_Reference_Intakes.aspx for a comphrenhensive breakdown of dietary reference intakes by age and gender.
 
 <!-- MicroNutrients -->
 
@@ -63,12 +62,12 @@ ggplot(long_plot, aes(x = X.SampleID, y = KCAL*PCT, fill = Macro)) +
   geom_bar(stat = "identity") +
   facet_grid(.~UserName, scales = "free") +
   theme_classic() +
-  scale_color_manual(values=colpal)+
-  scale_fill_brewer(palette = "Set2") +
+  scale_fill_manual(values=colpal)+
+  #scale_fill_brewer(palette = colpal) +
    scale_x_discrete(labels=c(tick_label))+
   labs(fill = "% Macronutrient", y = "Daily reported intake (Kcal)", x = "Study Day Number") +
   theme(
-        axis.title.x =element_text(family = "Helvetica"), axis.title.y =element_text(family = "Helvetica"),
+        #axis.title.x =element_text(family = "Helvetica"), axis.title.y =element_text(family = "Helvetica"),
         plot.title = element_text(hjust = 0.5))+
 ggtitle("Daily Micronutrient Consumption as a percentage of Kilocalorie Intake")
 
@@ -79,15 +78,15 @@ ggtitle("Daily Micronutrient Consumption as a percentage of Kilocalorie Intake")
 ```{r, warning=F, message=F, echo=FALSE, fig.cap='Figure 2 visualizes your Fiber intake on a day-to-day basis. Add blurb pertaining to microbiome importance'}
 
 colpal<- colorRampPalette(brewer.pal(9,"Set3"))(37)
-tick_label <- seq(1:17)
+tick_label <- seq(1:17) 
 
 p <- ggplot(submap,aes(x = StudyDayNo,y = FIBE)) + 
-  scale_color_manual(values=colpal)+
      geom_bar(aes(fill = StudyDayNo),stat = "identity",position = "dodge") + scale_x_discrete(labels = abbreviate)
 p+guides(fill=FALSE) +
   theme_classic(base_family = "Helvetica")+
    theme(plot.title = element_text(hjust = 0.5)) +
   scale_x_discrete(labels=c(tick_label))+
+   scale_fill_manual(values =colpal)+
   labs(x="Study Day Number", y= "Fiber levels in grams")+
   ggtitle("Daily Fiber Intake")
 ```
@@ -124,7 +123,7 @@ p+guides(fill=FALSE) +
 ggplot(mergedf, aes(x = StudyDayNo, y = value, fill = rn)) +
   geom_bar(stat = "identity") +
   scale_x_discrete(drop = FALSE,labels=c(tick_label)) +
-  scale_color_manual(values=colpal)+
+   scale_fill_manual(values =colpal)+
   theme_classic(base_family = "Helvetica") +
   theme(strip.text.y = element_text(angle = 0, size = 8, face = "italic", family = "Helvetica"),
         axis.text.x = element_text( hjust = 1, family = "Helvetica"),
