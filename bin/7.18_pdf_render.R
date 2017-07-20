@@ -17,14 +17,27 @@ library(extrafont)
 #set to working directory to project zebra directory
 setwd("C:/Users/arzan/Desktop/Bioinformatics/MCT/GIT/zebra")
 
+
+#Read in sampleID and nutrition files and assign them to pertinent variables
 nutrition_table <- read.table("raw/Totals_to_use.txt", sep = "\t", header = TRUE, comment = "")
 
 SampleID_map <- read.table("raw/SampleID_map.txt", sep = "\t", header = TRUE, comment = "")
 
+#merge the two to create the mapping file
 map <-  merge(x=nutrition_table, y=SampleID_map, by= "X.SampleID")
 
-#### Read in mapping file ####
-#map <- read.table("raw/new_map_with_treatment.txt", sep = "\t", header = TRUE, comment = "")
+#read in the food table and assign it to pertinent variable
+food_map <-  read.table("raw/mct.food.otu.txt", sep = "\t", header = TRUE, comment = "")
+
+#set the row names of the food map file to the taxonomy strings
+rownames(food_map) <- food_map$taxonomy
+
+#remove the taxonomy string column and the food names column (redundant)
+food_map$taxonomy <- NULL #removing taxa string column
+food_map$X.FOODID <- NULL #removing food names column
+
+#merge mapping file and food map by UserName to aid through iteration
+food_merge <-  merge(x=map, y=food_map, by= "X.SampleID")
 
 #### Read in taxa table #### 
 taxa <- read.delim("raw/youbet.txt", row =1)
@@ -63,7 +76,7 @@ for (id in unique(map$UserName)){
   betataxa<- staxa[(colnames(staxa) %in% map[,"X.SampleID"])] #Create table with just taxa and subjects
   betataxa <- t(betataxa) #transpose 
   render(input = "lib/MCTS_pdf_mcb_7_3.Rmd",output_file = paste0('report.', id, '.pdf'),"pdf_document",
-         output_dir = "output/7.18.new.output") 
+         output_dir = "output/7.20.output") 
 }
 
 
