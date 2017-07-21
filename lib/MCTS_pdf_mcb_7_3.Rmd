@@ -188,7 +188,7 @@ ggplot(mergedf, aes(x = StudyDayNo, y = value, fill = rn)) +
   merge_food$rn <- gsub("_", " ",merge_food$rn)
   
   #create <7% abundance category
-  merge_food$rn[merge_food$value < 0.01] <- "<1% abundance"
+  merge_food$rn[merge_food$value < 0.07] <- "<7% abundance"
   
   #instantiate color brewer and axes tick mark amount
   colpal<- colorRampPalette(brewer.pal(12,"Set3"))(500)
@@ -321,7 +321,7 @@ ggplot(PCOA) +
   scale_shape_manual(values=shape_pal3) +
   scale_color_manual(values=colpal)+
   theme_classic(base_family = "Helvetica") +
-  theme(legend.position = "bottom", plot.title = element_text(size = 22, hjust = 0.5))
+  theme(legend.position = "bottom", plot.title = element_text(size = 20, hjust = 0.5))
 
  
 
