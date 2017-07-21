@@ -20,13 +20,12 @@ Here are your average daily macronutrient nutritional intakes contrasted to reco
 
 &nbsp;
 
-| Type                | Your Average                   | Study Average                          |
-|---------------------|--------------------------------|----------------------------------------|
-| CALORIES (kcal)     | `r round(mean(submap$KCAL),2)` | `r round(mean(map$KCAL,na.rm=TRUE),2)` |                                       
-| PROTEIN (g)         | `r round(mean(submap$PROT),2)` | `r round(mean(map$PROT,na.rm=TRUE),2)` |                                  
-| TOTAL FAT (g)       | `r round(mean(submap$TFAT),2)` | `r round(mean(map$TFAT,na.rm=TRUE),2)` |                                         
-| CARBS (g)           | `r round(mean(submap$CARB),2)` | `r round(mean(map$CARB,na.rm=TRUE),2)` |                                      
-| FIBER (g)           | `r round(mean(submap$FIBE),2)` | `r round(mean(map$FIBE,na.rm=TRUE),2)` |
+| Type                | Your Average                   | Recommended Intake Range    |
+|---------------------|--------------------------------|-----------------------------|
+| CALORIES (kcal)     | `r round(mean(submap$KCAL),2)` |                             |                                       
+| PROTEIN (g)         | `r round(mean(submap$PROT),2)` |   10 - 35%                  |                                  
+| TOTAL FAT (g)       | `r round(mean(submap$TFAT),2)` |   20 - 35%                  |                                         
+| CARBS (g)           | `r round(mean(submap$CARB),2)` |   45 - 65%                  |                                      
 
 &nbsp;
 
@@ -38,7 +37,7 @@ These are your average daily micronutrient nutritional intakes contrasted to rec
 | FOLATE (ug)         | `r round(mean(submap$FOLA),2)` | `r round(mean(map$FOLA,na.rm=TRUE),2)` |                 400                     |
 | SELENIUM (ug)       | `r round(mean(submap$SELE),2)` | `r round(mean(map$SELE,na.rm=TRUE),2)` |                 55                      | 
 | CALCIUM (mg)        | `r round(mean(submap$CALC),2)` | `r round(mean(map$CALC,na.rm=TRUE),2)` |                 1000 *                  |
-| POTASSIUM (mg)      | `r round(mean(submap$POTA),2)` | `r round(mean(map$POTA,na.rm=TRUE),2)` |                 4.7                     |
+| POTASSIUM (mg)      | `r round(mean(submap$POTA),2)` | `r round(mean(map$POTA,na.rm=TRUE),2)` |                 4700                     |
 | MAGNESIUM (mg)      | `r round(mean(submap$MAGN),2)` | `r round(mean(map$MAGN,na.rm=TRUE),2)` |               400 / 310 *               | 
 | ZINC (mg)           | `r round(mean(submap$ZINC),2)` | `r round(mean(map$ZINC,na.rm=TRUE),2)` |                11 / 8  *                |
 | VITAMIN A (ug)      | `r round(mean(submap$VARA),2)` | `r round(mean(map$VARA,na.rm=TRUE),2)` |               900 / 700                 |
@@ -91,6 +90,7 @@ ggtitle("Daily Micronutrient Consumption as a percentage of Kilocalorie Intake")
 
 <!-- Daily Fiber Intake -->
 
+`r round(mean(submap$FIBE),2)`
 ```{r, warning=F, message=F, echo=FALSE, fig.cap='Figure 2 visualizes your Fiber intake on a day-to-day basis. Add blurb pertaining to microbiome importance'}
 
 #instantiate color brewer and axis tick mark amounts
@@ -111,9 +111,11 @@ p+guides(fill=FALSE) +
 
 <!-- Microbiome Daily Relative Abundance -->
 
-```{r, warning=F, message=F, echo=FALSE, fig.cap='Figure 3 depicts the most abundant bacterial species within your gut per each day of the study. The "<7% abundance" column represents a sum of bacterial species that individually account for less than 7% of'}
+```{r, warning=F, message=F, echo=FALSE, fig.cap='Figure 3 depicts the most abundant bacterial species within your gut per each day of the study. The "<2.5% abundance" column represents a sum of bacterial species that individually account for less than 7% of'}
 # make ggplot bar chart of top 10 most abundant species per day
+  
 #melt subtaxasp to get our dataframe in the long format for future usage
+  
   meltdf<- melt(subtaxasp)
   
   #merge to get access to Day var
@@ -128,10 +130,11 @@ p+guides(fill=FALSE) +
   mergedf$rn <- gsub("\\]", "",mergedf$rn)
   mergedf$rn <- gsub("_", " ",mergedf$rn)
   
-
   
-  #create <10% abundance category
-  mergedf$rn[mergedf$value < 0.07] <- "<7% abundance"
+  #create small abundance category
+  mergedf$rn[mergedf$value < 0.025] <- "<2.5% abundance"
+  mergedf <- mergedf %>% group_by(StudyDayNo, rn) %>% summarise(newvalue = sum(value))
+  
   
   #instantiate color brewer and axes tick mark amount
   colpal<- colorRampPalette(brewer.pal(7,"Set3"))(20)
@@ -139,7 +142,7 @@ p+guides(fill=FALSE) +
   tick_label <- seq(1:17)
 
   
-ggplot(mergedf, aes(x = StudyDayNo, y = value, fill = rn)) +
+ggplot(mergedf, aes(x = StudyDayNo, y = newvalue, fill = rn)) +
   geom_bar(stat = "identity") +
   scale_x_discrete(drop = FALSE,labels=c(tick_label)) +
    scale_fill_manual(values =colpal)+
@@ -148,7 +151,7 @@ ggplot(mergedf, aes(x = StudyDayNo, y = value, fill = rn)) +
         axis.text.x = element_text( hjust = 1, family = "Helvetica"),
         plot.title =  element_text(hjust = 0.5, family = "Helvetica"),
         strip.background = element_rect(color = "grey")) +
-  guides(fill = guide_legend(reverse = TRUE, 
+  guides(fill = guide_legend(reverse = FALSE, 
                              keywidth = 1, 
                              keyheight = 1, 
                              ncol = 1,
@@ -187,8 +190,6 @@ ggplot(mergedf, aes(x = StudyDayNo, y = value, fill = rn)) +
   merge_food$rn <- gsub("\\]", "",merge_food$rn)
   merge_food$rn <- gsub("_", " ",merge_food$rn)
   
-  #create <7% abundance category
-  merge_food$rn[merge_food$value < 0.07] <- "<7% abundance"
   
   #instantiate color brewer and axes tick mark amount
   colpal<- colorRampPalette(brewer.pal(12,"Set3"))(500)
@@ -209,7 +210,7 @@ ggplot(merge_food, aes(x = StudyDayNo, y = value, fill = rn)) +
                              keywidth = 1, 
                              keyheight = 1, 
                              ncol = 1,
-                             title= "Bacterial Species")) +
+                             title= "Food Group")) +
  labs(y="Relative Abundance",x="Study Day Number")+
   ggtitle("Main foods within your gut per day")
 
