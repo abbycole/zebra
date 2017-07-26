@@ -20,12 +20,16 @@ Here are your average daily macronutrient nutritional intakes contrasted to reco
 
 &nbsp;
 
-| Type                | Your Average                   | Recommended Intake Range    |
-|---------------------|--------------------------------|-----------------------------|
-| CALORIES (kcal)     | `r round(mean(submap$KCAL),2)` |                             |                                       
-| PROTEIN (g)         | `r round(mean(submap$PROT),2)` |   10 - 35%                  |                                  
-| TOTAL FAT (g)       | `r round(mean(submap$TFAT),2)` |   20 - 35%                  |                                         
-| CARBS (g)           | `r round(mean(submap$CARB),2)` |   45 - 65%                  |                                      
+
+
+ 
+
+| Type                | Your Macronutrient Intake Proportions                     | Recommended Intake Range    |
+|---------------------|-----------------------------------------------------------|-----------------------------|
+| CALORIES (kcal)     | `r round(mean(submap$KCAL),2)` kilocalories               |                             |
+| PROTEIN (g)         | `r round((mean(submap$PROT)/macro_totals)*100,2)`%        |   10 - 35%                  | 
+| TOTAL FAT (g)       | `r round((mean(submap$TFAT)/macro_totals)*100,2)`%        |   20 - 35%                  |  
+| CARBS (g)           | `r round((mean(submap$CARB)/macro_totals)*100,2)`%        |   45 - 65%                  |                                      
 
 &nbsp;
 
@@ -35,13 +39,17 @@ These are your average daily micronutrient nutritional intakes contrasted to rec
 | Type                | Your Average                   | Study Average                          |Recommended Daily Allowances(Male/Female)|
 |---------------------|--------------------------------|----------------------------------------|-----------------------------------------|          
 | FOLATE (ug)         | `r round(mean(submap$FOLA),2)` | `r round(mean(map$FOLA,na.rm=TRUE),2)` |                 400                     |
-| SELENIUM (ug)       | `r round(mean(submap$SELE),2)` | `r round(mean(map$SELE,na.rm=TRUE),2)` |                 55                      | 
+| CHOLINE (mg)        | `r round(mean(submap$CHOLN),2)`| `r round(mean(map$CHOLN,na.rm=TRUE),2)`|                550 / 425                |
 | CALCIUM (mg)        | `r round(mean(submap$CALC),2)` | `r round(mean(map$CALC,na.rm=TRUE),2)` |                 1000 *                  |
-| POTASSIUM (mg)      | `r round(mean(submap$POTA),2)` | `r round(mean(map$POTA,na.rm=TRUE),2)` |                 4700                     |
+| SODIUM (mg)         | `r round(mean(submap$SODI),2)` | `r round(mean(map$SODI,na.rm=TRUE),2)` |                 1500 *                  |
+| POTASSIUM (mg)      | `r round(mean(submap$POTA),2)` | `r round(mean(map$POTA,na.rm=TRUE),2)` |                 4700                    |
 | MAGNESIUM (mg)      | `r round(mean(submap$MAGN),2)` | `r round(mean(map$MAGN,na.rm=TRUE),2)` |               400 / 310 *               | 
+| IRON (mg)           | `r round(mean(submap$IRON),2)` | `r round(mean(map$IRON,na.rm=TRUE),2)` |                8 / 18  *                |
+| SELENIUM (ug)       | `r round(mean(submap$SELE),2)` | `r round(mean(map$SELE,na.rm=TRUE),2)` |                 55                      |
 | ZINC (mg)           | `r round(mean(submap$ZINC),2)` | `r round(mean(map$ZINC,na.rm=TRUE),2)` |                11 / 8  *                |
-| VITAMIN A (ug)      | `r round(mean(submap$VARA),2)` | `r round(mean(map$VARA,na.rm=TRUE),2)` |               900 / 700                 |
 | VITAMIN B12 (ug)    | `r round(mean(submap$VB12),2)` | `r round(mean(map$VB12,na.rm=TRUE),2)` |                 2.4                     |
+| VITAMIN A (ug)      | `r round(mean(submap$VARA),2)` | `r round(mean(map$VARA,na.rm=TRUE),2)` |               900 / 700                 |
+| VITAMIN C (mg)      | `r round(mean(submap$VC),2)`   | `r round(mean(map$VC,na.rm=TRUE),2)`   |                90 / 75                  |
 | VITAMIN D (ug)      | `r round(mean(submap$VITD),2)` | `r round(mean(map$VITD,na.rm=TRUE),2)` |                 15 *                    |
 | VITAMIN E (mg)      | `r round(mean(submap$ATOC),2)` | `r round(mean(map$ATOC,na.rm=TRUE),2)` |                 15                      |
 | VITAMIN K (ug)      | `r round(mean(submap$VK),2)`   | `r round(mean(map$VK,na.rm=TRUE),2)`   |               120 / 90                  |
@@ -91,15 +99,22 @@ ggtitle("Daily Micronutrient Consumption as a percentage of Kilocalorie Intake")
 <!-- Daily Fiber Intake -->
 
 `r round(mean(submap$FIBE),2)`
-```{r, warning=F, message=F, echo=FALSE, fig.cap='Figure 2 visualizes your Fiber intake on a day-to-day basis. Add blurb pertaining to microbiome importance'}
+
+```{r, warning=F, message=F, echo=FALSE, fig.cap='Figure 2 visualizes your Fiber intake on a day-to-day basis. The red line visualizes the recommended level of fiber consumption in grams, while the gold line visualizes your average fiber intake throughout the course of the study. Add blurb pertaining to microbiome importance'}
 
 #instantiate color brewer and axis tick mark amounts
 colpal<- colorRampPalette(brewer.pal(9,"Set3"))(37)
 colpal<- sample(colpal,37, replace = FALSE)
 tick_label <- seq(1:17) 
 
+#Study average for individual's fiber intake
+fiber_average <-round(mean(submap$FIBE),2)
+
 p <- ggplot(submap,aes(x = StudyDayNo,y = FIBE)) + 
-     geom_bar(aes(fill = colpal[1]),stat = "identity",position = "dodge") + scale_x_discrete(labels = abbreviate) #fill = studydayno
+     geom_bar(aes(fill = colpal[1]),stat = "identity",position = "dodge") + scale_x_discrete(labels = abbreviate)+
+      geom_hline(yintercept = 25, size = .75, color= "red") + #Recommended fiber level
+      geom_hline(yintercept = fiber_average, size = .75, color = "gold")  #Recommended fiber level
+#fill = studydayno
 p+guides(fill=FALSE) +
   theme_classic(base_family = "Helvetica")+
    theme(plot.title = element_text(hjust = 0.5)) +
@@ -137,7 +152,7 @@ p+guides(fill=FALSE) +
   
   
   #instantiate color brewer and axes tick mark amount
-  colpal<- colorRampPalette(brewer.pal(7,"Set3"))(20)
+  colpal<- colorRampPalette(brewer.pal(7,"Set3"))(25)
   #colpal<- sample(colpal,37, replace = FALSE)
   tick_label <- seq(1:17)
 
@@ -314,19 +329,30 @@ shape_pal3 <- c(15,19,17,18,15,19,17,18,15,19,17,18,15,19,17,18,15,19,17,18,15,1
 colpal<- colorRampPalette(brewer.pal(9,"Set3"))(37)
 id <- gsub("_", " ",id)
 
+# PCOA[PCOA$UserName %in% id,]
+
+
+#dt[dt$fct %in% vc,]
+#PCOA1<- PCOA[PCOA$UserName %in% id,]
+
+#dubloon %>% filter(value==TRUE) 
+
+#filter(PCOA, UserName %in% id)
+
 #use ggplot to plot
 ggplot(PCOA) +
-  geom_point(aes(x=PC1,y=PC2, col=UserName, shape=UserName, size=4),alpha=.085) + #gives axes and item of focus
+  geom_point(aes(x=PC1,y=PC2, col=UserName, shape=UserName,size=4),alpha=.060, stroke=2) +#gives axes and item of focus
+  stat_ellipse(alpha = 0.3, geom="polygon", linetype=2, aes(x = PC1, y = PC2, fill = PCOA$UserName %in% id))+
   labs(title=paste0(" Day-To-Day Variation in Beta Diversity of the Gut Microbiome - PCOA -  ", id) ) +
    guides( colour = guide_legend(override.aes = list(size=5,alpha=1))) +
   scale_shape_manual(values=shape_pal3) +
   scale_color_manual(values=colpal)+
-  theme_classic(base_family = "Helvetica") +
+  theme_classic(base_family = "Helvetica") +                                                                      
   theme(legend.position = "bottom", plot.title = element_text(size = 20, hjust = 0.5))
 
  
-
-
+ # geom_point(aes(x=PC1,y=PC2, col=ifelse(PCOA$UserName %in% id == TRUE,"black", ifelse(PCOA$UserName %in% id ==FALSE,      UserName)), shape=UserName), alpha=.060, stroke=2) +#gives axes and item of focus
+#values= colpal, col = username
   
 ```
 
