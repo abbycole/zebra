@@ -98,9 +98,9 @@ ggtitle("Daily Micronutrient Consumption as a percentage of Kilocalorie Intake")
 
 <!-- Daily Fiber Intake -->
 
-`r round(mean(submap$FIBE),2)`
 
-```{r, warning=F, message=F, echo=FALSE, fig.cap='Figure 2 visualizes your Fiber intake on a day-to-day basis. The red line visualizes the recommended level of fiber consumption in grams, while the gold line visualizes your average fiber intake throughout the course of the study. Add blurb pertaining to microbiome importance'}
+
+```{r, warning=F, message=F, echo=FALSE, fig.cap=paste("Figure 2 visualizes your Fiber intake on a day-to-day basis. You had an average fiber consumption of",round(mean(submap$FIBE),2), "grams per day.The red line visualizes the recommended level of fiber consumption in grams, while the gold line visualizes your average daily fiber intake throughout the course of the study. Add blurb pertaining to microbiome importance")}
 
 #instantiate color brewer and axis tick mark amounts
 colpal<- colorRampPalette(brewer.pal(9,"Set3"))(37)
@@ -108,14 +108,14 @@ colpal<- sample(colpal,37, replace = FALSE)
 tick_label <- seq(1:17) 
 
 #Study average for individual's fiber intake
-fiber_average <-round(mean(submap$FIBE),2)
+#fiber_average <-round(mean(submap$FIBE),2)
 
 p <- ggplot(submap,aes(x = StudyDayNo,y = FIBE)) + 
      geom_bar(aes(fill = colpal[1]),stat = "identity",position = "dodge") + scale_x_discrete(labels = abbreviate)+
-      geom_hline(yintercept = 25, size = .75, color= "red") + #Recommended fiber level
-      geom_hline(yintercept = fiber_average, size = .75, color = "gold")  #Recommended fiber level
+      geom_hline(size=.75,col="red",yintercept = 25) + #Recommended fiber level
+      geom_hline(size=.75,col="gold",yintercept = fiber_average)  #Recommended fiber level
 #fill = studydayno
-p+guides(fill=FALSE) +
+p+guides(fill=F) +
   theme_classic(base_family = "Helvetica")+
    theme(plot.title = element_text(hjust = 0.5)) +
   scale_x_discrete(labels=c(tick_label))+
@@ -126,7 +126,7 @@ p+guides(fill=FALSE) +
 
 <!-- Microbiome Daily Relative Abundance -->
 
-```{r, warning=F, message=F, echo=FALSE, fig.cap='Figure 3 depicts the most abundant bacterial species within your gut per each day of the study. The "<2.5% abundance" column represents a sum of bacterial species that individually account for less than 7% of'}
+```{r, warning=F, message=F, echo=FALSE, fig.cap='Figure 3 depicts the most abundant bacterial species within your gut per each day of the study. The "<2.5% abundance" column represents a sum of bacterial species that individually account for less than 2.5% of the bacterial population within your gut microbiome.'}
 # make ggplot bar chart of top 10 most abundant species per day
   
 #melt subtaxasp to get our dataframe in the long format for future usage
@@ -182,7 +182,7 @@ ggplot(mergedf, aes(x = StudyDayNo, y = newvalue, fill = rn)) +
 
 
 <!-- Food abundance bar charts -->
-```{r, warning=F, message=F, echo=FALSE, fig.cap='Figure 3.5 depicts the most abundant bacterial species within your gut per each day of the study. The "<7% abundance" column represents a sum of bacterial species that individually account for less than 7% of'}
+```{r, warning=F, message=F, echo=FALSE, fig.cap='Figure 4 depicts the relative abundance of primary food groups you consumed on a day to day basis. Each color is representative of a unique food group as annotated on the figure legend. '}
 
 # make ggplot bar chart of top 10 most abundant species per day
 #melt sub_foodsp to get our dataframe in the long format for future usage (differs from melted_food)
@@ -204,6 +204,7 @@ ggplot(mergedf, aes(x = StudyDayNo, y = newvalue, fill = rn)) +
   merge_food$rn <- gsub("\\[", "",merge_food$rn)
   merge_food$rn <- gsub("\\]", "",merge_food$rn)
   merge_food$rn <- gsub("_", " ",merge_food$rn)
+  merge_food$rn <- gsub("L1", "",merge_food$rn)
   
   
   #instantiate color brewer and axes tick mark amount
@@ -242,7 +243,7 @@ ggplot(merge_food, aes(x = StudyDayNo, y = value, fill = rn)) +
 <!--Subject Day-to-Day Variation in Alpha Diversity of the Microbiome-->
 
 
-```{r, warning=F, message=F, echo=FALSE, fig.cap='Figure 4 details how the bacterial diversity exhibited within your gut changes on a daily basis. This diversity catalogued within the gut microbiome is known as alpha diversity, and the metric utilized is the Shannon index of alpha diversity. The Shannon index accounts for both abundance and eveness of bacterial species present within the gut microbiome. '}
+```{r, warning=F, message=F, echo=FALSE, fig.cap='Figure 5 details how the bacterial diversity exhibited within your gut changes on a daily basis. This diversity catalogued within the gut microbiome is known as alpha diversity, and the metric utilized is the Shannon index of alpha diversity. The Shannon index accounts for both abundance and eveness of bacterial species present within the gut microbiome. '}
  #transpose
    subtaxaalpha <- t(subtaxaalpha)
  
@@ -253,7 +254,7 @@ ggplot(merge_food, aes(x = StudyDayNo, y = value, fill = rn)) +
    
    #merge melted df with map to get access to StudyDay variable
    merged_alpha<- merge(x=alphad, y=map, all.x=TRUE)
-   
+    tick_label <- seq(1:17)
    colpal<- colorRampPalette(brewer.pal(9,"Set3"))(37)
 
 #make gg plot line graph of subject alpha diversity per day
@@ -264,7 +265,9 @@ ggplot(merged_alpha, aes(x=StudyDayNo, y=alphad, group = UserName)) +
         axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
   theme_classic()+
   geom_smooth(aes(fill=colpal[1])) +
+  scale_x_discrete(drop = FALSE,labels=c(tick_label)) +
   labs(x= "Study Day Number",y="Alpha Diversity (Shannon)")+
+  guides(fill=FALSE)+
   ggtitle(" Day-to-Day Variation in Alpha Diversity of the Gut Microbiome")
   
 ```
@@ -272,7 +275,7 @@ ggplot(merged_alpha, aes(x=StudyDayNo, y=alphad, group = UserName)) +
 
 <!--Subject Day-To-Day Variation in Beta Diversity of the Microbiome-->
 
-```{r,fig.width=10, fig.height=10, echo=FALSE, fig.cap='Figure 5 is a PCoA plot. A PCoA plot summarizes variability within a given dataset by producing a set of uncorrelated axes. Essentially, the PCoA plot can be utilized to interpret similarity of data points -- data points closer to one another are more similar to one another, while points further away from eachother are more dissimilar. Each data point in this plot represents a subject gut microbiome at a particular time during the multiple days of sample collection and testing. The shape correspinding to your subject ID (given above) represents data points pertaining to your gut microbiome. '}
+```{r,fig.width=10, fig.height=10, echo=FALSE, fig.cap='Figure 6 is a PCoA plot. A PCoA plot summarizes variability within a given dataset by producing a set of uncorrelated axes. Essentially, the PCoA plot can be utilized to interpret similarity of data points -- data points closer to one another are more similar to one another, while points further away from eachother are more dissimilar. Each data point in this plot represents a subject gut microbiome at a particular time during the multiple days of sample collection and testing. The shape correspinding to your subject ID (given above) represents data points pertaining to your gut microbiome. Shapes corresponding to your subject ID have been enlarged for your viewing convenience. '}
 #create PCOA plot of beta diversities of pertinent subjects
 
 
@@ -341,21 +344,24 @@ id <- gsub("_", " ",id)
 
 #use ggplot to plot
 ggplot(PCOA) +
-  geom_point(aes(x=PC1,y=PC2, col=UserName, shape=UserName,size=4),alpha=.060, stroke=2) +#gives axes and item of focus
-  stat_ellipse(alpha = 0.3, geom="polygon", linetype=2, aes(x = PC1, y = PC2, fill = PCOA$UserName %in% id))+
+  geom_point(aes(x=PC1,y=PC2, col=UserName, shape=UserName,
+  size=ifelse(PCOA$UserName %in% id == TRUE,15,5)),alpha=.060, stroke=3) + #gives axes and item of focus
+  #stat_ellipse(alpha = 0.3, geom="polygon", linetype=2, aes(x = PC1, y = PC2, fill = PCOA$UserName %in% id))+
   labs(title=paste0(" Day-To-Day Variation in Beta Diversity of the Gut Microbiome - PCOA -  ", id) ) +
    guides( colour = guide_legend(override.aes = list(size=5,alpha=1))) +
   scale_shape_manual(values=shape_pal3) +
   scale_color_manual(values=colpal)+
   theme_classic(base_family = "Helvetica") +                                                                      
-  theme(legend.position = "bottom", plot.title = element_text(size = 20, hjust = 0.5))
+  theme(legend.position = "bottom", plot.title = element_text(size = 18, hjust = 0.5))
 
  
  # geom_point(aes(x=PC1,y=PC2, col=ifelse(PCOA$UserName %in% id == TRUE,"black", ifelse(PCOA$UserName %in% id ==FALSE,      UserName)), shape=UserName), alpha=.060, stroke=2) +#gives axes and item of focus
 #values= colpal, col = username
+
+#col=ifelse(PCOA$UserName %in% id == TRUE,"black",UserName)
+#ifelse(PCOA$UserName %in% id == TRUE, stroke=4,stroke=1)
+
   
 ```
-
-
 
 

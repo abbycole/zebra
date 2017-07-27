@@ -138,7 +138,7 @@ for (id in unique(map$UserName)){
   
   #rendering
   render(input = "lib/MCTS_pdf_mcb_7_3.Rmd",output_file = paste0('report.', id, '.pdf'),"pdf_document",
-         output_dir = "output/output.7.23") 
+         output_dir = "output/output") 
 }
 
 
