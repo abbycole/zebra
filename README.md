@@ -1,16 +1,9 @@
 # zebra
-Project to create pdf output of individualized study data for study participants
+Project to create pdf output of individualized study data for study participants in the Microbiome Diet Study.
 
 Note: need to have LaTex installed prior to running this code
 
-Example from Stack Exchange that might help: 
-http://stackoverflow.com/questions/15396755/using-loops-with-knitr-to-produce-multiple-pdf-reports-need-a-little-help-to
+# To use:
 
-## May Tasks 
-* Add microbiome data to the script
-  * Basic pre-processing
-  * Generate micorbiome summary data for each person (averaged over the study)
-  * Relative abundance of the top 10 speices per day per person
-* Add food units to the script
-  * General food unit summary data for each person (averaged over the study)
-* Add streamplots for each person per day for both food and microbiome information
+Load required R packages and run bin/makepdf.R script.
+To edit the pdf document make changes to lib/mypdf.rmd
