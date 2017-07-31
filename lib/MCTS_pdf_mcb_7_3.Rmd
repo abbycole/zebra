@@ -13,67 +13,29 @@ date: "`r format(Sys.time(), '%d %B, %Y')`"
 title: "Microbiome Diet Study Participant Report `r id`"
 ---
 
+Thank you for participating in the Knights Lab's citizen science project! 
 
-Thank you for participating in the Knights Lab's citizen science project. We are glad you were willing to take part in our Microbiome Diet Study!  
-
-Included in this report is information about your daily dietary intake and your daily microbiome variation. This report does not provide any medical advice and is not intended to be used to diagnose or treat disease. If you have any questions about your report, or you would like access to your raw data, please contact the study coordinator Abby Johnson at cole0463@umn.edu
-
+We have made you a personalized report from your samples and dietary data. Included in this report is information about your daily dietary intake and your daily microbiome variation. This report is not intended to medical advice or to be used to diagnose or treat disease. If you have any questions about your report, or you would like access to your raw sequence data, please contact the study coordinator Abby at cole0463@umn.edu.
 
 #Your Dietary Intake Data
 
-This first table shows your average macronutrient intake as a percentage of calories and the typical macronutrient intake ranges for US adults:
-
-&nbsp;
+This first table and Figure 1 below show your average macronutrient intake as a percentage of calories and the typical macronutrient intake ranges for US adults:
 
 
-| Type                | Your Macronutrient Intake Proportions                     | Typical Intake Range        |
-|---------------------|-----------------------------------------------------------|-----------------------------|
-| CALORIES (kcal)     | `r round(mean(submap$KCAL),2)`                            |                             |
-| PROTEIN (%)         | `r round((mean(submap$PROT)/macro_totals)*100,2)`%        |   10 - 35%                  | 
-| TOTAL FAT (%)       | `r round((mean(submap$TFAT)/macro_totals)*100,2)`%        |   20 - 35%                  |  
-| CARBS (%)           | `r round((mean(submap$CARB)/macro_totals)*100,2)`%        |   45 - 65%                  |                                      
+| Type                | Average Macronutrient Intake                               | Typical Intake Range        |
+|---------------------|------------------------------------------------------------|-----------------------------|
+| CALORIES (kcal)     | `r round(mean(subnutr$KCAL),2)`                            |   1800 - 3200               |
+| PROTEIN (%)         | `r round((mean(subnutr$PROT)/macro_totals)*100,2)`%        |   10 - 35%                  | 
+| TOTAL FAT (%)       | `r round((mean(subnutr$TFAT)/macro_totals)*100,2)`%        |   20 - 35%                  |  
+| CARBS (%)           | `r round((mean(subnutr$CARB)/macro_totals)*100,2)`%        |   45 - 65%                  |                                   
 
-Please note, it is common for people who follow some diets, like the low carbohydrate diet, to have intake ranges that differ from the typical intake ranges. As long as your diet is nutritionally adequate (see next table), it's usually OK if your intake ranges are different.
+Based on your height, weight, gender, age, and self-reported activity level you need approximately `r signif(submap$TEE[1], 2)` kcal per day to maintain your current weight. During the study your weight change was `r submap$Weight.Change[1]` kg. 
 
-&nbsp;
-
-\newpage
-This second table shows your average daily intake of key micronutrients from food. Also shown are the average intake levels for all of our study participants and the recommended dietary allowance levels by gender. If you take a vitamin and mineral supplement, your intake from that supplement is not reflected here. For your reference, included here are the overall average intake levels of micronutrients for the other participants in the study and the recommended intake levels for each gender:
-
-
-| Nutrient            | Your Average                   | Study Average                          |Recommended Dietary Allowance(Male/Female)|
-|---------------------|--------------------------------|----------------------------------------|------------------------------------------|          
-| FOLATE (mcg)        | `r round(mean(submap$FOLA),2)` | `r round(mean(map$FOLA,na.rm=TRUE),2)` |                 400                      |
-| CHOLINE (mg)        | `r round(mean(submap$CHOLN),2)`| `r round(mean(map$CHOLN,na.rm=TRUE),2)`|                550 / 425                 |
-| CALCIUM (mg)        | `r round(mean(submap$CALC),2)` | `r round(mean(map$CALC,na.rm=TRUE),2)` |                 1000 *                   |
-| SODIUM (mg)         | `r round(mean(submap$SODI),2)` | `r round(mean(map$SODI,na.rm=TRUE),2)` |                 1500 *                   |
-| POTASSIUM (mg)      | `r round(mean(submap$POTA),2)` | `r round(mean(map$POTA,na.rm=TRUE),2)` |                 4700                     | 
-| MAGNESIUM (mg)      | `r round(mean(submap$MAGN),2)` | `r round(mean(map$MAGN,na.rm=TRUE),2)` |               400 / 310 *                | 
-| IRON (mg)           | `r round(mean(submap$IRON),2)` | `r round(mean(map$IRON,na.rm=TRUE),2)` |                8 / 18  *                 |
-| SELENIUM (mcg)      | `r round(mean(submap$SELE),2)` | `r round(mean(map$SELE,na.rm=TRUE),2)` |                 55                       |
-| ZINC (mcg)          | `r round(mean(submap$ZINC),2)` | `r round(mean(map$ZINC,na.rm=TRUE),2)` |                11 / 8  *                 |
-| VITAMIN B12 (mcg)   | `r round(mean(submap$VB12),2)` | `r round(mean(map$VB12,na.rm=TRUE),2)` |                 2.4                      |
-| VITAMIN A (mcg)     | `r round(mean(submap$VARA),2)` | `r round(mean(map$VARA,na.rm=TRUE),2)` |               900 / 700                  |
-| VITAMIN C (mg)      | `r round(mean(submap$VC),2)`   | `r round(mean(map$VC,na.rm=TRUE),2)`   |                90 / 75                   |
-| VITAMIN D (mcg)     | `r round(mean(submap$VITD),2)` | `r round(mean(map$VITD,na.rm=TRUE),2)` |                 15 *                     |
-| VITAMIN E (mg)      | `r round(mean(submap$ATOC),2)` | `r round(mean(map$ATOC,na.rm=TRUE),2)` |                 15                       |
-| VITAMIN K (ug)      | `r round(mean(submap$VK),2)`   | `r round(mean(map$VK,na.rm=TRUE),2)`   |               120 / 90                   |
-
-
-&nbsp;
-
-Please note, values marked with asterisks are the recommended dietary allowance values for adults between 18 and 30 years old. These values are the daily intake level that is sufficient to meet the needs of 97-98% of the population. If you are older than 30, your recommended dietary allowance may be higher or lower than what's shown here. You can visit https://ods.od.nih.gov/Health_Information/Dietary_Reference_Intakes.aspx for a comphrenhensive breakdown of dietary reference intakes by age and gender.
-
-If your intake of a vitamin or mineral falls below the recommended level for your gender you should consider increasing your intake of foods that contain are a good source of that vitamin or mineral. For example, the study average intake of vitamin D falls below the recommended level of 15 mcg. So many of the participants in our study could benefit by eating more vitmain D containing foods like fatty fish (such as salmon, tuna, and mackerel), fortified milk products, beef liver, egg yolks, and some mushrooms.
-
-
-\newpage
 ##Figure 1:
+```{r, echo = FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=6, fig.align="center"}
 
-```{r, echo = FALSE, warning=FALSE, message=FALSE, fig.height=10, fig.width=10}
 
-
-long_plot <- submap %>% select(X.SampleID, KCAL, PROT, TFAT, CARB, UserName)
+long_plot <- subnutr %>% select(X.SampleID, KCAL, PROT, TFAT, CARB, UserName)
 long_plot$PROT <- long_plot$PROT*4/long_plot$KCAL
 long_plot$TFAT <- long_plot$TFAT*9/long_plot$KCAL
 long_plot$CARB <- long_plot$CARB*4/long_plot$KCAL
@@ -93,23 +55,50 @@ tick_label <- seq(1:17)
 ggplot(long_plot, aes(x = X.SampleID, y = KCAL*PCT, fill = Macro)) +
   geom_bar(stat = "identity") +
   theme_classic() +
-  scale_fill_manual(values=colpal)+
+  scale_fill_manual(values=colpal, labels = c("Protein", "Total Fat", "Carbohydrate"))+
   #scale_fill_brewer(palette = colpal) +
    scale_x_discrete(labels=c(tick_label))+
-  labs(fill = "% Macronutrient", y = "Daily reported intake (Kcal)", x = "Study Day Number") +
+  labs(fill = "Macronutrient\nDistribution", y = "Daily reported intake (Kcal)", x = "Study Day Number") +
   theme(
         #axis.title.x =element_text(family = "Helvetica"), axis.title.y =element_text(family = "Helvetica"),
-        plot.title = element_text(hjust = 0.5))+
-ggtitle("Daily macronutrient distributrion as percentage of calorie intake")
+        plot.title = element_text(hjust = 0.5))
 
 ``` 
 
-Figure 1 shows the day to day variation in your consumption of macronutrients viewed as a percentage of total kilocalorie intake. Protein intakes are abbreviated as "PROT", Carbohydrate intakes are abbreviated as "CARB", and Total Fat intakes are abbreviated as "TFAT" in the figure legend.
+**Figure 1** shows the day to day variation in your consumption of macronutrients viewed as a percentage of total kilocalorie intake.
+
+Please note, it is common for people who follow some diets, like the low carbohydrate diet, to have intake ranges that differ from the typical intake ranges. The next table will show if your diet is nutritionally adequate.
 
 
+\newpage
+This second table shows your average daily intake of key micronutrients from food. Also shown are the average intake levels for all of our study participants and the recommended dietary allowance levels by gender. If you take a vitamin and mineral supplement, your intake from that supplement is not reflected here:
 
 
+| Nutrient            | Your Average                    | Study Average                                       |Recommended Dietary Allowance(Male/Female)|
+|---------------------|---------------------------------|-----------------------------------------------------|------------------------------------------|          
+| FOLATE (mcg)        | `r round(mean(subnutr$FOLA),2)` | `r round(mean(nutrition_table$FOLA,na.rm=TRUE),2)` |                 400                      |
+| CHOLINE (mg)        | `r round(mean(subnutr$CHOLN),2)`| `r round(mean(nutrition_table$CHOLN,na.rm=TRUE),2)`|                550 / 425                 |
+| CALCIUM (mg)        | `r round(mean(subnutr$CALC),2)` | `r round(mean(nutrition_table$CALC,na.rm=TRUE),2)` |                 1000 *                   |
+| SODIUM (mg)         | `r round(mean(subnutr$SODI),2)` | `r round(mean(nutrition_table$SODI,na.rm=TRUE),2)` |                 1500 *                   |
+| POTASSIUM (mg)      | `r round(mean(subnutr$POTA),2)` | `r round(mean(nutrition_table$POTA,na.rm=TRUE),2)` |                 4700                     | 
+| MAGNESIUM (mg)      | `r round(mean(subnutr$MAGN),2)` | `r round(mean(nutrition_table$MAGN,na.rm=TRUE),2)` |               400 / 310 *                | 
+| IRON (mg)           | `r round(mean(subnutr$IRON),2)` | `r round(mean(nutrition_table$IRON,na.rm=TRUE),2)` |                8 / 18  *                 |
+| SELENIUM (mcg)      | `r round(mean(subnutr$SELE),2)` | `r round(mean(nutrition_table$SELE,na.rm=TRUE),2)` |                 55                       |
+| ZINC (mcg)          | `r round(mean(subnutr$ZINC),2)` | `r round(mean(nutrition_table$ZINC,na.rm=TRUE),2)` |                11 / 8  *                 |
+| VITAMIN B12 (mcg)   | `r round(mean(subnutr$VB12),2)` | `r round(mean(nutrition_table$VB12,na.rm=TRUE),2)` |                 2.4                      |
+| VITAMIN A (mcg)     | `r round(mean(subnutr$VARA),2)` | `r round(mean(nutrition_table$VARA,na.rm=TRUE),2)` |               900 / 700                  |
+| VITAMIN C (mg)      | `r round(mean(subnutr$VC),2)`   | `r round(mean(nutrition_table$VC,na.rm=TRUE),2)`   |                90 / 75                   |
+| VITAMIN D (mcg)     | `r round(mean(subnutr$VITD),2)` | `r round(mean(nutrition_table$VITD,na.rm=TRUE),2)` |                 15 *                     |
+| VITAMIN E (mg)      | `r round(mean(subnutr$ATOC),2)` | `r round(mean(nutrition_table$ATOC,na.rm=TRUE),2)` |                 15                       |
+| VITAMIN K (ug)      | `r round(mean(subnutr$VK),2)`   | `r round(mean(nutrition_table$VK,na.rm=TRUE),2)`   |               120 / 90                   |
 
+
+Please note, values marked with an asterisk are the recommended dietary allowance or adequate intake values for adults between 18 and 30 years old. These values are the daily intake level that is sufficient to meet the needs of 97-98% of the population. If you are older than 30, your recommended dietary allowance may be higher or lower than what's shown here. You can visit https://ods.od.nih.gov/Health_Information/Dietary_Reference_Intakes.aspx for a complete list of dietary reference intakes by age and gender.
+
+If your intake of a vitamin or mineral falls below the recommended level for your gender you should consider increasing your intake of foods that are a good source of that vitamin or mineral. For example, the study average intake of vitamin D falls below the recommended level of 15 mcg. So, many of the participants in our study could benefit by eating more vitamin D containing foods like fatty fish (such as salmon, tuna, and mackerel), fortified milk products, beef liver, egg yolks, and mushrooms. 
+
+
+\newpage
 ##Figure 2:
 ```{r, warning=FALSE, message=FALSE, echo=FALSE}
 
@@ -119,10 +108,10 @@ colpal<- sample(colpal,37, replace = FALSE)
 tick_label <- seq(1:17) 
 
 #Study average for individual's fiber intake
-fiber_average <-round(mean(submap$FIBE),2)
-fiber_rec <- round(14*mean(submap$KCAL)/1000)
+fiber_average <-round(mean(subnutr$FIBE),2)
+fiber_rec <- round(14*mean(subnutr$KCAL)/1000)
 
-p <- ggplot(submap,aes(x = StudyDayNo,y = FIBE)) + 
+p <- ggplot(subnutr,aes(x = StudyDayNo,y = FIBE)) + 
      geom_bar(aes(fill = colpal[1]),stat = "identity",position = "dodge") + scale_x_discrete(labels = abbreviate)+
       geom_hline(size=.75,col="red",yintercept = fiber_rec) + #Recommended fiber level
       geom_hline(size=.75,col="gold",yintercept = fiber_average)  #Recommended fiber level
@@ -132,14 +121,14 @@ p + guides(fill=F) +
   theme(plot.title = element_text(hjust = 0.5)) +
   scale_x_discrete(labels=c(tick_label))+
   scale_fill_manual(values = colpal)+
-  labs(x="Study Day Number", y= "Fiber levels in grams")+
+  labs(x="Study Day Number", y= "Fiber in grams")+
   ggtitle("Daily Fiber Intake")
 
 ```
 
-Figure 2 shows your fiber intake each day throughout the study. You had an average fiber consumption of `r round(mean(submap$FIBE),2)` grams per day. The red line in this plot shows the recommended level of fiber consumption in grams, while the gold line shows your average daily fiber intake. The current recomendation for fiber intake is to consume 14g per 1000kcal. We have calculated your fiber needs from your average reported calorie intake throughout the study. 
+**Figure 2** shows your fiber intake each day throughout the study. You had an average fiber consumption of `r round(mean(subnutr$FIBE),2)` grams per day. The red line in this plot shows the recommended level of fiber consumption in grams, while the gold line shows your average daily fiber intake. The current recomendation for fiber intake is to consume 14g per 1000kcal. We calculated your fiber needs to be `r fiber_rec` grams per day.
 
-Fiber is an important energy source for the bacteria that live within your microbiome. Meeting the recommended intake of fiber may help to support a healthy microbiome. If your average fiber intake falls below the recommended intake level, you should consider increasing your intake of fiber by eating more fibrous vegetables and increasing your intake of whole grains.
+Fiber is an important energy source for the bacteria that live within your microbiome. Meeting the recommended intake of fiber may help to support a healthy microbiome. If your average fiber intake falls below the recommended intake level, you should consider increasing your intake of fiber by eating more fibrous vegetables and/or increasing your intake of whole grains.
 
 
 ##Figure 3:
@@ -192,7 +181,7 @@ ggplot(merge_food, aes(x = StudyDayNo, y = value, fill = rn)) +
 
 ```
 
-Figure 3 shows the relative abundance of the major food groups you consumed on a day to day basis during the study, excluding water. Each color is representative of a unique food group as annotated on the figure legend. Please note that these food groups are displayed by their weight, so the plot tends to over-represent the contribution of liquid foods and foods with high water content to your diet. You may notice that the largest food component each day is called "Sugars, sweets and beverages". For most participants in this study, the size of that bar is driven by intake of coffee and tea, not sugar and candy.
+**Figure 3** shows the relative abundance of the major food groups you consumed on a day to day basis during the study, excluding water. Each color is representative of a unique food group as annotated on the figure legend. Please note that these food groups are displayed by their weight in grams, so the plot tends to over-represent the contribution of liquid foods and foods with high water content to your diet. You may notice that the largest food component each day is called "Sugars, sweets and beverages". For most participants in this study, the size of that bar is driven by intake of coffee and tea, not sugar and candy.
 
 
 \newpage
@@ -230,7 +219,7 @@ We sequenced the DNA of the microbes that live within your gut from the daily st
   
   
   #instantiate color brewer and axes tick mark amount
-  colpal<- colorRampPalette(brewer.pal(8,"Set3"))
+  colpal<- colorRampPalette(brewer.pal(12,"Set3"))
   colpal<- sample(colpal(length(unique(mergedf$rn))))
   tick_label <- seq(1:17)
 
@@ -254,7 +243,7 @@ ggplot(mergedf, aes(x = StudyDayNo, y = newvalue, fill = rn)) +
 
 ```
 
-Figure 4 shows the most abundant bacterial species within your gut per each day of the study. The "<2.5% abundance" column represents a sum of bacterial species that individually account for less than 2.5% of the bacterial population within your gut microbiome. If you don't have data for 1 day it's either becuase you did not submit a sample for that day, your sample wasn't able to be sequenced, or we did not get enough sequence data from your sample to reliably use it for data analysis.
+**Figure 4** shows the most abundant bacterial species within your gut per each day of the study. The "<2.5% abundance" column represents a sum of bacterial species that individually account for less than 2.5% of the bacterial population within your gut microbiome. If you are missing microbiome data for any day on this plot it's either becuase you did not submit a sample for that day, your sample wasn't able to be sequenced, or we did not get enough sequence data from your sample to reliably use it for data analysis.
 
 
 
@@ -270,32 +259,29 @@ Figure 4 shows the most abundant bacterial species within your gut per each day 
    
    #merge melted df with map to get access to StudyDay variable
    merged_alpha<- merge(x=alphad, y=map, all.x=TRUE)
-    tick_label <- seq(1:17)
-   colpal<- colorRampPalette(brewer.pal(9,"Set3"))(37)
+    #tick_label <- seq(1:17)
+   #colpal<- colorRampPalette(brewer.pal(9,"Set3"))(37)
 
 #make gg plot line graph of subject alpha diversity per day
-ggplot(merged_alpha, aes(x=StudyDayNo, y=alphad, group = UserName)) +
-  geom_point() +
-  theme(
-        plot.title = element_text(hjust = 0.5),
+ggplot(merged_alpha, aes(x=StudyDayNo, y=alphad)) +
+  theme(plot.title = element_text(hjust = 0.5),
         axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
-  theme_classic()+
-  geom_smooth(aes(fill=colpal[1])) +
-  scale_x_discrete(drop = FALSE,labels=c(tick_label)) +
+  theme_classic() +
+  geom_smooth(color = "Black", fill = "#8DD3C7") +
+  geom_point() +
   labs(x= "Study Day Number",y="Alpha Diversity (Shannon)")+
   guides(fill=FALSE)+
   ggtitle("Alpha diversity of your gut microbiome")
   
 ```
 
-Figure 5 shows how the bacterial diversity exhibited within your gut changes on a daily basis. The measure of diversity shown here is called the Shannon index of alpha diversity. The Shannon index accounts for both the abundance and eveness of bacterial species present within the gut microbiome. A higher Shannon index typically indicates a more diverse microbiome community.
+**Figure 5** shows how the bacterial diversity exhibited within your gut changes on a daily basis. The measure of diversity shown here is called the Shannon index of alpha diversity. The Shannon index accounts for both the abundance and eveness of bacterial species present within the gut microbiome. A higher Shannon index typically indicates a more diverse microbiome community.
 
-
+\newpage
 ##Figure 6:
 
-```{r,fig.width=10, fig.height=10, echo=FALSE}
+```{r,fig.width=10, fig.height=10, echo=FALSE, warning = FALSE, message=FALSE}
 #create PCOA plot of beta diversities of pertinent subjects
-
 
 betad<-vegdist(betataxa, method="bray", binary=FALSE, diag=FALSE, upper=FALSE,
         na.rm = FALSE) 
@@ -310,7 +296,6 @@ IDs <-colnames(betad)
 PCOA <- data.frame(pcoa(betad)$vectors)
 
 #create vector with placeholders
-
 new_names <- rep("",ncol(PCOA))
 
 #create for loop which gives column names (currently named "axis") the name of PC1, PC2, PC3.. so forth
@@ -335,19 +320,19 @@ PCOA$X.SampleID <- IDs
 
 PCOA <- merge(PCOA, map, by = 'X.SampleID')
 
-
-PCOA <- merge(PCOA, map, by = 'UserName')
+#PCOA <- merge(PCOA, map, by = 'UserName')
 
 
 #### Plot PCOA ####
 
-
 #instantiate shape and color palettes 
 
-shape_pal <- c(1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8)
-shape_pal2 <- c(1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3)
-shape_pal3 <- c(15,19,17,18,15,19,17,18,15,19,17,18,15,19,17,18,15,19,17,18,15,19,17,18,15,19,17,18,15,19,17,18,15,19,17,18,15,19,17,18)
-colpal<- colorRampPalette(brewer.pal(9,"Set3"))(37)
+# shape_pal <- c(1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8)
+# shape_pal2 <- c(1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3)
+# shape_pal3 <- c(15,19,17,18,15,19,17,18,15,19,17,18,15,19,17,18,15,19,17,18,15,19,17,18,15,19,17,18,15,19,17,18,15,19,17,18,15,19,17,18)
+colpal<- colorRampPalette(brewer.pal(12,"Set3"))
+colpal<- sample(colpal(length(unique(PCOA$UserName))))
+
 id <- gsub("_", " ",id)
 
 # PCOA[PCOA$UserName %in% id,]
@@ -361,24 +346,60 @@ id <- gsub("_", " ",id)
 #filter(PCOA, UserName %in% id)
 
 #use ggplot to plot
-ggplot(PCOA) +
-  geom_point(aes(x=PC1,y=PC2, col=UserName, shape=UserName,
-                 size=ifelse(PCOA$UserName %in% id == TRUE,15,5)),
-             alpha=.060, 
-             stroke=3) + #gives axes and item of focus
-  #stat_ellipse(alpha = 0.3, geom="polygon", linetype=2, aes(x = PC1, y = PC2, fill = PCOA$UserName %in% id))+
-  labs(title=paste0("Beta diversity of your gut microbiome - PCOA -  ", id) ) +
-  guides(colour = guide_legend(override.aes = list(size=5,alpha=1))) +
-  scale_shape_manual(values=shape_pal3) +
-  scale_color_manual(values=colpal)+
-  theme_classic(base_family = "Helvetica") +                                                                      
-  theme(legend.position = "bottom", 
-        plot.title = element_text(size = 18, hjust = 0.5))
+# ggplot(PCOA) +
+#   geom_point(aes(x=PC1,y=PC2, col=UserName, shape=UserName,
+#                  size=ifelse(PCOA$UserName %in% id == TRUE,15,5)),
+#              alpha=1, 
+#              stroke=3) + #gives axes and item of focus
+#   #stat_ellipse(alpha = 0.3, geom="polygon", linetype=2, aes(x = PC1, y = PC2, fill = PCOA$UserName %in% id))+
+#   labs(title=paste0("Beta diversity of your gut microbiome - PCoA -  ", id)) +
+#   guides(col = guide_legend(override.aes = list(size=3,alpha=1)), size = FALSE) +
+#   scale_shape_manual(values=shape_pal3) +
+#   scale_color_manual(values=colpal)+
+#   theme_classic(base_family = "Helvetica") +                                                                      
+#   theme(legend.position = "bottom", 
+#         plot.title = element_text(size = 14, hjust = 0.5))
 
+# drop levels - not sure if needed
+PCOA <- droplevels(PCOA)
+# make a variable for self/other to use for plotting
+PCOA <- PCOA %>% mutate(User = ifelse(UserName == id, "self", "other"))
+
+# sort data frame so that the values matching id are at the bottom and plotted last
+PCOA <- PCOA[order(PCOA$User),]
  
+ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
+  geom_point(aes(fill = UserName, color = ifelse(PCOA$UserName %in% id == TRUE, "you","z")),
+             alpha=1, pch = 21, size = 5) +
+  scale_fill_manual(values = colpal) +
+  scale_color_manual(values = c("black", "grey")) +
+  scale_shape_manual(values = shape_pal3) +
+  stat_ellipse(color = "grey", type = "norm", linetype = 2, level = 0.95) +
+  labs(title=paste0("Beta diversity of your gut microbiome - PCoA -  ", id)) +
+  guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
+  theme_classic(base_family = "Helvetica") +                                                                      
+  theme(plot.title = element_text(size = 14, hjust = 0.5),
+        legend.position = "bottom")
+
 
 
   
 ```
-Figure 6 is a PCoA plot. A PCoA plot summarizes variability within a given dataset by producing a set of uncorrelated axes. Essentially, the PCoA plot can be utilized to interpret similarity of data points -- data points closer to one another are more similar to one another, while points further away from eachother are more dissimilar. Each data point in this plot represents a unique sample collected by a study participant. Samples from the same study participant are the same color and shape. The shape correspinding to your subject ID, `r id`, represents data points pertaining to your gut microbiome and has been enlarged to help you find yourself on this plot in comparison to the other study participants. When viewing this plot, keep in mind that it is a 2-dimensional representation of a 3-dimensional plot. So if your points look like they are all in the same place, they might actually extend into or out of the page! 
+**Figure 6** is a PCoA plot. A PCoA plot summarizes variability within a given dataset by producing a set of uncorrelated axes. Essentially, the PCoA plot can be utilized to interpret similarity of data points -- data points closer to one another are more similar to one another, while points further away from eachother are more dissimilar. Each data point in this plot represents a unique sample collected one of the participants in this study. Samples from the same study participant are the same color. 
 
+The points corresponding to your microbiome are outlined in black and are highlighted by the smaller ellipse. When viewing this plot, keep in mind that it is a 2-dimensional representation of a 3-dimensional plot. So if your points look like they are all in the same place, they might actually extend into or out of the page!
+
+
+\newpage
+#Your blood draw data
+
+The results of your blood draw at the start of the dietary supplementation period are shown in the table below along with the reference ranges. If any of your values fall outside the reference ranges you should contact your health care provider to have these test re-run.
+
+
+| Test                  | Result                              | Normal Range |
+|-----------------------|-------------------------------------|--------------|
+| Cholesterol (mg/dL)   | `r subblood$Cholesterol.Baseline`   |  <200        |
+| Triglycerides (mg/dL) | `r subblood$Trigs.Baseline`         |  <150        | 
+| HDL (mg/dL)           | `r subblood$HDL.Baseline`           |  >60         |  
+| LDL (mg/dL)           | `r subblood$LDL.Baseline`           |  <100        |   
+| Glucose (mg/dL)       | `r subblood$Glu.Baseline`           | 70 - 100     |

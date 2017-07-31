@@ -21,10 +21,27 @@ setwd("/Users/abby/Documents/Projects/zebra/")
 #Read in sampleID and nutrition files and assign them to pertinent variables
 nutrition_table <- read.table("raw/Totals_to_use.txt", sep = "\t", header = TRUE, comment = "")
 
+#Remove outlier nutr variables
+outliers = c("MCT.f.0021", "MCT.f.0044", "MCT.f.0050", "MCT.f.0056", "MCT.f.0058", "MCT.f.0060", "MCT.f.0076", "MCT.f.0116", "MCT.f.0465", "MCT.f.0486", "MCT.f.0601")
+nutrition_table <- nutrition_table[!(nutrition_table$X.SampleID %in% outliers),]
+
+#Load the maps
 SampleID_map <- read.table("raw/SampleID_map.txt", sep = "\t", header = TRUE, comment = "")
 
+#Drop blanks from map
+# drop the blank samples
+SampleID_map <- SampleID_map[grep("Blank", SampleID_map$X.SampleID, invert = TRUE),]
+
+UserName_map <- read.table("raw/UserName_map.txt", sep = "\t", header = TRUE, comment = "")
+
 #merge the two to create the mapping file
-map <-  merge(x=nutrition_table, y=SampleID_map, by= "X.SampleID")
+#map <-  merge(x=nutrition_table, y=SampleID_map, by= "X.SampleID")
+
+# create REE and TEE variables
+map <- SampleID_map %>% mutate(REE = ifelse(Gender=="M", (10*Weight+6.25*Height-5*Age+5), 
+                                   ifelse(Gender=="F", (10*Weight+6.25*Height-5*Age-161),
+                                          NA)), 
+                      TEE = REE*Activity.Factor) # calculate TEE with activity factor
 
 #read in the food table and assign it to pertinent variable
 food_map <-  read.table("raw/mct.food.otu.txt", sep = "\t", header = TRUE, comment = "")
@@ -62,6 +79,9 @@ rownames(food_map) <- food_map$taxonomy
 #remove the taxonomy string column and the food names column (redundant)
 food_map$taxonomy <- NULL #removing taxa string column
 food_map$X.FOODID <- NULL #removing food names column
+
+#drop outlier nutrition samples from food_map
+food_map <- food_map[,!(colnames(food_map) %in% outliers)]
 
 # collapse by food level
 # Summarizing at different levels - makes changes to everything downstream
@@ -116,6 +136,7 @@ for (id in unique(map$UserName)){
   
   #microbiome iteration
   submap <- map[map$UserName == id,] #create submap variable we can use to iterate through 
+  subnutr <- nutrition_table[nutrition_table$UserName == id,]
   subtaxa <- staxa[(colnames(staxa) %in% submap[,"X.SampleID"])] #create subtaxa variable - looks at each subject individually
   # sort the subtaxa df by abundance
   subtaxa <- subtaxa[order(rowMeans(subtaxa), decreasing = TRUE),]
@@ -124,7 +145,7 @@ for (id in unique(map$UserName)){
   
   #food iteration
   
-  macro_totals <-  round(mean(submap$PROT),2) +  round(mean(submap$TFAT),2) + round(mean(submap$CARB),2)
+  macro_totals <-  round(mean(subnutr$PROT),2) +  round(mean(subnutr$TFAT),2) + round(mean(subnutr$CARB),2)
   sub_foodmap <- merged_food[merged_food$UserName == id,] #sub food variable allows us to access one subject at a time (like submap)
   sub_food <- food_map[(colnames(food_map) %in% sub_foodmap[,"variable"])]#sub food variable looks at each subject individually
   sub_foodsp <- setDT(sub_food, keep.rownames = TRUE) #make rownames first column of frame
@@ -135,6 +156,9 @@ for (id in unique(map$UserName)){
   #beta diversity iteration
   betataxa<- staxa[(colnames(staxa) %in% map[,"X.SampleID"])] #Create table with just taxa and subjects
   betataxa <- t(betataxa) #transpose 
+  
+  #blood draw values
+  subblood <- UserName_map[UserName_map$UserName == id,]
   
   #rendering
   render(input = "lib/MCTS_pdf_mcb_7_3.Rmd",output_file = paste0('report.', id, '.pdf'),"pdf_document",
