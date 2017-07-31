@@ -15,7 +15,7 @@ title: "Microbiome Diet Study Participant Report `r id`"
 
 Thank you for participating in the Knights Lab's citizen science project! 
 
-We have made you a personalized report from your samples and dietary data. Included in this report is information about your daily dietary intake and your daily microbiome variation. This report is not intended to medical advice or to be used to diagnose or treat disease. If you have any questions about your report, or you would like access to your raw sequence data, please contact the study coordinator Abby at cole0463@umn.edu.
+We have made you a personalized report from your samples and dietary data. Included in this report is information about your daily dietary intake and your daily microbiome variation. This report is not intended to provide medical advice or to be used to diagnose or treat disease. If you have any questions about your report, or you would like access to your raw sequence data, please contact the study coordinator Abby at cole0463@umn.edu.
 
 #Your Dietary Intake Data
 

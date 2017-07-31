@@ -161,7 +161,7 @@ for (id in unique(map$UserName)){
   subblood <- UserName_map[UserName_map$UserName == id,]
   
   #rendering
-  render(input = "lib/MCTS_pdf_mcb_7_3.Rmd",output_file = paste0('report.', id, '.pdf'),"pdf_document",
+  render(input = "lib/mypdf.Rmd",output_file = paste0('report.', id, '.pdf'),"pdf_document",
          output_dir = "output/output") 
 }
 
