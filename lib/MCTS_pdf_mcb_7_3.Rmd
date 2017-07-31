@@ -126,7 +126,7 @@ p + guides(fill=F) +
 
 ```
 
-**Figure 2** shows your fiber intake each day throughout the study. You had an average fiber consumption of `r round(mean(subnutr$FIBE),2)` grams per day. The red line in this plot shows the recommended level of fiber consumption in grams, while the gold line shows your average daily fiber intake. The current recomendation for fiber intake is to consume 14g per 1000kcal. We calculated your fiber needs to be `r fiber_rec` grams per day.
+**Figure 2** shows your fiber intake each day throughout the study. You had an average fiber consumption of `r signif(mean(subnutr$FIBE),2)` grams per day. The red line in this plot shows the recommended level of fiber consumption in grams, while the gold line shows your average daily fiber intake. The current recommendation for fiber intake is to consume 14g per 1000kcal. We calculated your fiber needs to be `r fiber_rec` grams per day.
 
 Fiber is an important energy source for the bacteria that live within your microbiome. Meeting the recommended intake of fiber may help to support a healthy microbiome. If your average fiber intake falls below the recommended intake level, you should consider increasing your intake of fiber by eating more fibrous vegetables and/or increasing your intake of whole grains.
 
@@ -243,7 +243,7 @@ ggplot(mergedf, aes(x = StudyDayNo, y = newvalue, fill = rn)) +
 
 ```
 
-**Figure 4** shows the most abundant bacterial species within your gut per each day of the study. The "<2.5% abundance" column represents a sum of bacterial species that individually account for less than 2.5% of the bacterial population within your gut microbiome. If you are missing microbiome data for any day on this plot it's either becuase you did not submit a sample for that day, your sample wasn't able to be sequenced, or we did not get enough sequence data from your sample to reliably use it for data analysis.
+**Figure 4** shows the most abundant bacterial species within your gut per each day of the study. The "<2.5% abundance" column represents a sum of bacterial species that individually account for less than 2.5% of the bacterial population within your gut microbiome. If you are missing microbiome data for any day on this plot it's either because you did not submit a sample for that day, your sample wasn't able to be sequenced, or we did not get enough sequence data from your sample to reliably use it for data analysis.
 
 
 
@@ -275,7 +275,7 @@ ggplot(merged_alpha, aes(x=StudyDayNo, y=alphad)) +
   
 ```
 
-**Figure 5** shows how the bacterial diversity exhibited within your gut changes on a daily basis. The measure of diversity shown here is called the Shannon index of alpha diversity. The Shannon index accounts for both the abundance and eveness of bacterial species present within the gut microbiome. A higher Shannon index typically indicates a more diverse microbiome community.
+**Figure 5** shows how the bacterial diversity exhibited within your gut changes on a daily basis. The measure of diversity shown here is called the Shannon index of alpha diversity. The Shannon index accounts for both the abundance and evenness of bacterial species present within the gut microbiome. A higher Shannon index typically indicates a more diverse microbiome community.
 
 \newpage
 ##Figure 6:
@@ -320,8 +320,6 @@ PCOA$X.SampleID <- IDs
 
 PCOA <- merge(PCOA, map, by = 'X.SampleID')
 
-#PCOA <- merge(PCOA, map, by = 'UserName')
-
 
 #### Plot PCOA ####
 
@@ -335,33 +333,7 @@ colpal<- sample(colpal(length(unique(PCOA$UserName))))
 
 id <- gsub("_", " ",id)
 
-# PCOA[PCOA$UserName %in% id,]
 
-
-#dt[dt$fct %in% vc,]
-#PCOA1<- PCOA[PCOA$UserName %in% id,]
-
-#dubloon %>% filter(value==TRUE) 
-
-#filter(PCOA, UserName %in% id)
-
-#use ggplot to plot
-# ggplot(PCOA) +
-#   geom_point(aes(x=PC1,y=PC2, col=UserName, shape=UserName,
-#                  size=ifelse(PCOA$UserName %in% id == TRUE,15,5)),
-#              alpha=1, 
-#              stroke=3) + #gives axes and item of focus
-#   #stat_ellipse(alpha = 0.3, geom="polygon", linetype=2, aes(x = PC1, y = PC2, fill = PCOA$UserName %in% id))+
-#   labs(title=paste0("Beta diversity of your gut microbiome - PCoA -  ", id)) +
-#   guides(col = guide_legend(override.aes = list(size=3,alpha=1)), size = FALSE) +
-#   scale_shape_manual(values=shape_pal3) +
-#   scale_color_manual(values=colpal)+
-#   theme_classic(base_family = "Helvetica") +                                                                      
-#   theme(legend.position = "bottom", 
-#         plot.title = element_text(size = 14, hjust = 0.5))
-
-# drop levels - not sure if needed
-PCOA <- droplevels(PCOA)
 # make a variable for self/other to use for plotting
 PCOA <- PCOA %>% mutate(User = ifelse(UserName == id, "self", "other"))
 
@@ -385,7 +357,7 @@ ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
 
   
 ```
-**Figure 6** is a PCoA plot. A PCoA plot summarizes variability within a given dataset by producing a set of uncorrelated axes. Essentially, the PCoA plot can be utilized to interpret similarity of data points -- data points closer to one another are more similar to one another, while points further away from eachother are more dissimilar. Each data point in this plot represents a unique sample collected one of the participants in this study. Samples from the same study participant are the same color. 
+**Figure 6** is a PCoA plot. A PCoA plot summarizes variability within a given dataset by producing a set of uncorrelated axes. Essentially, the PCoA plot can be utilized to interpret similarity of data points -- data points closer to one another are more similar to one another, while points further away from each other are more dissimilar. Each data point in this plot represents a unique sample collected one of the participants in this study. Samples from the same study participant are the same color. 
 
 The points corresponding to your microbiome are outlined in black and are highlighted by the smaller ellipse. When viewing this plot, keep in mind that it is a 2-dimensional representation of a 3-dimensional plot. So if your points look like they are all in the same place, they might actually extend into or out of the page!
 
