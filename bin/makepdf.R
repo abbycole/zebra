@@ -43,6 +43,9 @@ map <- SampleID_map %>% mutate(REE = ifelse(Gender=="M", (10*Weight+6.25*Height-
                                           NA)), 
                       TEE = REE*Activity.Factor) # calculate TEE with activity factor
 
+# make sure studydayno is a factor for later plotting
+map$StudyDayNo <- as.factor(map$StudyDayNo)
+
 #read in the food table and assign it to pertinent variable
 food_map <-  read.table("raw/mct.food.otu.txt", sep = "\t", header = TRUE, comment = "")
 

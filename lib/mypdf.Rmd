@@ -12,7 +12,6 @@ date: "`r format(Sys.time(), '%d %B, %Y')`"
 ---
 title: "Microbiome Diet Study Participant Report `r id`"
 ---
-
 Thank you for participating in the Knights Lab's citizen science project! 
 
 We have made you a personalized report from your samples and dietary data. Included in this report is information about your daily dietary intake and your daily microbiome variation. This report is not intended to provide medical advice or to be used to diagnose or treat disease. If you have any questions about your report, or you would like access to your raw sequence data, please contact the study coordinator Abby at cole0463@umn.edu.
@@ -23,16 +22,16 @@ This first table and Figure 1 below show your average macronutrient intake as a 
 
 
 | Type                | Average Macronutrient Intake                               | Typical Intake Range        |
-|---------------------|------------------------------------------------------------|-----------------------------|
+|---------------------|------------------------------------------------------------:|-----------------------------:|
 | CALORIES (kcal)     | `r round(mean(subnutr$KCAL),2)`                            |   1800 - 3200               |
 | PROTEIN (%)         | `r round((mean(subnutr$PROT)/macro_totals)*100,2)`%        |   10 - 35%                  | 
 | TOTAL FAT (%)       | `r round((mean(subnutr$TFAT)/macro_totals)*100,2)`%        |   20 - 35%                  |  
 | CARBS (%)           | `r round((mean(subnutr$CARB)/macro_totals)*100,2)`%        |   45 - 65%                  |                                   
 
-Based on your height, weight, gender, age, and self-reported activity level you need approximately `r signif(submap$TEE[1], 2)` kcal per day to maintain your current weight. During the study your weight change was `r submap$Weight.Change[1]` kg. 
+Based on your height, weight, gender, age, and self-reported activity level you need approximately `r signif(submap$TEE[1], 2)` kcal per day to maintain your current weight. During the study your weight change was `r submap$Weight.Change[1]` kg. If you didn't loose weight during the study, but your average intake was well below your estimated energy needs, it's possible that you slightly under-reported your dietary intake. 
 
 ##Figure 1:
-```{r, echo = FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=6, fig.align="center"}
+```{r, echo = FALSE, warning=FALSE, message=FALSE, fig.height=2.5, fig.width=6, fig.align="center"}
 
 
 long_plot <- subnutr %>% select(X.SampleID, KCAL, PROT, TFAT, CARB, UserName)
@@ -57,7 +56,7 @@ ggplot(long_plot, aes(x = X.SampleID, y = KCAL*PCT, fill = Macro)) +
   theme_classic() +
   scale_fill_manual(values=colpal, labels = c("Protein", "Total Fat", "Carbohydrate"))+
   #scale_fill_brewer(palette = colpal) +
-   scale_x_discrete(labels=c(tick_label))+
+  scale_x_discrete(labels=c(tick_label))+
   labs(fill = "Macronutrient\nDistribution", y = "Daily reported intake (Kcal)", x = "Study Day Number") +
   theme(
         #axis.title.x =element_text(family = "Helvetica"), axis.title.y =element_text(family = "Helvetica"),
@@ -74,8 +73,8 @@ Please note, it is common for people who follow some diets, like the low carbohy
 This second table shows your average daily intake of key micronutrients from food. Also shown are the average intake levels for all of our study participants and the recommended dietary allowance levels by gender. If you take a vitamin and mineral supplement, your intake from that supplement is not reflected here:
 
 
-| Nutrient            | Your Average                    | Study Average                                       |Recommended Dietary Allowance(Male/Female)|
-|---------------------|---------------------------------|-----------------------------------------------------|------------------------------------------|          
+| Nutrient            | Your Average           | Study Average           |Recommended Dietary Allowance (Male/Female)|
+|:--------------------|-----------------------:|------------------------:|:-----------------------------------------:|          
 | FOLATE (mcg)        | `r round(mean(subnutr$FOLA),2)` | `r round(mean(nutrition_table$FOLA,na.rm=TRUE),2)` |                 400                      |
 | CHOLINE (mg)        | `r round(mean(subnutr$CHOLN),2)`| `r round(mean(nutrition_table$CHOLN,na.rm=TRUE),2)`|                550 / 425                 |
 | CALCIUM (mg)        | `r round(mean(subnutr$CALC),2)` | `r round(mean(nutrition_table$CALC,na.rm=TRUE),2)` |                 1000 *                   |
@@ -93,7 +92,7 @@ This second table shows your average daily intake of key micronutrients from foo
 | VITAMIN K (ug)      | `r round(mean(subnutr$VK),2)`   | `r round(mean(nutrition_table$VK,na.rm=TRUE),2)`   |               120 / 90                   |
 
 
-Please note, values marked with an asterisk are the recommended dietary allowance or adequate intake values for adults between 18 and 30 years old. These values are the daily intake level that is sufficient to meet the needs of 97-98% of the population. If you are older than 30, your recommended dietary allowance may be higher or lower than what's shown here. You can visit https://ods.od.nih.gov/Health_Information/Dietary_Reference_Intakes.aspx for a complete list of dietary reference intakes by age and gender.
+*Values marked with an asterisk are the recommended dietary allowance or adequate intake values for adults between 18 and 30 years old. These values are the daily intake level that is sufficient to meet the needs of 97-98% of the population. If you are older than 30, your recommended dietary allowance may be higher or lower than what's shown here. You can visit https://ods.od.nih.gov/Health_Information/Dietary_Reference_Intakes.aspx for a complete list of dietary reference intakes by age and gender.
 
 If your intake of a vitamin or mineral falls below the recommended level for your gender you should consider increasing your intake of foods that are a good source of that vitamin or mineral. For example, the study average intake of vitamin D falls below the recommended level of 15 mcg. So, many of the participants in our study could benefit by eating more vitamin D containing foods like fatty fish (such as salmon, tuna, and mackerel), fortified milk products, beef liver, egg yolks, and mushrooms. 
 
@@ -160,12 +159,13 @@ Fiber is an important energy source for the bacteria that live within your micro
   #instantiate color brewer and axes tick mark amount
   colpal <- colorRampPalette(brewer.pal(8,"Set3"))
   colpal <- sample(colpal(length(unique(merge_food$rn))))
-  tick_label <- seq(1:17)
+  
+  #made StudyDayNo a factor in the map, so don't need to use the tick labels
 
   
 ggplot(merge_food, aes(x = StudyDayNo, y = value, fill = rn)) +
   geom_bar(stat = "identity") +
-  scale_x_discrete(drop = FALSE,labels=c(tick_label)) +
+  scale_x_discrete(drop = FALSE) +
    scale_fill_manual(values =colpal)+
   theme_classic(base_family = "Helvetica") +
   theme(axis.text.x = element_text( hjust = 0.5, family = "Helvetica"),
@@ -221,13 +221,12 @@ We sequenced the DNA of the microbes that live within your gut from the daily st
   #instantiate color brewer and axes tick mark amount
   colpal<- colorRampPalette(brewer.pal(12,"Set3"))
   colpal<- sample(colpal(length(unique(mergedf$rn))))
-  tick_label <- seq(1:17)
 
   
 ggplot(mergedf, aes(x = StudyDayNo, y = newvalue, fill = rn)) +
   geom_bar(stat = "identity") +
-  scale_x_discrete(drop = FALSE,labels=c(tick_label)) +
-   scale_fill_manual(values =colpal)+
+  scale_x_discrete(drop = FALSE) + 
+  scale_fill_manual(values =colpal)+
   theme_classic(base_family = "Helvetica") +
   theme(axis.text.x = element_text( hjust = 0.5, family = "Helvetica"),
         plot.title =  element_text(hjust = 0.5, family = "Helvetica"),
@@ -259,13 +258,16 @@ ggplot(mergedf, aes(x = StudyDayNo, y = newvalue, fill = rn)) +
    
    #merge melted df with map to get access to StudyDay variable
    merged_alpha<- merge(x=alphad, y=map, all.x=TRUE)
-    #tick_label <- seq(1:17)
-   #colpal<- colorRampPalette(brewer.pal(9,"Set3"))(37)
+   
+   # make studydayno a continuous variable for plotting
+   merged_alpha$StudyDayNo <- as.numeric(merged_alpha$StudyDayNo)
+
 
 #make gg plot line graph of subject alpha diversity per day
 ggplot(merged_alpha, aes(x=StudyDayNo, y=alphad)) +
   theme(plot.title = element_text(hjust = 0.5),
         axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
+  scale_x_continuous(breaks = c(tick_label)) +
   theme_classic() +
   geom_smooth(color = "Black", fill = "#8DD3C7") +
   geom_point() +
@@ -343,12 +345,13 @@ PCOA <- PCOA[order(PCOA$User),]
 ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
   geom_point(aes(fill = UserName, color = ifelse(PCOA$UserName %in% id == TRUE, "you","z")),
              alpha=1, pch = 21, size = 5) +
-  scale_fill_manual(values = colpal) +
+  scale_fill_manual(breaks = id, values = colpal) +
   scale_color_manual(values = c("black", "grey")) +
   scale_shape_manual(values = shape_pal3) +
   stat_ellipse(color = "grey", type = "norm", linetype = 2, level = 0.95) +
   labs(title=paste0("Beta diversity of your gut microbiome - PCoA -  ", id)) +
   guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
+  #guides(size = FALSE, fill = FALSE) +
   theme_classic(base_family = "Helvetica") +                                                                      
   theme(plot.title = element_text(size = 14, hjust = 0.5),
         legend.position = "bottom")
@@ -365,11 +368,11 @@ The points corresponding to your microbiome are outlined in black and are highli
 \newpage
 #Your blood draw data
 
-The results of your blood draw at the start of the dietary supplementation period are shown in the table below along with the reference ranges. If any of your values fall outside the reference ranges you should contact your health care provider to have these test re-run.
+The results of your blood draw at the start of the dietary supplementation period are shown in the table below along with the reference ranges. If any of your values fall outside the reference ranges you should contact your health care provider to discuss your results and have the tests rerun.
 
 
 | Test                  | Result                              | Normal Range |
-|-----------------------|-------------------------------------|--------------|
+|-----------------------|-------------------------------------:|:--------------:|
 | Cholesterol (mg/dL)   | `r subblood$Cholesterol.Baseline`   |  <200        |
 | Triglycerides (mg/dL) | `r subblood$Trigs.Baseline`         |  <150        | 
 | HDL (mg/dL)           | `r subblood$HDL.Baseline`           |  >60         |  
