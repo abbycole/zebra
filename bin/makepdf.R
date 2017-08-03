@@ -16,8 +16,8 @@ library(dplyr)
 ####Pre Processing####
 
 #set to working directory to project zebra directory
-#setwd("/Users/abby/Documents/Projects/zebra/")
-setwd("C:/Users/arzan/Desktop/Bioinformatics/MCT/GIT/zebra")
+setwd("/Users/abby/Documents/Projects/zebra/")
+#setwd("C:/Users/arzan/Desktop/Bioinformatics/MCT/GIT/zebra")
 
 #Read in sampleID and nutrition files and assign them to pertinent variables
 nutrition_table <- read.table("raw/Totals_to_use.txt", sep = "\t", header = TRUE, comment = "")
@@ -167,7 +167,7 @@ for (id in unique(map$UserName)){
   
   #rendering
   render(input = "lib/mypdf.Rmd",output_file = paste0('report.', id, '.pdf'),"pdf_document",
-         output_dir = "output/outputB") 
+         output_dir = "output/output") 
 }
 
 
