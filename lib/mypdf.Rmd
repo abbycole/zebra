@@ -113,7 +113,9 @@ fiber_rec <- round(14*mean(subnutr$KCAL)/1000)
 p <- ggplot(subnutr,aes(x = StudyDayNo,y = FIBE)) + 
      geom_bar(aes(fill = colpal[1]),stat = "identity",position = "dodge") + scale_x_discrete(labels = abbreviate)+
       geom_hline(size=.75,col="red",yintercept = fiber_rec) + #Recommended fiber level
-      geom_hline(size=.75,col="gold",yintercept = fiber_average)  #Recommended fiber level
+      geom_hline(size=.75,col="gold",yintercept = fiber_average)+  #Recommended fiber level
+    annotate(geom="text", label="Recommended Daily Fiber Intake Level",x=0,y=fiber_rec, vjust=-1, hjust=-2.5)+
+   annotate(geom="text", label="Your Average Daily Fiber Intake Level",x=0,y=fiber_average,  vjust=-1, hjust=-2.5)
 
 p + guides(fill=F) +
   theme_classic(base_family = "Helvetica")+
@@ -250,11 +252,17 @@ ggplot(mergedf, aes(x = StudyDayNo, y = newvalue, fill = rn)) +
 ```{r, warning=FALSE, message=FALSE, echo=FALSE} 
  #transpose
    subtaxaalpha <- t(subtaxaalpha)
+   taxalpha <- t(taxalpha)
  
   #calculate alpha diversity and assign to variable alphad
    alphad <- diversity(subtaxaalpha, index = "shannon", MARGIN = 1, base = exp(1))
    alphad <- as.data.frame(alphad)
    alphad <- rownames_to_column(alphad, var = "X.SampleID")
+   
+   #calculate study alpha diversity and assign to variable studyalpha
+   studyalpha <- diversity(taxalpha, index = "shannon", MARGIN = 1, base = exp(1))
+   studyalpha <- as.data.frame(studyalpha)
+   studyalpha <- rownames_to_column(studyalpha, var = "X.SampleID")
    
    #merge melted df with map to get access to StudyDay variable
    merged_alpha<- merge(x=alphad, y=map, all.x=TRUE)
@@ -262,7 +270,10 @@ ggplot(mergedf, aes(x = StudyDayNo, y = newvalue, fill = rn)) +
    # make studydayno a continuous variable for plotting
    merged_alpha$StudyDayNo <- as.numeric(merged_alpha$StudyDayNo)
 
-
+   # Find statistical artifacts for (shannon) alpha diversity for all subjects
+   studyalphamean <- mean(studyalpha$studyalpha)
+   studyalphamean <- as.numeric(studyalphamean)
+   
 #make gg plot line graph of subject alpha diversity per day
 ggplot(merged_alpha, aes(x=StudyDayNo, y=alphad)) +
   theme(plot.title = element_text(hjust = 0.5),
@@ -271,6 +282,7 @@ ggplot(merged_alpha, aes(x=StudyDayNo, y=alphad)) +
   theme_classic() +
   geom_smooth(color = "Black", fill = "#8DD3C7") +
   geom_point() +
+  geom_hline(size=.75, color="blue", yintercept = studyalphamean)+
   labs(x= "Study Day Number",y="Alpha Diversity (Shannon)")+
   guides(fill=FALSE)+
   ggtitle("Alpha diversity of your gut microbiome")

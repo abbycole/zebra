@@ -1,3 +1,4 @@
+
 #Load packages required for the project
 
 library(rmarkdown)
@@ -15,8 +16,8 @@ library(dplyr)
 ####Pre Processing####
 
 #set to working directory to project zebra directory
-setwd("/Users/abby/Documents/Projects/zebra/")
-#setwd("C:/Users/arzan/Desktop/Bioinformatics/MCT/GIT/zebra")
+#setwd("/Users/abby/Documents/Projects/zebra/")
+setwd("C:/Users/arzan/Desktop/Bioinformatics/MCT/GIT/zebra")
 
 #Read in sampleID and nutrition files and assign them to pertinent variables
 nutrition_table <- read.table("raw/Totals_to_use.txt", sep = "\t", header = TRUE, comment = "")
@@ -155,6 +156,7 @@ for (id in unique(map$UserName)){
   
   #alpha diversity iteration
   subtaxaalpha <- taxa[(colnames(taxa) %in% submap[,"X.SampleID"])] #subtaxa variable used for alpha diversity
+  taxalpha <- taxa[(colnames(taxa) %in% map[,"X.SampleID"])] #matrix utilized to calculate study average alpha div.
  
   #beta diversity iteration
   betataxa<- staxa[(colnames(staxa) %in% map[,"X.SampleID"])] #Create table with just taxa and subjects
@@ -165,7 +167,7 @@ for (id in unique(map$UserName)){
   
   #rendering
   render(input = "lib/mypdf.Rmd",output_file = paste0('report.', id, '.pdf'),"pdf_document",
-         output_dir = "output/output") 
+         output_dir = "output/outputB") 
 }
 
 
