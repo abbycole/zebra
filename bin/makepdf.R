@@ -48,34 +48,36 @@ map <- SampleID_map %>% mutate(REE = ifelse(Gender=="M", (10*Weight+6.25*Height-
 map$StudyDayNo <- as.factor(map$StudyDayNo)
 
 #read in the food table and assign it to pertinent variable
-food_map <-  read.table("raw/mct.food.otu.txt", sep = "\t", header = TRUE, comment = "")
+#food_map <-  read.table("raw/mct.food.otu.txt", sep = "\t", header = TRUE, comment = "")
+# changed to use dehydrated food weights
+food_map <-  read.table("raw/mct.dhydrt.otu.txt", sep = "\t", header = TRUE, comment = "")
 
 # read in the food taxonomy mapping file 
 food_taxa <- read.table("raw/mct.taxonomy.txt", sep = "\t", header = TRUE, comment = "")
 
-# remove water from the food_map df
-# find descriptions of water
-water <- food_taxa %>% filter(FoodID != "92410110" &
-                                FoodID != "92410210"& 
-                                FoodID != "92410250"& 
-                                FoodID != "94000100"&
-                                FoodID != "94100100"&
-                                FoodID != "94100200" &
-                                FoodID != "94100300" &
-                                FoodID != "94210100" &
-                                FoodID != "94210200" &
-                                FoodID != "94210300" &
-                                FoodID != "94220200" &
-                                FoodID != "94300100")
-
-#remove water
-food_taxa <- food_taxa %>% filter(taxonomy %in% water$taxonomy)
-
-# subset to remove water from the food table
-food_map <- food_map[food_map$X.FOODID %in% food_taxa$Main.food.description,]
-
-# clean up environment
-rm(water)
+# # remove water from the food_map df
+# # find descriptions of water
+# water <- food_taxa %>% filter(FoodID != "92410110" &
+#                                 FoodID != "92410210"& 
+#                                 FoodID != "92410250"& 
+#                                 FoodID != "94000100"&
+#                                 FoodID != "94100100"&
+#                                 FoodID != "94100200" &
+#                                 FoodID != "94100300" &
+#                                 FoodID != "94210100" &
+#                                 FoodID != "94210200" &
+#                                 FoodID != "94210300" &
+#                                 FoodID != "94220200" &
+#                                 FoodID != "94300100")
+# 
+# #remove water
+# food_taxa <- food_taxa %>% filter(taxonomy %in% water$taxonomy)
+# 
+# # subset to remove water from the food table
+# food_map <- food_map[food_map$X.FOODID %in% food_taxa$Main.food.description,]
+# 
+# # clean up environment
+# rm(water)
 
 #set the row names of the food map file to the taxonomy strings
 rownames(food_map) <- food_map$taxonomy
