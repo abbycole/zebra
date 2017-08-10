@@ -366,7 +366,7 @@ ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
   scale_fill_manual(breaks = id, values = colpal) +
   scale_color_manual(values = c("black", "grey")) +
   scale_shape_manual(values = shape_pal3) +
-  stat_ellipse(color = "grey", type = "norm", linetype = 2, level = 0.95) +
+  stat_ellipse(color = "dark grey", type = "norm", linetype = 2, level = 0.95) +
   labs(title=paste0("Beta diversity of your gut microbiome - PCoA -  ", id)) +
   guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
   #guides(size = FALSE, fill = FALSE) +
@@ -382,6 +382,78 @@ ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
 
 The points corresponding to your microbiome are outlined in black and are highlighted by the smaller ellipse. When viewing this plot, keep in mind that it is a 2-dimensional representation of a 3-dimensional plot. So if your points look like they are all in the same place, they might actually extend into or out of the page!
 
+\newpage
+##Figure 7
+```{r,fig.width=15, fig.height=15, echo=FALSE, warning = FALSE, message=FALSE}
+grad1<- c("#fee6ce", "#fdae6b", "#e6550d")
+grad2<- c("#deebf7", "#9ecae1", "#3182bd")
+grad3<- c("#e5f5e0", "#a1d99b", "#31a354")
+grad4<- c("#efedf5", "#bcbddc", "#756bb1")
+
+Bact <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
+  geom_point(aes(fill = Bacteroidetes, color = ifelse(PCOA$UserName %in% id == TRUE, "you","z")),
+             alpha=1, pch = 21, size = 5) +
+  scale_fill_gradientn(colors = grad1) +
+  scale_color_manual(values = c("black", "dark grey")) +
+  #scale_shape_manual(values = shape_pal3) +
+  stat_ellipse(color = "dark grey", type = "norm", linetype = 2, level = 0.95) +
+  labs(title="Relative Abundance of Bacteroidetes") +
+  guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
+  #guides(size = FALSE, fill = FALSE) +
+  theme_classic(base_family = "Helvetica") +                                                                      
+  theme(plot.title = element_text(size = 14, hjust = 0.5),
+        legend.position = "bottom")
+
+Firm <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
+  geom_point(aes(fill = Firmicutes, color = ifelse(PCOA$UserName %in% id == TRUE, "you","z")),
+             alpha=1, pch = 21, size = 5) +
+   scale_fill_gradientn(colors = grad2) +
+  scale_color_manual(values = c("black", "dark grey")) +
+  #scale_shape_manual(values = shape_pal3) +
+  stat_ellipse(color = "dark grey", type = "norm", linetype = 2, level = 0.95) +
+  labs(title="Relative Abundance of Firmicutes") +
+  guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
+  #guides(size = FALSE, fill = FALSE) +
+  theme_classic(base_family = "Helvetica") +                                                                      
+  theme(plot.title = element_text(size = 14, hjust = 0.5),
+        legend.position = "bottom")
+
+Prot <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
+  geom_point(aes(fill = Proteobacteria, color = ifelse(PCOA$UserName %in% id == TRUE, "you","z")),
+             alpha=1, pch = 21, size = 5) +
+  scale_fill_gradientn(colors = grad3) +
+  scale_color_manual(values = c("black", "dark grey")) +
+  #scale_shape_manual(values = shape_pal3) +
+  stat_ellipse(color = "dark grey", type = "norm", linetype = 2, level = 0.95) +
+  labs(title="Relative Abundance of Proteobacteria") +
+  guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
+  #guides(size = FALSE, fill = FALSE) +
+  theme_classic(base_family = "Helvetica") +                                                                      
+  theme(plot.title = element_text(size = 14, hjust = 0.5),
+        legend.position = "bottom")
+
+
+Actin <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
+  geom_point(aes(fill = Actinobacteria, color = ifelse(PCOA$UserName %in% id == TRUE, "you","z")),
+             alpha=1, pch = 21, size = 5) +
+  scale_fill_gradientn(colors = grad4) +
+  scale_color_manual(values = c("black", "dark grey")) +
+  #scale_shape_manual(values = shape_pal3) +
+  stat_ellipse(color = "dark grey", type = "norm", linetype = 2, level = 0.95) +
+  labs(title="Relative Abundance of Actinobacteria") +
+  guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
+  #guides(size = FALSE, fill = FALSE) +
+  theme_classic(base_family = "Helvetica") +                                                                      
+  theme(plot.title = element_text(size = 14, hjust = 0.5),
+        legend.position = "bottom")
+
+
+
+plot_grid(Bact, Firm, Prot, Actin, nrow = 2, ncol = 2 )
+
+```
+
+**Figure 7** shows the relative abundance of key phyla within your gut microbiome compared with the rest of subjects in the study. As with Figure 6, your points are shown outlined in black and are surrounded by the smaller ellipse. 
 
 \newpage
 #Your blood draw data

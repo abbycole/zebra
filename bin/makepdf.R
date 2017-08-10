@@ -11,6 +11,7 @@ library(vegan)
 library(ape)
 library(RColorBrewer)
 library(dplyr)
+library(cowplot)
 #library(extrafont)
 
 ####Pre Processing####
@@ -132,11 +133,29 @@ staxa = staxa[order(rowMeans(staxa),decreasing=F),]; # Sort by avg. abundance
 staxa = staxa[rowMeans(staxa) >= 0.0001,];            # Drop rare taxa (abundance)
 staxa = staxa[rowSums(staxa > 0) > 10,];             # Drop rare taxa (prevalence)
 
+###phylum level taxa ###
+ptaxa = taxa
+split <- strsplit(rownames(ptaxa),";")                               # Split and rejoin on lv7
+ptaxaStrings <- sapply(split,function(x) paste(x[1:2],collapse=";")) # level 7 is species, 8 is strain
+ptaxa <- rowsum(ptaxa,ptaxaStrings)                                    # Collapse by taxonomy name
+ptaxa = sweep(ptaxa,2,colSums(ptaxa),'/')
+ptaxa = ptaxa[order(rowMeans(ptaxa),decreasing=T),]
+
+#selet top four
+ptaxa <- ptaxa[1:4,]
+#traspose to add to map for later use
+ptaxa <- t(ptaxa)
+colnames(ptaxa) <- gsub(".*p__?", "", colnames(ptaxa))
+ptaxa <- as.data.frame(ptaxa)
+ptaxa <- rownames_to_column(ptaxa, "X.SampleID")
 
 ###Instantiate Plots###
 
 colnames(map)[2] <- "UserName" #Change col name from UserName.x to UserName - compatibility purposes
 colnames(map)[3] <- "StudyDayNo" #Change col name from StudyDayNo.x to StudyDayNo - compatibility purposes
+
+# add realative abundace of phylum taxa to the map for plotting
+map <- left_join(map,ptaxa)
 
 for (id in unique(map$UserName)){
   
