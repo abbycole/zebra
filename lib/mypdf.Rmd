@@ -1,17 +1,14 @@
 ---
-output: 
-  pdf_document: 
-    latex_engine: xelatex
-mainfont: Calibri
+output: pdf_document
 fig_caption: true
 params: 
     set_title: "My Title!"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
+---
+---
+title: `r id`
 ---
 
----
-title: "Microbiome Diet Study Participant Report `r id`"
----
+
 Thank you for participating in the Knights Lab's citizen science project! 
 
 We have made you a personalized report from your samples and dietary data. Included in this report is information about your daily dietary intake and your daily microbiome variation. This report is not intended to provide medical advice or to be used to diagnose or treat disease. If you have any questions about your report, or you would like access to your raw sequence data, please contact the study coordinator Abby at cole0463@umn.edu.
@@ -20,15 +17,16 @@ We have made you a personalized report from your samples and dietary data. Inclu
 
 This first table and Figure 1 below show your average macronutrient intake as a percentage of calories and the typical macronutrient intake ranges for US adults:
 
-
 | Type                | Average Macronutrient Intake                               | Typical Intake Range        |
 |---------------------|------------------------------------------------------------:|-----------------------------:|
 | CALORIES (kcal)     | `r round(mean(subnutr$KCAL),2)`                            |   1800 - 3200               |
 | PROTEIN (%)         | `r round((mean(subnutr$PROT)/macro_totals)*100,2)`%        |   10 - 35%                  | 
 | TOTAL FAT (%)       | `r round((mean(subnutr$TFAT)/macro_totals)*100,2)`%        |   20 - 35%                  |  
-| CARBS (%)           | `r round((mean(subnutr$CARB)/macro_totals)*100,2)`%        |   45 - 65%                  |                                   
+| CARBS (%)           | `r round((mean(subnutr$CARB)/macro_totals)*100,2)`%        |   45 - 65%                  |   
 
-Based on your height, weight, gender, age, and self-reported activity level you need approximately `r signif(submap$TEE[1], 2)` kcal per day to maintain your current weight. During the study your weight change was `r submap$Weight.Change[1]` kg. If you didn't loose weight during the study, but your average intake was well below your estimated energy needs, it's possible that you slightly under-reported your dietary intake. 
+                                
+
+Based on your height, weight, gender, age, and self-reported activity level you need approximately  `r signif(submap$TEE[1], 2)` kcal per day to maintain your current weight. During the study your weight change was `r submap$Weight.Change[1]` kg. If you didn't loose weight during the study, but your average intake was well below your estimated energy needs, it's possible that you slightly under-reported your dietary intake. 
 
 ##Figure 1:
 ```{r, echo = FALSE, warning=FALSE, message=FALSE, fig.height=2.5, fig.width=6, fig.align="center"}
@@ -127,7 +125,7 @@ p + guides(fill=F) +
 
 ```
 
-**Figure 2** shows your fiber intake each day throughout the study. You had an average fiber consumption of `r signif(mean(subnutr$FIBE),2)` grams per day. The red line in this plot shows the recommended level of fiber consumption in grams, while the gold line shows your average daily fiber intake. The current recommendation for fiber intake is to consume 14g per 1000kcal. We calculated your fiber needs to be `r fiber_rec` grams per day.
+**Figure 2** shows your fiber intake each day throughout the study. You had an average fiber consumption of `r format(signif(mean(subnutr$FIBE),2),scientific=FALSE)` grams per day. The red line in this plot shows the recommended level of fiber consumption in grams, while the gold line shows your average daily fiber intake. The current recommendation for fiber intake is to consume 14g per 1000kcal. We calculated your fiber needs to be `r fiber_rec` grams per day.
 
 Fiber is an important energy source for the bacteria that live within your microbiome. Meeting the recommended intake of fiber may help to support a healthy microbiome. If your average fiber intake falls below the recommended intake level, you should consider increasing your intake of fiber by eating more fibrous vegetables and/or increasing your intake of whole grains.
 
@@ -454,6 +452,81 @@ plot_grid(Bact, Firm, Prot, Actin, nrow = 2, ncol = 2 )
 ```
 
 **Figure 7** shows the relative abundance of key phyla within your gut microbiome compared with the rest of subjects in the study. As with Figure 6, your points are shown outlined in black and are surrounded by the smaller ellipse. 
+
+
+\newpage
+
+##Figure 8
+```{r,fig.width=15, fig.height=15, echo=FALSE, warning = FALSE, message=FALSE}
+
+grad1<- c("#fee6ce", "#fdae6b", "#e6550d")
+grad2<- c("#deebf7", "#9ecae1", "#3182bd")
+grad3<- c("#e5f5e0", "#a1d99b", "#31a354")
+grad4<- c("#efedf5", "#bcbddc", "#756bb1")
+
+Bactr <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
+  geom_point(aes(fill = Bacteroides, color = ifelse(PCOA$UserName %in% id == TRUE, "you","z")),
+             alpha=1, pch = 21, size = 5) +
+  scale_fill_gradientn(colors = grad1) +
+  scale_color_manual(values = c("black", "dark grey")) +
+  #scale_shape_manual(values = shape_pal3) +
+  stat_ellipse(color = "dark grey", type = "norm", linetype = 2, level = 0.95) +
+  labs(title="Relative Abundance of Bacteroides ") +
+  guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
+  #guides(size = FALSE, fill = FALSE) +
+  theme_classic(base_family = "Helvetica") +                                                                      
+  theme(plot.title = element_text(size = 14, hjust = 0.5),
+        legend.position = "bottom")
+
+Para <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
+  geom_point(aes(fill =Parabacteroides, color = ifelse(PCOA$UserName %in% id == TRUE, "you","z")),
+             alpha=1, pch = 21, size = 5) +
+   scale_fill_gradientn(colors = grad2) +
+  scale_color_manual(values = c("black", "dark grey")) +
+  #scale_shape_manual(values = shape_pal3) +
+  stat_ellipse(color = "dark grey", type = "norm", linetype = 2, level = 0.95) +
+  labs(title="Relative Abundance of Parabacteroides") +
+  guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
+  #guides(size = FALSE, fill = FALSE) +
+  theme_classic(base_family = "Helvetica") +                                                                      
+  theme(plot.title = element_text(size = 14, hjust = 0.5),
+        legend.position = "bottom")
+
+Alis <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
+  geom_point(aes(fill = Alistipes, color = ifelse(PCOA$UserName %in% id == TRUE, "you","z")),
+             alpha=1, pch = 21, size = 5) +
+  scale_fill_gradientn(colors = grad3) +
+  scale_color_manual(values = c("black", "dark grey")) +
+  #scale_shape_manual(values = shape_pal3) +
+  stat_ellipse(color = "dark grey", type = "norm", linetype = 2, level = 0.95) +
+  labs(title="Relative Abundance of Alistipes ") +
+  guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
+  #guides(size = FALSE, fill = FALSE) +
+  theme_classic(base_family = "Helvetica") +                                                                      
+  theme(plot.title = element_text(size = 14, hjust = 0.5),
+        legend.position = "bottom")
+
+
+Prevo <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
+  geom_point(aes(fill = Prevotella, color = ifelse(PCOA$UserName %in% id == TRUE, "you","z")),
+             alpha=1, pch = 21, size = 5) +
+  scale_fill_gradientn(colors = grad4) +
+  scale_color_manual(values = c("black", "dark grey")) +
+  #scale_shape_manual(values = shape_pal3) +
+  stat_ellipse(color = "dark grey", type = "norm", linetype = 2, level = 0.95) +
+  labs(title="Relative Abundance of Prevotella") +
+  guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
+  #guides(size = FALSE, fill = FALSE) +
+  theme_classic(base_family = "Helvetica") +                                                                      
+  theme(plot.title = element_text(size = 14, hjust = 0.5),
+        legend.position = "bottom")
+
+
+plot_grid(Bactr, Para, Alis, Prevo, nrow = 2, ncol = 2 )
+
+```
+
+
 
 \newpage
 #Your blood draw data

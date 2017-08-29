@@ -52,7 +52,7 @@ for (id in unique(map$UserName)){
   subtaxaalpha <- taxa[(colnames(taxa) %in% submap[,"X.SampleID"])] #subtaxa variable used for alpha diversity
   betataxa<- staxa[(colnames(staxa) %in% map[,"X.SampleID"])] #Create table with just taxa and subjects
   betataxa <- t(betataxa) #transpose 
-  render(input = "lib/MCTS_pdf_mcb_6.14.Rmd",output_file = paste0('report.', id, '.pdf'),"pdf_document",
+  render(input = "lib/Legacy Version/MCTS_pdf_mcb_6.14.Rmd",output_file = paste0('report.', id, '.pdf'),"pdf_document",
          output_dir = "output/7.3.output") 
 }
 

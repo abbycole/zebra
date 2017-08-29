@@ -1,19 +1,14 @@
 ---
 output: pdf_document
+mainfont: Calibri
 fig_caption: true
 params: 
     set_title: "My Title!"
----
-
-
----
-title: `r "Microbiome Diet Study Participant Report"`
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 ---
 
 
 Thank you for participating in the Knights Lab citizen science project: The Microbiome Diet Study. Included in this report is some high-level information about your daily dietary intake and your daily microbiome variation. This report does not provide any medical advice and is not intended to be used to diagnose disease. If you have questions about your report, or you would like access to your raw data, please contact the study coordinator Abby Cole at cole0463@umn.edu
-
-
 
 
 Here are your average daily macronutrient nutritional intakes contrasted to recommended macronutrient nutritional intake levels:
