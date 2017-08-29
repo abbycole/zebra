@@ -467,7 +467,7 @@ grad4<- c("#efedf5", "#bcbddc", "#756bb1")
 Bactr <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
   geom_point(aes(fill = Bacteroides, color = ifelse(PCOA$UserName %in% id == TRUE, "you","z")),
              alpha=1, pch = 21, size = 5) +
-  scale_fill_gradientn(colors = grad1) +
+  #scale_fill_gradientn(colors = grad1) +
   scale_color_manual(values = c("black", "dark grey")) +
   #scale_shape_manual(values = shape_pal3) +
   stat_ellipse(color = "dark grey", type = "norm", linetype = 2, level = 0.95) +
@@ -481,7 +481,7 @@ Bactr <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
 Para <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
   geom_point(aes(fill =Parabacteroides, color = ifelse(PCOA$UserName %in% id == TRUE, "you","z")),
              alpha=1, pch = 21, size = 5) +
-   scale_fill_gradientn(colors = grad2) +
+  #scale_fill_gradientn(colors = grad2) +
   scale_color_manual(values = c("black", "dark grey")) +
   #scale_shape_manual(values = shape_pal3) +
   stat_ellipse(color = "dark grey", type = "norm", linetype = 2, level = 0.95) +
@@ -495,7 +495,7 @@ Para <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
 Alis <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
   geom_point(aes(fill = Alistipes, color = ifelse(PCOA$UserName %in% id == TRUE, "you","z")),
              alpha=1, pch = 21, size = 5) +
-  scale_fill_gradientn(colors = grad3) +
+  #scale_fill_gradientn(colors = grad3) +
   scale_color_manual(values = c("black", "dark grey")) +
   #scale_shape_manual(values = shape_pal3) +
   stat_ellipse(color = "dark grey", type = "norm", linetype = 2, level = 0.95) +
@@ -510,7 +510,7 @@ Alis <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
 Prevo <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
   geom_point(aes(fill = Prevotella, color = ifelse(PCOA$UserName %in% id == TRUE, "you","z")),
              alpha=1, pch = 21, size = 5) +
-  scale_fill_gradientn(colors = grad4) +
+  #scale_fill_gradientn(colors = grad4) +
   scale_color_manual(values = c("black", "dark grey")) +
   #scale_shape_manual(values = shape_pal3) +
   stat_ellipse(color = "dark grey", type = "norm", linetype = 2, level = 0.95) +

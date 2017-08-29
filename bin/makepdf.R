@@ -17,8 +17,8 @@ library(cowplot)
 ####Pre Processing####
 
 #set to working directory to project zebra directory
-#setwd("/Users/abby/Documents/Projects/zebra/")
-setwd("C:/Users/arzan/Desktop/Bioinformatics/MCT/GIT/zebra")
+setwd("/Users/abby/Documents/Projects/zebra/")
+#setwd("C:/Users/arzan/Desktop/Bioinformatics/MCT/GIT/zebra")
 
 #Read in sampleID and nutrition files and assign them to pertinent variables
 nutrition_table <- read.table("raw/Totals_to_use.txt", sep = "\t", header = TRUE, comment = "")
@@ -149,7 +149,7 @@ colnames(ptaxa) <- gsub(".*p__?", "", colnames(ptaxa))
 ptaxa <- as.data.frame(ptaxa)
 ptaxa <- rownames_to_column(ptaxa, "X.SampleID")
 
-###species level taxa ###
+###genus level taxa ###
 gtaxa = taxa
 splitg <- strsplit(rownames(gtaxa),";")                               # Split and rejoin on lv7
 gtaxaStrings <- sapply(splitg,function(x) paste(x[1:6],collapse=";")) # level 7 is species, 8 is strain
@@ -165,8 +165,15 @@ gtaxa <- t(gtaxa)
 colnames(gtaxa) <- gsub(".*;g__?", "", colnames(gtaxa))
 colnames(gtaxa) <- gsub("_", "", colnames(gtaxa))
 colnames(gtaxa) <- gsub(";.*","",colnames(gtaxa))
+
+myrownames <- rownames(gtaxa)
+
+gtaxa <- apply(gtaxa, 2, function(x) cut(x, 20))
+rownames(gtaxa) <- myrownames
+
 gtaxa <- as.data.frame(gtaxa)
 gtaxa <- rownames_to_column(gtaxa, "X.SampleID")
+
 
 ###Instantiate Plots###
 
@@ -177,7 +184,7 @@ colnames(map)[3] <- "StudyDayNo" #Change col name from StudyDayNo.x to StudyDayN
 map <- left_join(map,ptaxa)
 
 # add realative abundace of species taxa to the map for plotting
-map <- left_join(map,gtaxa)
+map <- left_join(map,gtaxa, by = "X.SampleID")
 
 
 
