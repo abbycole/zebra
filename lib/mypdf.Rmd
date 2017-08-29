@@ -1,12 +1,17 @@
 ---
-output: pdf_document
+output: 
+  pdf_document: 
+    latex_engine: xelatex
+mainfont: Calibri
 fig_caption: true
 params: 
     set_title: "My Title!"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 ---
 ---
-title: `r id`
+title: "Microbiome Diet Study Participant Report `r id`"
 ---
+
 
 
 Thank you for participating in the Knights Lab's citizen science project! 
