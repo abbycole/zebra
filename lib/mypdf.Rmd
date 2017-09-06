@@ -16,7 +16,7 @@ title: "Microbiome Diet Study Participant Report `r id`"
 
 Thank you for participating in the Knights Lab's citizen science project! 
 
-We have made you a personalized report from your samples and dietary data. Included in this report is information about your daily dietary intake and your daily microbiome variation. This report is not intended to provide medical advice or to be used to diagnose or treat disease. If you have any questions about your report, or you would like access to your raw sequence data, please contact the study coordinator Abby at cole0463@umn.edu.
+We have made you a personalized report from your samples and dietary data. Included in this report is information about your daily dietary intake and your daily microbiome variation. This report is not intended to provide medical advice or to be used to diagnose or treat disease. If you have any questions about your report, or you would like access to your raw sequence data, please contact the study coordinator and registered dietitian Abby Johnson, PhD, RDN, at cole0463@umn.edu or the study PI, Dan Knights, PhD at dknights@umn.edu.
 
 #Your Dietary Intake Data
 
@@ -405,90 +405,58 @@ cc <- scales::seq_gradient_pal("blue", "red", "Lab")(seq(0,1,length.out=20))
 Bactr <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
   geom_point(aes(fill = Bacteroides, color = ifelse(PCOA$UserName %in% id == TRUE, "you","z")),
              alpha=1, pch = 21, size = 5) +
-  scale_fill_manual(values = colpal, guides(fill=FALSE)) +
-   #scale_fill_gradient(name = "category", low = "blue", high = "red")+
-   scale_color_manual(values = c("black", "dark grey"), guides(fill=FALSE)) +
-  #scale_shape_manual(values = shape_pal3) +
+  scale_fill_manual(values = colpal, guides(fill="")) +
+  scale_color_manual(values = c("black", "dark grey")) +
   stat_ellipse(color = "dark grey", type = "norm", linetype = 2, level = 0.95) +
-  labs(title="Relative Abundance of Bacteroides ") +
-  #guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
-  #guides(size = FALSE, fill = FALSE) +
+  labs(title="Relative Abundance of Prevotella ") +
+  guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
   theme_classic(base_family = "Helvetica") +                                                                      
   theme(plot.title = element_text(size = 14, hjust = 0.5),
-        legend.position = "none")
+        legend.position = "bottom") 
 
 Para <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
-  geom_point(aes(fill =Parabacteroides, color = ifelse(PCOA$UserName %in% id == TRUE, "you","z")),
+  geom_point(aes(fill = Parabacteroides, color = ifelse(PCOA$UserName %in% id == TRUE, "you","z")),
              alpha=1, pch = 21, size = 5) +
-  # scale_fill_manual(values = colpal, guide_colorbar(direction = "horizontal")) +
-     scale_fill_manual(values = colpal, guides(fill=FALSE)) +
-   scale_color_manual(values = c("black", "dark grey"), guides(fill=FALSE)) +
-  #scale_shape_manual(values = shape_pal3) +
+  scale_fill_manual(values = colpal, guides(fill="")) +
+  scale_color_manual(values = c("black", "dark grey")) +
   stat_ellipse(color = "dark grey", type = "norm", linetype = 2, level = 0.95) +
-  labs(title="Relative Abundance of Parabacteroides") +
-  #guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
-  #guides(size = FALSE, fill = FALSE) +
+  labs(title="Relative Abundance of Parabacteriodes") +
+  guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
   theme_classic(base_family = "Helvetica") +                                                                      
   theme(plot.title = element_text(size = 14, hjust = 0.5),
-        legend.position = "none")
+        legend.position = "bottom") 
 
 Alis <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
   geom_point(aes(fill = Alistipes, color = ifelse(PCOA$UserName %in% id == TRUE, "you","z")),
              alpha=1, pch = 21, size = 5) +
-   #scale_fill_manual(values = colpal, guide_colorbar(direction = "horizontal")) +
-     scale_fill_manual(values = colpal, guides(fill=FALSE)) +
-   scale_color_manual(values = c("black", "dark grey"), guides(fill=FALSE)) +
-  #scale_shape_manual(values = shape_pal3) +
+  scale_fill_manual(values = colpal, guides(fill="")) +
+  scale_color_manual(values = c("black", "dark grey")) +
   stat_ellipse(color = "dark grey", type = "norm", linetype = 2, level = 0.95) +
-  labs(title="Relative Abundance of Alistipes ") +
-  #guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
-  #guides(size = FALSE, fill = FALSE) +
+  labs(title="Relative Abundance of Alstipes") +
+  guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
   theme_classic(base_family = "Helvetica") +                                                                      
   theme(plot.title = element_text(size = 14, hjust = 0.5),
-        legend.position = "none")
+        legend.position = "bottom") 
 
 
 Prevo <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
   geom_point(aes(fill = Prevotella, color = ifelse(PCOA$UserName %in% id == TRUE, "you","z")),
              alpha=1, pch = 21, size = 5) +
-  scale_fill_manual(values = colpal, guide_colorbar(direction = "horizontal")) +
-  #scale_fill_manual(values = colpal, guides(fill=FALSE)) +
-   scale_color_manual(values = c("black", "dark grey"), guides(fill=FALSE)) +
-  #scale_shape_manual(values = shape_pal3) +
+  scale_fill_manual(values = colpal, guides(fill="")) +
+  scale_color_manual(values = c("black", "dark grey")) +
   stat_ellipse(color = "dark grey", type = "norm", linetype = 2, level = 0.95) +
   labs(title="Relative Abundance of Prevotella") +
-  #guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
-  #guides(size = FALSE, fill = FALSE) +
+  guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
   theme_classic(base_family = "Helvetica") +                                                                      
-  theme(plot.title = element_text(size = 14, hjust = 0.5) ,
-        legend.position = "none") 
-
-
+  theme(plot.title = element_text(size = 14, hjust = 0.5),
+        legend.position = "bottom") 
 
 
 plot_grid(Bactr, Para, Alis, Prevo, nrow = 2, ncol = 2 )
 
 ```
 
-```{r legend}
-# Function to plot color bar
-color.bar <- function(lut, min, max=-min, nticks=11, ticks=seq(min, max, len=nticks), title='') {
-    scale = (length(lut)-1)/(max-min)
-    dev.new(width=1.75, height=5)
-    plot(c(0,10), c(min, max), type='n', bty='n', xaxt='n', xlab='', yaxt='n', ylab='', main=title)
-    axis(2, ticks, las=1)
-    for (i in 1:(length(lut)-1)) {
-     y = (i-1)/scale + min
-     rect(0,y,10,y+1/scale, col=lut[i], border=NA)
-    }
-}
-
-color.bar(colpal, min = 0, max = 100)
-
-```
-
-**Figure 7** shows the relative abundance of key bacterial genera within your gut microbiome compared with the rest of subjects in the study. As with Figure 6, your points are shown outlined in black and are surrounded by the smaller ellipse. The rainbow colors indicate relative abundance of that genus in your samples. Dark red indicates low abundance while dark blue indicates high abundance.
-
+**Figure 7** shows the relative abundance of key bacterial genera within your gut microbiome compared with the rest of subjects in the study. As with Figure 6, your points are shown outlined in black and are surrounded by the smaller ellipse. The rainbow colors indicate relative abundance of that genus in your samples. Dark red indicates low abundance while dark blue indicates high abundance. The exact abundance ranges for each color are specified in the legend below each plot.
 
 
 \newpage
