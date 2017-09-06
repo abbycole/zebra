@@ -168,7 +168,7 @@ colnames(gtaxa) <- gsub(";.*","",colnames(gtaxa))
 
 myrownames <- rownames(gtaxa)
 
-gtaxa <- apply(gtaxa, 2, function(x) cut(x,20))
+gtaxa <- apply(gtaxa, 2, function(x) cut(x, breaks = seq(0, max(x), length.out = 15)))
 
 rownames(gtaxa) <- myrownames
 

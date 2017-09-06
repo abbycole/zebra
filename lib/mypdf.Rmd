@@ -397,7 +397,7 @@ grad3<- c("#e5f5e0", "#a1d99b", "#31a354")
 grad4<- c("#efedf5", "#bcbddc", "#756bb1")
 
 #colpal<- colorRampPalette(brewer.pal(9,"YlOrRd"))(20) #color progression
-colpal<- colorRampPalette(brewer.pal(11,"Spectral"))(20) #spectral progression
+colpal<- colorRampPalette(brewer.pal(11,"Spectral"))(15) #spectral progression
 
 cc <- scales::seq_gradient_pal("blue", "red", "Lab")(seq(0,1,length.out=20))
 #colpal<- sample(colpal(length(unique(PCOA$UserName))))
