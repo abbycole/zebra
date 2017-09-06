@@ -396,8 +396,8 @@ grad2<- c("#deebf7", "#9ecae1", "#3182bd")
 grad3<- c("#e5f5e0", "#a1d99b", "#31a354")
 grad4<- c("#efedf5", "#bcbddc", "#756bb1")
 
-colpal<- colorRampPalette(brewer.pal(9,"YlOrRd"))(20) #color progression
-#colpal<- colorRampPalette(brewer.pal(11,"Spectral"))(20) #spectral progression
+#colpal<- colorRampPalette(brewer.pal(9,"YlOrRd"))(20) #color progression
+colpal<- colorRampPalette(brewer.pal(11,"Spectral"))(20) #spectral progression
 
 cc <- scales::seq_gradient_pal("blue", "red", "Lab")(seq(0,1,length.out=20))
 #colpal<- sample(colpal(length(unique(PCOA$UserName))))
@@ -417,7 +417,7 @@ Bactr <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
   theme(plot.title = element_text(size = 14, hjust = 0.5),
         legend.position = "none")
 
-Para <- ggplot(PCOA, aes(x = PC2, y = PC3, group = User)) +
+Para <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
   geom_point(aes(fill =Parabacteroides, color = ifelse(PCOA$UserName %in% id == TRUE, "you","z")),
              alpha=1, pch = 21, size = 5) +
   # scale_fill_manual(values = colpal, guide_colorbar(direction = "horizontal")) +
@@ -451,17 +451,17 @@ Alis <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
 Prevo <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
   geom_point(aes(fill = Prevotella, color = ifelse(PCOA$UserName %in% id == TRUE, "you","z")),
              alpha=1, pch = 21, size = 5) +
-  #scale_fill_manual(values = colpal, guide_colorbar(direction = "horizontal")) +
-    scale_fill_manual(values = colpal, guides(fill=FALSE)) +
+  scale_fill_manual(values = colpal, guide_colorbar(direction = "horizontal")) +
+  #scale_fill_manual(values = colpal, guides(fill=FALSE)) +
    scale_color_manual(values = c("black", "dark grey"), guides(fill=FALSE)) +
   #scale_shape_manual(values = shape_pal3) +
   stat_ellipse(color = "dark grey", type = "norm", linetype = 2, level = 0.95) +
   labs(title="Relative Abundance of Prevotella") +
- # guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
+  #guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
   #guides(size = FALSE, fill = FALSE) +
   theme_classic(base_family = "Helvetica") +                                                                      
   theme(plot.title = element_text(size = 14, hjust = 0.5) ,
-        legend.position = "none")
+        legend.position = "none") 
 
 
 
@@ -469,7 +469,25 @@ Prevo <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
 plot_grid(Bactr, Para, Alis, Prevo, nrow = 2, ncol = 2 )
 
 ```
-**Figure 7** shows the relative abundance of key bacterial genera within your gut microbiome compared with the rest of subjects in the study. As with Figure 6, your points are shown outlined in black and are surrounded by the smaller ellipse. Darker color points are indicative of samples that have a higher relative abundance of the bacterial genus being examined.
+
+```{r legend}
+# Function to plot color bar
+color.bar <- function(lut, min, max=-min, nticks=11, ticks=seq(min, max, len=nticks), title='') {
+    scale = (length(lut)-1)/(max-min)
+    dev.new(width=1.75, height=5)
+    plot(c(0,10), c(min, max), type='n', bty='n', xaxt='n', xlab='', yaxt='n', ylab='', main=title)
+    axis(2, ticks, las=1)
+    for (i in 1:(length(lut)-1)) {
+     y = (i-1)/scale + min
+     rect(0,y,10,y+1/scale, col=lut[i], border=NA)
+    }
+}
+
+color.bar(colpal, min = 0, max = 100)
+
+```
+
+**Figure 7** shows the relative abundance of key bacterial genera within your gut microbiome compared with the rest of subjects in the study. As with Figure 6, your points are shown outlined in black and are surrounded by the smaller ellipse. The rainbow colors indicate relative abundance of that genus in your samples. Dark red indicates low abundance while dark blue indicates high abundance.
 
 
 
