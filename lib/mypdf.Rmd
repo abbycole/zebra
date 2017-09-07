@@ -398,6 +398,7 @@ grad4<- c("#efedf5", "#bcbddc", "#756bb1")
 
 #colpal<- colorRampPalette(brewer.pal(9,"YlOrRd"))(20) #color progression
 colpal<- colorRampPalette(brewer.pal(11,"Spectral"))(15) #spectral progression
+colpal <- rev(colpal)
 
 cc <- scales::seq_gradient_pal("blue", "red", "Lab")(seq(0,1,length.out=20))
 #colpal<- sample(colpal(length(unique(PCOA$UserName))))
@@ -408,7 +409,7 @@ Bactr <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
   scale_fill_manual(values = colpal, guides(fill="")) +
   scale_color_manual(values = c("black", "dark grey")) +
   stat_ellipse(color = "dark grey", type = "norm", linetype = 2, level = 0.95) +
-  labs(title="Relative Abundance of Prevotella ") +
+  labs(title="Relative Abundance of Bacteroides") +
   guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
   theme_classic(base_family = "Helvetica") +                                                                      
   theme(plot.title = element_text(size = 14, hjust = 0.5),
@@ -432,7 +433,7 @@ Alis <- ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
   scale_fill_manual(values = colpal, guides(fill="")) +
   scale_color_manual(values = c("black", "dark grey")) +
   stat_ellipse(color = "dark grey", type = "norm", linetype = 2, level = 0.95) +
-  labs(title="Relative Abundance of Alstipes") +
+  labs(title="Relative Abundance of Alistipes") +
   guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
   theme_classic(base_family = "Helvetica") +                                                                      
   theme(plot.title = element_text(size = 14, hjust = 0.5),

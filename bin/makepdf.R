@@ -199,9 +199,7 @@ for (id in unique(map$UserName)){
   subtaxa <- subtaxa[order(rowMeans(subtaxa), decreasing = TRUE),]
   subtaxasp <- setDT(subtaxa, keep.rownames=TRUE) #make rownames first column of frame
   
-  
   #food iteration
-  
   macro_totals <-  round(mean(subnutr$PROT),2) +  round(mean(subnutr$TFAT),2) + round(mean(subnutr$CARB),2)
   sub_foodmap <- merged_food[merged_food$UserName == id,] #sub food variable allows us to access one subject at a time (like submap)
   sub_food <- food_map[(colnames(food_map) %in% sub_foodmap[,"variable"])]#sub food variable looks at each subject individually
