@@ -310,7 +310,7 @@ betad<-vegdist(betataxa, method="bray", binary=FALSE, diag=FALSE, upper=FALSE,
         na.rm = FALSE) 
 
 #betad as matrix 
-betad <- as.matrix(dist(betad))
+betad <- as.matrix(as.dist(betad))
 
 #column name is "IDs"
 IDs <-colnames(betad)
