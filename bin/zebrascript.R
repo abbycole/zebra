@@ -2,59 +2,21 @@
 
 ####Initiation of Script####
 
-#require(cowplot)
 
-if (!require("optparse")) {
-  install.packages("optparse", repos="http://cran.rstudio.com/") 
-  library("optparse")
-}
-if(!require("cowplot")){ 
-  install.packages("cowplot", repos="http://cran.rstudio.com/");
-  library("cowplot")} 
-if(!require(installr)){ 
-  install.packages("installr", repos="http://cran.rstudio.com/");
-  library("installr")} 
-#install.pandoc()
-if (!require("dplyr")) {
-  install.packages("dplyr", repos="http://cran.rstudio.com/") 
-  library("dplyr")
-}
-if (!require("ggplot2")) {
-  install.packages("ggplot2", repos="http://cran.rstudio.com/") 
-  library("ggplot2")
-}
-if (!require("tibble")) {
-  install.packages("tibble", repos="http://cran.rstudio.com/") 
-  library("tibble")
-}
-if (!require("reshape2")) {
-  install.packages("reshape2", repos="http://cran.rstudio.com/") 
-  library("reshape2")
-}
-if (!require("RColorBrewer")) {
-  install.packages("RColorBrewer", repos="http://cran.rstudio.com/") 
-  library("RColorBrewer")
-}
-if (!require("vegan")) {
-  install.packages("vegan", repos="http://cran.rstudio.com/") 
-  library("vegan")
-}
-if (!require("ape")) {
-  install.packages("ape", repos="http://cran.rstudio.com/") 
-  library("ape")
-}
-if (!require("data.table")) {
-  install.packages("data.table", repos="http://cran.rstudio.com/") 
-  library("data.table")
-}
-if (!require("knitr")) {
-  install.packages("knitr", repos="http://cran.rstudio.com/") 
-  library("knitr")
-}
-if (!require("rmarkdown")) {
-  install.packages("rmarkdown", repos="http://cran.rstudio.com/") 
-  library("rmarkdown")
-}
+suppressPackageStartupMessages(require(optparse))
+suppressPackageStartupMessages(require(dplyr))
+suppressPackageStartupMessages(require(cowplot))
+suppressPackageStartupMessages(require(installr))
+suppressPackageStartupMessages(require(ggplot2))
+suppressPackageStartupMessages(require(RColorBrewer))
+suppressPackageStartupMessages(require(reshape2))
+suppressPackageStartupMessages(require(vegan))
+suppressPackageStartupMessages(require(ape))
+suppressPackageStartupMessages(require(data.table))
+suppressPackageStartupMessages(require(knitr))
+suppressPackageStartupMessages(require(rmarkdown))
+suppressPackageStartupMessages(require(tibble))
+
 
 usage = '\n Welcome to the zebrascript, more coming!' 
 
