@@ -3,6 +3,35 @@ title: "script_html"
 output: html_document
 ---
 
+```{r setup, echo=FALSE}
+
+
+if(is.na(food_map)== "TRUE"){
+  food_eval <- FALSE #if var food_map is not instantiated (thus NA), we set the eval to false 
+} else {
+  food_eval <- TRUE
+}
+
+if(is.na(taxa_table)== "TRUE"){
+  taxa_eval <- FALSE #if var taxa_table is not instantiated (thus NA), we set the eval to false 
+} else {
+  taxa_eval <- TRUE
+}
+
+if(is.na(nutrition_table)== "TRUE"){
+  nutr_eval <- FALSE #if var nutrition_table is not instantiated (thus NA), we set the eval to false 
+} else {
+  nutr_eval <- TRUE
+}
+
+if(is.na(user_map)== "TRUE"){
+  user_eval <- FALSE #if var user_map is not instantiated (thus NA), we set the eval to false 
+} else {
+  user_eval <- TRUE
+}
+
+
+```
 
 
 Thank you for participating in the Knights Lab's citizen science project! 
@@ -13,6 +42,8 @@ We have made you a personalized report from your samples and dietary data. Inclu
 
 This first table and Figure 1 below show your average macronutrient intake as a percentage of calories and the typical macronutrient intake ranges for US adults:
 
+
+
 | Type                | Average Macronutrient Intake                               | Typical Intake Range        |
 |---------------------|------------------------------------------------------------:|-----------------------------:|
 | CALORIES (kcal)     | `r round(mean(subnutr$KCAL),2)`                            |   1800 - 3200               |
@@ -20,12 +51,12 @@ This first table and Figure 1 below show your average macronutrient intake as a 
 | TOTAL FAT (%)       | `r round((mean(subnutr$TFAT)/macro_totals)*100,2)`%        |   20 - 35%                  |  
 | CARBS (%)           | `r round((mean(subnutr$CARB)/macro_totals)*100,2)`%        |   45 - 65%                  |   
 
-                                
+                           
 
 Based on your height, weight, gender, age, and self-reported activity level you need approximately  `r signif(submap$TEE[1], 2)` kcal per day to maintain your current weight. During the study your weight change was `r submap$Weight.Change[1]` kg. If you didn't loose weight during the study, but your average intake was well below your estimated energy needs, it's possible that you slightly under-reported your dietary intake. 
 
 ##Figure 1:
-```{r, echo = FALSE, warning=FALSE, message=FALSE, fig.height=2.5, fig.width=6, fig.align="center"}
+```{r, echo = FALSE, eval=nutr_eval, warning=FALSE, message=FALSE, fig.height=2.5, fig.width=6, fig.align="center"}
 
 
 long_plot <- subnutr %>% select(X.SampleID, KCAL, PROT, TFAT, CARB, UserName)
@@ -93,7 +124,7 @@ If your intake of a vitamin or mineral falls below the recommended level for you
 
 \newpage
 ##Figure 2:
-```{r, warning=FALSE, message=FALSE, echo=FALSE, fig.width=7}
+```{r, warning=FALSE, eval=nutr_eval, message=FALSE, echo=FALSE, fig.width=7}
 
 #instantiate color brewer and axis tick mark amounts
 colpal<- colorRampPalette(brewer.pal(9,"Set3"))(37)
@@ -127,7 +158,7 @@ Fiber is an important energy source for the bacteria that live within your micro
 
 
 ##Figure 3:
-```{r, warning=FALSE, message=FALSE, echo=FALSE}
+```{r, warning=FALSE, eval=food_eval, message=FALSE, echo=FALSE}
 
 # make ggplot bar chart of top 10 most abundant species per day
 #melt sub_foodsp to get our dataframe in the long format for future usage (differs from melted_food)
@@ -189,7 +220,7 @@ We sequenced the DNA of the microbes that live within your gut from the daily st
 
 
 ##Figure 4:
-```{r, warning=FALSE, message=FALSE, echo=FALSE}
+```{r, warning=FALSE, eval=taxa_eval, message=FALSE, echo=FALSE}
 # make ggplot bar chart of top 10 most abundant species per day
   
 #melt subtaxasp to get our dataframe in the long format for future usage
@@ -243,7 +274,7 @@ ggplot(mergedf, aes(x = StudyDayNo, y = newvalue, fill = rn)) +
 
 
 ##Figure 5:
-```{r, warning=FALSE, message=FALSE, echo=FALSE, fig.width=6.5} 
+```{r, warning=FALSE, eval=taxa_eval, message=FALSE, echo=FALSE, fig.width=6.5} 
  #transpose
    subtaxaalpha <- t(subtaxaalpha)
    taxalpha <- t(taxalpha)
@@ -294,7 +325,7 @@ ggplot(merged_alpha, aes(x=StudyDayNo, y=alphad)) +
 \newpage
 ##Figure 6:
 
-```{r,fig.width=10, fig.height=10, echo=FALSE, warning = FALSE, message=FALSE}
+```{r,fig.width=10, fig.height=10, echo=FALSE, eval= taxa_eval, warning = FALSE, message=FALSE}
 #create PCOA plot of beta diversities of pertinent subjects
 
 betad<-vegdist(betataxa, method="bray", binary=FALSE, diag=FALSE, upper=FALSE,
@@ -380,7 +411,7 @@ The points corresponding to your microbiome are outlined in black and are highli
 \newpage
 
 ##Figure 7
-```{r,fig.width=15, fig.height=15, echo=FALSE, warning = FALSE, message=FALSE}
+```{r,fig.width=15, fig.height=15, echo=FALSE, eval= taxa_eval, warning = FALSE, message=FALSE}
 
 grad1<- c("#FFFFCC", "#FFF7B9","#FFEFA6","#FEE794","#FEDF83","#FED471","#FEC45F","#FEB44E","#FDA446","#FD943F","#FC7F38","#FC6530","#FA4B29","#F03523","#E51F1D","#D7111F","#C70623","#B30026","#990026","#800026")
 grad2<- c("#deebf7", "#9ecae1", "#3182bd")
@@ -448,7 +479,7 @@ plot_grid(Bactr, Para, Alis, Prevo, nrow = 2, ncol = 2 )
 
 ```
 
-**Figure 7** shows the relative abundance of key bacterial genera within your gut microbiome compared with the rest of subjects in the study. As with Figure 6, your points are shown outlined in black and are surrounded by the smaller ellipse. The rainbow colors indicate relative abundance of that genus in your samples. Dark red indicates low abundance while dark blue indicates high abundance. The exact abundance ranges for each color are specified in the legend below each plot.
+d
 
 
 \newpage

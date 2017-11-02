@@ -43,8 +43,13 @@ option_list = list(
   make_option(c('-f', '--food_map'),
               help='REQUIRED: Input is the food map, a long-form tab-delimited table
               prefiltered for missing values',
-              default=NA, type = 'character')
-)
+              default=NA, type = 'character'))   
+  
+ # add_option(c('-am', '--alpha_metric')),
+             #type = 'choice',
+             #options = c('shannon','chao1'),
+             #default = 'shannon',
+             #help = 'Choose alpha diversity metric - shannon, chao1'))
 
 opt <- parse_args(OptionParser(usage=usage, option_list=option_list))
 
@@ -58,15 +63,11 @@ taxa_table <- opt$taxa_table
 nutrition_table <- opt$nutr_table
 user_map <- opt$user_map
 food_map <- opt$food_map
+#alpa_metric <- opt$alpha_metric
 
 ##### Read data provided in to pertinent tables ####
 df<- read.table(file= infile, sep = "\t", header = TRUE, comment = "")
-taxa <- read.delim(file=taxa_table, row =1)
-nutrition_table <- read.table(file=nutrition_table, sep = "\t", header = TRUE, comment = "")
-UserName_map <- read.table(file=user_map, sep = "\t", header = TRUE, comment = "")
-food_map <-  read.table(file=food_map, sep = "\t", header = TRUE, comment = "")
-
-
+UserName_map <- read.table("../raw/UserName_map.txt", sep = "\t", header = TRUE, comment = "")
 ####Mapping File set up####
 
 # designate as the SampleID map
@@ -85,19 +86,24 @@ map <- SampleID_map %>% mutate(REE = ifelse(Gender=="M", (10*Weight+6.25*Height-
 map$StudyDayNo <- as.factor(map$StudyDayNo)
 
 
-####Nutrition Table Set up####
 
+####Nutrition Table Set up####
+if(is.na(nutrition_table)==FALSE){  #nutrition_table 
+  
+nutrition_table <- read.table(file=nutrition_table, sep = "\t", header = TRUE, comment = "")
 #Remove outlier nutr variables
 outliers = c("MCT.f.0021", "MCT.f.0044", "MCT.f.0050", "MCT.f.0056", "MCT.f.0058", "MCT.f.0060", "MCT.f.0076", "MCT.f.0116", "MCT.f.0465", "MCT.f.0486", "MCT.f.0601")
 nutrition_table <- nutrition_table[!(nutrition_table$X.SampleID %in% outliers),]
-
-
-
-
+} else {
+  print("Nutrition Table not provided. Pertinent nutrition analyses will not be included in the report.")
+}
 
 
 #### Food Map Set Up ####
 
+if(is.na(food_map)==FALSE){ #food table evaluator
+  
+food_map <-  read.table(file=food_map, sep = "\t", header = TRUE, comment = "")
 rownames(food_map) <- food_map$taxonomy
 
 #remove the taxonomy string column and the food names column (redundant)
@@ -127,15 +133,18 @@ merged_food<- merge(x=melted_food, y=map, by.x = "variable", by.y= "X.SampleID",
 
 colnames(merged_food)[3] <- "UserName" #Change col name from UserName.x to UserName - compatibility purposes
 colnames(merged_food)[4] <- "StudyDayNo" #Change col name from StudyDayNo.x to StudyDayNo - compatibility purposes
-
-
-
-
+} else {
+  print("Food mapping file not provided - report will exclude pertinent food data")
+}
 
 
 #### Taxa Table Set up ####
 
-### Summarizing ###
+if(is.na(taxa_table)==FALSE){ #evaluator
+  
+taxa <- read.delim(file=taxa_table, row =1)
+  
+    ### Summarizing ###
 split <- strsplit(rownames(taxa),";")                               # Split and rejoin on lv7
 taxaStrings <- sapply(split,function(x) paste(x[1:7],collapse=";")) # level 7 is species, 8 is strain
 taxa <- rowsum(taxa,taxaStrings)                                    # Collapse by taxonomy name
@@ -185,41 +194,49 @@ colnames(map)[3] <- "StudyDayNo" #Change col name from StudyDayNo.x to StudyDayN
 
 # add relative abundace of species taxa to the map for plotting
 map <- left_join(map,gtaxa, by = "X.SampleID")
-
-
-#### UserName Map set up ####
-
-
-
-
-####test####
+} else {
+  print("Taxa table not provided. Pertinent taxa analyses will not be included in the report.")
+}
 
 for (id in unique(map$UserName)){
   
-  #microbiome iteration
+  #mapping
   submap <- map[map$UserName == id,] #create submap variable we can use to iterate through 
-  subnutr <- nutrition_table[nutrition_table$UserName == id,]
-  subtaxa <- staxa[(colnames(staxa) %in% submap[,"X.SampleID"])] #create subtaxa variable - looks at each subject individually
-  # sort the subtaxa df by abundance
-  subtaxa <- subtaxa[order(rowMeans(subtaxa), decreasing = TRUE),]
-  subtaxasp <- setDT(subtaxa, keep.rownames=TRUE) #make rownames first column of frame
   
-  #food iteration
+  #nutrition iteration
+  if(is.na(nutrition_table)==FALSE){ #evaluator
+  subnutr <- nutrition_table[nutrition_table$UserName == id,]
   macro_totals <-  round(mean(subnutr$PROT),2) +  round(mean(subnutr$TFAT),2) + round(mean(subnutr$CARB),2)
+  } else (
+    return(NULL)
+  )
+  
+  #food iteration#
+  if(is.na(food_map)==FALSE){ #evaluator
   sub_foodmap <- merged_food[merged_food$UserName == id,] #sub food variable allows us to access one subject at a time (like submap)
   sub_food <- food_map[(colnames(food_map) %in% sub_foodmap[,"variable"])]#sub food variable looks at each subject individually
   sub_foodsp <- setDT(sub_food, keep.rownames = TRUE) #make rownames first column of frame
+  } else {
+    print("Mission Failed")
+  }
   
+  #taxa iteration#
+  if(is.na(taxa_table)==FALSE){ #evaluator
+  subtaxa <- staxa[(colnames(staxa) %in% submap[,"X.SampleID"])] #create subtaxa variable - looks at each subject individually
+  subtaxa <- subtaxa[order(rowMeans(subtaxa), decreasing = TRUE),]# sort the subtaxa df by abundance
+  subtaxasp <- setDT(subtaxa, keep.rownames=TRUE) #make rownames first column of frame
   #alpha diversity iteration
   subtaxaalpha <- taxa[(colnames(taxa) %in% submap[,"X.SampleID"])] #subtaxa variable used for alpha diversity
   taxalpha <- taxa[(colnames(taxa) %in% map[,"X.SampleID"])] #matrix utilized to calculate study average alpha div.
-  
   #beta diversity iteration
   betataxa<- staxa[(colnames(staxa) %in% map[,"X.SampleID"])] #Create table with just taxa and subjects
   betataxa <- t(betataxa) #transpose 
-  
-  #blood draw values
-  subblood <- UserName_map[UserName_map$UserName == id,]
+  } else {
+    print("Mission Failed")
+  }
+ 
+  #blood iteration#
+  subblood <- UserName_map[UserName_map$UserName == id,] #blood draw values
   
   #rendering
   render(input = "../lib/scripthtml.Rmd",output_file = paste0('report.', id, '.html'),"html_document",
