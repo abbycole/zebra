@@ -91,7 +91,7 @@ Based on your height, weight, gender, age, and self-reported activity level you 
 <br>
 
 
-```{r, echo = FALSE, eval=nutr_eval,warning=FALSE, message=FALSE, fig.height=2.5, fig.width=6, fig.align="center", fig.cap=captions[[2]]}
+```{r, echo = FALSE, eval=nutr_eval,warning=FALSE, message=FALSE, fig.height=6, fig.width=6, fig.align="center", fig.cap=captions[[2]]}
     
 
 
@@ -167,7 +167,7 @@ If your intake of a vitamin or mineral falls below the recommended level for you
 \newpage
 <br>
 
-```{r, warning=FALSE,eval=nutr_eval, message=FALSE, echo=FALSE, fig.width=7, fig.cap=captions[[3]]}
+```{r, warning=FALSE,eval=nutr_eval, message=FALSE, echo=FALSE, fig.width=6.5, fig.height=6.5, fig.cap=captions[[3]]}
  #
 
 #Study average for individual's fiber intake
@@ -207,9 +207,7 @@ p + guides(fill=F) +
 \newpage
 <br>
 
-```{r, warning=FALSE, eval=food_eval,  message=FALSE, echo=FALSE, fig.cap=captions[[4]]}
-
-g
+```{r, warning=FALSE, eval=food_eval,  message=FALSE, echo=FALSE,fig.width=7,fig.height=7, fig.cap=captions[[4]]}
 
 # make ggplot bar chart of top 10 most abundant species per day
 #melt sub_foodsp to get our dataframe in the long format for future usage (differs from melted_food)
@@ -269,11 +267,11 @@ ggplot(merge_food, aes(x = StudyDayNo, y = value, fill = rn)) +
 
 The next series of plots show information about the composition of your microbiome.  
 
-We sequenced the DNA of the microbes that live within your gut from the daily stool samples you provided. We used a type of sequencing called Shallow-shotgun sequencing coupled with programs developed in the Knights's lab to identify the species of bacteria that live inside you.
+We sequenced the DNA of the microbes that live within your gut from the daily stool samples you provided. We used a type of sequencing called Shallow-shotgun sequencing coupled with programs developed in the Knights's lab to identify the species of bacteria that live inside you. If you do not see any plots or information here, it is likely that you have either not provided the pertinent data or have incorrectly submitted it.
 
 \newpage
 <br>
-```{r, warning=FALSE,eval=taxa_eval, message=FALSE, echo=FALSE, fig.cap=captions[[5]]}
+```{r, warning=FALSE,eval=taxa_eval, message=FALSE, echo=FALSE,fig.width=15, fig.height=15, fig.cap=captions[[5]]}
 #
 fc4 <- paste("Figure 4 shows the most abundant bacterial species within your gut per each day of the study. The <2.5% abundance column represents a sum of bacterial species that individually account for less than 2.5% of the bacterial population within your gut microbiome. If you are missing microbiome data for any day on this plot it's either because you did not submit a sample for that day, your sample wasn't able to be sequenced, or we did not get enough sequence data from your sample to reliably use it for data analysis.
 ")
@@ -331,7 +329,7 @@ ggplot(mergedf, aes(x = StudyDayNo, y = newvalue, fill = rn)) +
 \newpage
 <br>
 
-```{r, warning=FALSE,eval=taxa_eval,message=FALSE, echo=FALSE, fig.width=6.5, fig.cap=captions[[6]]} 
+```{r, warning=FALSE,eval=taxa_eval,message=FALSE, echo=FALSE, fig.width=6.5, fig.height=6.5, fig.cap=captions[[6]]} 
 #
 fc5<- paste("shows how the bacterial diversity exhibited within your gut changes on a daily basis. The measure of diversity shown here is called the Shannon index of alpha diversity. The Shannon index accounts for both the abundance and evenness of bacterial species present within the gut microbiome. A higher Shannon index typically indicates a more diverse microbiome community.")
  #transpose
@@ -549,23 +547,31 @@ plot_grid(Bactr, Para, Alis, Prevo, nrow = 2, ncol = 2 )
 
 ```
 
+#Your Blood Draw Data
+
+If you do not see any plots or information here, it is likely that you have either not provided the pertinent data or have incorrectly submitted it.
 
 
 
-\newpage
-<br>
+```{r,eval= user_eval,fig.width=15, fig.height=15, echo=FALSE,  warning = FALSE, message=FALSE, fig.cap=captions[[9]]}
+blood_table <- as.data.frame(matrix(nrow=5, ncol=3))
+colnames(blood_table) <- c("Test","Result","Normal Range")
 
-#Your blood draw data
+#Fill information about "test" in table
+blood_table["Test"] <- c("Cholesterol (mg/dL)","Triglycerides (mg/dL)","HDL (mg/dL)","LDL (mg/dL)","Glucose (mg/dL)")
 
-The results of your blood draw at the start of the dietary supplementation period are shown in the table below along with the reference ranges. If any of your values fall outside the reference ranges you should contact your health care provider to discuss your results and have the tests rerun.
+#Fill table with user's results for test
+blood_table["Result"] <- c(subblood$Cholesterol.Baseline,subblood$Trigs.Baseline,subblood$HDL.Baseline,subblood$LDL.Baseline,
+                           subblood$Glu.Baseline)
+
+#Fill table with normal range values
+blood_table["Normal Range"] <- c("<200","<150",">60","<100","70 - 100")
+
+kable(blood_table,"html", caption = captions[[9]]) %>% kable_styling
+
+```
 
 
-| Test                  | Result                              | Normal Range |
-|-----------------------|-------------------------------------:|:--------------:|
-| Cholesterol (mg/dL)   | `r subblood$Cholesterol.Baseline`   |  <200        |
-| Triglycerides (mg/dL) | `r subblood$Trigs.Baseline`         |  <150        | 
-| HDL (mg/dL)           | `r subblood$HDL.Baseline`           |  >60         |  
-| LDL (mg/dL)           | `r subblood$LDL.Baseline`           |  <100        |   
-| Glucose (mg/dL)       | `r subblood$Glu.Baseline`           | 70 - 100     |
+
 
 

@@ -55,7 +55,7 @@ shinyApp(
                   placeholder = "Tab-delimited!"),
         
         #Import username file table
-        fileInput("file_umap", "Upload user mapping file*",
+        fileInput("file_umap", "Upload user mapping file",
                   buttonLabel = "Browse",
                   multiple = FALSE,
                   accept = ".txt",
@@ -109,7 +109,6 @@ shinyApp(
         
         #Require inputs - switch on/off depending on what user can provideu
          req(input$file_map) 
-         req(input$file_umap) 
          req(input$file_nutr) 
         # req(input$file_taxa) 
         # req(input$file_fmap) 
@@ -320,7 +319,7 @@ shinyApp(
           
           #render
           render(input = "bin/zebra_markdown.Rmd",output_file = paste0('report.', id, '.html'),"html_document",
-                 output_dir = "output/zebra_output", envir = new.env()) }
+                 output_dir = "output/demonstration_captions", envir = new.env()) }
           
           
         
