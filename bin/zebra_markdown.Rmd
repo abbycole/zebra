@@ -87,15 +87,13 @@ This first table and Figure 1 below show your average macronutrient intake as a 
 
 Based on your height, weight, gender, age, and self-reported activity level you need approximately  `r signif(submap$TEE[1], 2)` kcal per day to maintain your current weight. During the study your weight change was `r submap$Weight.Change[1]` kg. If you didn't lose weight during the study, but your average intake was well below your estimated energy needs, it's possible that you slightly under-reported your dietary intake. 
 
+\newpage
+<br>
 
 
-```{r, echo = FALSE, eval=nutr_eval,warning=FALSE, message=FALSE, fig.height=2.5, fig.width=6, fig.align="center", fig.cap=captions["fc1"]}
+```{r, echo = FALSE, eval=nutr_eval,warning=FALSE, message=FALSE, fig.height=2.5, fig.width=6, fig.align="center", fig.cap=captions[[2]]}
     
-fc1 <-paste("Figure 1 shows the day to day variation in your consumption of macronutrients viewed as a percentage of total kilocalorie intake.Please note, it is common for people who follow some diets, like the low carbohydrate diet, to have intake ranges that differ from the typical intake ranges. The next table will show if your diet is nutritionally adequate.")
-  
 
-print(captions["fc1"])
-  # paste("Based on your height, weight, gender, age, and self-reported activity level you need approximately", signif(submap$TEE[1], 2), "kcal per day to maintain your current weight. During the study your weight change was",submap$Weight.Change[1], "kg. If you didn't loose weight during the study, but your average intake was well below your estimated energy needs, it's possible that you slightly under-reported your dietary intake.")
 
 
 long_plot <- subnutr %>% select(idsample, KCAL, PROT, TFAT, CARB, UserName)
@@ -116,6 +114,7 @@ tick_label <- seq(1:17)
 
 # plot kcal filled with % protein, fat, and carb
 ggplot(long_plot, aes(x = X.SampleID, y = KCAL*PCT, fill = Macro)) +
+  ggtitle("Macronutrient Distribution Information")+
   geom_bar(stat = "identity") +
   theme_classic() +
   scale_fill_manual(values=colpal, labels = c("Protein", "Total Fat", "Carbohydrate"))+
@@ -124,7 +123,7 @@ ggplot(long_plot, aes(x = X.SampleID, y = KCAL*PCT, fill = Macro)) +
   labs(fill = "Macronutrient\nDistribution", y = "Daily reported intake (Kcal)", x = "Study Day Number") +
   theme(
         #axis.title.x =element_text(family = "Helvetica"), axis.title.y =element_text(family = "Helvetica"),
-        plot.title = element_text(hjust = 0.5))
+        plot.title = element_text(hjust = 0.5, size=22))
 
 
 
@@ -132,9 +131,9 @@ ggplot(long_plot, aes(x = X.SampleID, y = KCAL*PCT, fill = Macro)) +
 
 
 
-<!-- **Figure 1** shows the day to day variation in your consumption of macronutrients viewed as a percentage of total kilocalorie intake. -->
-<!-- Please note, it is common for people who follow some diets, like the low carbohydrate diet, to have intake ranges that differ from the typical intake ranges. The next table will show if your diet is nutritionally adequate. -->
+
 \newpage
+<br>
 
 
 
@@ -166,8 +165,9 @@ If your intake of a vitamin or mineral falls below the recommended level for you
 
 
 \newpage
+<br>
 
-```{r, warning=FALSE,eval=nutr_eval, message=FALSE, echo=FALSE, fig.width=7, fig.cap=captions["fc2"]}
+```{r, warning=FALSE,eval=nutr_eval, message=FALSE, echo=FALSE, fig.width=7, fig.cap=captions[[3]]}
  #
 
 #Study average for individual's fiber intake
@@ -185,6 +185,7 @@ tick_label <- seq(1:17)
 
 
 p <- ggplot(subnutr,aes(x = StudyDayNo,y = FIBE)) + 
+    ggtitle("Fiber Intake Information")+
      geom_bar(aes(fill = colpal[1]),stat = "identity",position = "dodge") + scale_x_discrete(labels = abbreviate)+
       geom_hline(size=.75,col="red",yintercept = fiber_rec) + #Recommended fiber level
       geom_hline(size=.75,col="gold",yintercept = fiber_average) +  #Recommended fiber level
@@ -192,8 +193,7 @@ p <- ggplot(subnutr,aes(x = StudyDayNo,y = FIBE)) +
    annotate(geom="text", label="Your Average Intake Level",x=15,y=fiber_average,  vjust=-1, size =3) 
 
 p + guides(fill=F) +
-  theme_classic(base_family = "Helvetica")+
-  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(plot.title = element_text(hjust = 0.5, size = 22)) +
   scale_x_discrete(labels=c(tick_label))+
   scale_fill_manual(values = colpal)+
   labs(x="Study Day Number", y= "Fiber in grams")
@@ -204,11 +204,12 @@ p + guides(fill=F) +
 
 <!-- Fiber is an important energy source for the bacteria that live within your microbiome. Meeting the recommended intake of fiber may help to support a healthy microbiome. If your average fiber intake falls below the recommended intake level, you should consider increasing your intake of fiber by eating more fibrous vegetables and/or increasing your intake of whole grains. -->
 
+\newpage
+<br>
 
+```{r, warning=FALSE, eval=food_eval,  message=FALSE, echo=FALSE, fig.cap=captions[[4]]}
 
-```{r, warning=FALSE, eval=food_eval,  message=FALSE, echo=FALSE, fig.cap=captions["fc3"]}
-
-fc3 <- paste("Figure 3 shows the relative abundance of the major food groups you consumed on a day to day basis during the study, excluding water. Each color is representative of a unique food group as annotated on the figure legend. Please note that these food groups are displayed by their weight in grams, so the plot tends to over-represent the contribution of liquid foods and foods with high water content to your diet. You may notice that the largest food component each day is called Sugars, sweets and beverages. For most participants in this study, the size of that bar is driven by intake of coffee and tea, not sugar and candy.")
+g
 
 # make ggplot bar chart of top 10 most abundant species per day
 #melt sub_foodsp to get our dataframe in the long format for future usage (differs from melted_food)
@@ -246,7 +247,7 @@ ggplot(merge_food, aes(x = StudyDayNo, y = value, fill = rn)) +
    scale_fill_manual(values =colpal)+
   theme_classic(base_family = "Helvetica") +
   theme(axis.text.x = element_text( hjust = 0.5, family = "Helvetica"),
-        plot.title =  element_text(hjust = 0.5, family = "Helvetica"),
+        plot.title =  element_text(hjust = 0.5, size = 22),
         strip.background = element_rect(color = "grey")) +
   guides(fill = guide_legend(reverse = FALSE, 
                              keywidth = 1, 
@@ -254,7 +255,7 @@ ggplot(merge_food, aes(x = StudyDayNo, y = value, fill = rn)) +
                              ncol = 1,
                              title= "Food Group")) +
  labs(y="Relative Abundance",x="Study Day Number")+
-  ggtitle("Food groups consumed each day")
+  ggtitle("Food groups consumed per day")
 
 ```
 
@@ -262,15 +263,17 @@ ggplot(merge_food, aes(x = StudyDayNo, y = value, fill = rn)) +
 
 
 \newpage
-#Your Microbiome Composition Data
+<br>
+
+##Your Microbiome Composition Data
 
 The next series of plots show information about the composition of your microbiome.  
 
 We sequenced the DNA of the microbes that live within your gut from the daily stool samples you provided. We used a type of sequencing called Shallow-shotgun sequencing coupled with programs developed in the Knights's lab to identify the species of bacteria that live inside you.
 
-
-
-```{r, warning=FALSE,eval=taxa_eval, message=FALSE, echo=FALSE, fig.cap=captions["fc4"]}
+\newpage
+<br>
+```{r, warning=FALSE,eval=taxa_eval, message=FALSE, echo=FALSE, fig.cap=captions[[5]]}
 #
 fc4 <- paste("Figure 4 shows the most abundant bacterial species within your gut per each day of the study. The <2.5% abundance column represents a sum of bacterial species that individually account for less than 2.5% of the bacterial population within your gut microbiome. If you are missing microbiome data for any day on this plot it's either because you did not submit a sample for that day, your sample wasn't able to be sequenced, or we did not get enough sequence data from your sample to reliably use it for data analysis.
 ")
@@ -309,7 +312,7 @@ ggplot(mergedf, aes(x = StudyDayNo, y = newvalue, fill = rn)) +
   scale_fill_manual(values =colpal)+
   theme_classic(base_family = "Helvetica") +
   theme(axis.text.x = element_text( hjust = 0.5, family = "Helvetica"),
-        plot.title =  element_text(hjust = 0.5, family = "Helvetica"),
+        plot.title =  element_text(hjust = 0.5,size = 22),
         strip.background = element_rect(color = "grey")) +
   guides(fill = guide_legend(reverse = FALSE, 
                              keywidth = 1, 
@@ -317,7 +320,7 @@ ggplot(mergedf, aes(x = StudyDayNo, y = newvalue, fill = rn)) +
                              ncol = 1,
                              title= "Bacterial Species")) +
  labs(y="Relative Abundance",x="Study Day Number")+
-  ggtitle("Bacterial species in your gut each day")
+  ggtitle(" Bacterial species in your gut each day")
 
 
 ```
@@ -325,9 +328,10 @@ ggplot(mergedf, aes(x = StudyDayNo, y = newvalue, fill = rn)) +
 <!-- **Figure 4** shows the most abundant bacterial species within your gut per each day of the study. The "<2.5% abundance" column represents a sum of bacterial species that individually account for less than 2.5% of the bacterial population within your gut microbiome. If you are missing microbiome data for any day on this plot it's either because you did not submit a sample for that day, your sample wasn't able to be sequenced, or we did not get enough sequence data from your sample to reliably use it for data analysis. -->
 
 
+\newpage
+<br>
 
-
-```{r, warning=FALSE,eval=taxa_eval,message=FALSE, echo=FALSE, fig.width=6.5, fig.cap=captions["fc5"]} 
+```{r, warning=FALSE,eval=taxa_eval,message=FALSE, echo=FALSE, fig.width=6.5, fig.cap=captions[[6]]} 
 #
 fc5<- paste("shows how the bacterial diversity exhibited within your gut changes on a daily basis. The measure of diversity shown here is called the Shannon index of alpha diversity. The Shannon index accounts for both the abundance and evenness of bacterial species present within the gut microbiome. A higher Shannon index typically indicates a more diverse microbiome community.")
  #transpose
@@ -369,8 +373,8 @@ ggplot(merged_alpha, aes(x=StudyDayNo, y=alphad)) +
   annotate(geom="text", label="75th percentile",x=15,y=q3, vjust=-1, size = 3) + 
   labs(x= "Study Day Number",y="Alpha Diversity ")+
   guides(fill=FALSE)+
-  ggtitle("Alpha diversity of your gut microbiome")+
-  theme(plot.title = element_text(hjust = 0.5),
+  ggtitle(" Alpha diversity of your gut microbiome")+
+  theme(plot.title = element_text(hjust = 0.5, size =22),
         axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
   
 ```
@@ -378,9 +382,9 @@ ggplot(merged_alpha, aes(x=StudyDayNo, y=alphad)) +
 <!-- **Figure 5** shows how the bacterial diversity exhibited within your gut changes on a daily basis. The measure of diversity shown here is called the Shannon index of alpha diversity. The Shannon index accounts for both the abundance and evenness of bacterial species present within the gut microbiome. A higher Shannon index typically indicates a more diverse microbiome community. -->
 
 \newpage
+<br>
 
-
-```{r,fig.width=10,eval= taxa_eval, fig.height=10, echo=FALSE,  warning = FALSE, message=FALSE, fig.cap=captions["fc6"]}
+```{r,fig.width=10,eval= taxa_eval, fig.height=10, echo=FALSE,  warning = FALSE, message=FALSE, fig.cap=captions[[7]]}
 fc6 <- paste("Figure 6  is a PCoA plot. A PCoA plot summarizes variability within a given dataset by producing a set of uncorrelated axes. Essentially, the PCoA plot can be utilized to interpret similarity of data points -- data points closer to one another are more similar to one another, while points further away from each other are more dissimilar. Each data point in this plot represents a unique sample collected one of the participants in this study. Samples from the same study participant are the same color. 
 
 The points corresponding to your microbiome are outlined in black and are highlighted by the smaller ellipse. When viewing this plot, keep in mind that it is a 2-dimensional representation of a 3-dimensional plot. So if your points look like they are all in the same place, they might actually extend into or out of the page!")
@@ -454,11 +458,11 @@ ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
   scale_color_manual(values = c("black", "grey")) +
   scale_shape_manual(values = shape_pal3) +
   stat_ellipse(color = "dark grey", type = "norm", linetype = 2, level = 0.95) +
-  labs(title=paste0("Beta diversity of your gut microbiome - PCoA -  ", id)) +
+  labs(title=paste0(" Beta diversity of your gut microbiome - PCoA -  ", id)) +
   guides(fill = guide_legend(override.aes = list(alpha=1)), size = FALSE, col = FALSE) +
   #guides(size = FALSE, fill = FALSE) +
   theme_classic(base_family = "Helvetica") +                                                                      
-  theme(plot.title = element_text(size = 14, hjust = 0.5),
+  theme(plot.title = element_text(size = 22, hjust = 0.5),
         legend.position = "bottom")
 
 
@@ -471,9 +475,9 @@ ggplot(PCOA, aes(x = PC1, y = PC2, group = User)) +
 
 
 \newpage
+<br>
 
-
-```{r,eval= taxa_eval,fig.width=15, fig.height=15, echo=FALSE,  warning = FALSE, message=FALSE, fig.cap=captions["fc7"]}
+```{r,eval= taxa_eval,fig.width=15, fig.height=15, echo=FALSE,  warning = FALSE, message=FALSE, fig.cap=captions[[8]]}
 #
 #fc7 <- paste("beep boop") 
 
@@ -549,6 +553,8 @@ plot_grid(Bactr, Para, Alis, Prevo, nrow = 2, ncol = 2 )
 
 
 \newpage
+<br>
+
 #Your blood draw data
 
 The results of your blood draw at the start of the dietary supplementation period are shown in the table below along with the reference ranges. If any of your values fall outside the reference ranges you should contact your health care provider to discuss your results and have the tests rerun.

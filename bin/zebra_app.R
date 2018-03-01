@@ -1,18 +1,17 @@
  
 #Load packages required for the project
-
-library(rmarkdown)
-library(knitr)
-library(ggplot2)
-library(reshape2)
-library(tibble)
-library(data.table)
-library(vegan)
-library(ape)
-library(RColorBrewer)
-library(dplyr)
-library(cowplot)
-library(kableExtra)
+require(rmarkdown)
+require(knitr)
+require(ggplot2)
+require(reshape2)
+require(tibble)
+require(data.table)
+require(vegan)
+require(ape)
+require(RColorBrewer)
+require(dplyr)
+require(cowplot)
+require(kableExtra)
 
 ###Instantiation###
 #set to working directory to project zebra directory
@@ -133,12 +132,9 @@ shinyApp(
        
         #Caption set up
         
+       # captions <- read.table(input$file_cap$datapath,sep = "\t", header = TRUE, comment = "")
         captions <- read.table(input$file_cap$datapath,sep = "\t", header = TRUE, comment = "")
-        #sep = "\t", header = TRUE, comment = ""
-        
-        # Set up parameters to pass to Rmd document
-       # params <- list(n = input$slider)
-        
+       
         ##### Read data provided in to pertinent maps ####
    
         #read in mapping file
