@@ -150,7 +150,7 @@ shinyApp(
                                        TEE = REE*Activity.Factor) # calculate TEE with activity factor
         
         # make sure studydayno is a factor for later plotting
-        map$StudyDayNo <- as.factor(map$StudyDayNo)
+        map$RecordDayNo <- as.factor(map$RecordDayNo)
         
         
         ###UserName Map set up###
@@ -207,7 +207,7 @@ shinyApp(
           merged_food<- merge(x=melted_food, y=map, by.x = "variable", by.y= idsample, all.x=TRUE)
           
           colnames(merged_food)[3] <- "UserName" #Change col name from UserName.x to UserName - compatibility purposes
-          colnames(merged_food)[4] <- "StudyDayNo" #Change col name from StudyDayNo.x to StudyDayNo - compatibility purposes
+          colnames(merged_food)[4] <- "RecordDayNo" #Change col name from StudyDayNo.x to StudyDayNo - compatibility purposes
         } else {
           print("Food mapping file not provided - report will exclude pertinent food data")
         }
@@ -264,7 +264,7 @@ shinyApp(
           ###Instantiate Plots (with gtaxa)###
           
           colnames(map)[2] <- "UserName" #Change col name from UserName.x to UserName - compatibility purposes
-          colnames(map)[3] <- "StudyDayNo" #Change col name from StudyDayNo.x to StudyDayNo - compatibility purposes
+          colnames(map)[3] <- "RecordDayNo" #Change col name from StudyDayNo.x to StudyDayNo - compatibility purposes
           
           
           # add relative abundace of species taxa to the map for plotting
@@ -319,7 +319,7 @@ shinyApp(
           }
           
           #render
-          render(input = "bin/zebra_markdown.Rmd",output_file = paste0('report.', id, '.html'),"html_document",
+          render(input = "bin/zebra_markdown_bare.Rmd",output_file = paste0('report.', id, '.html'),"html_document",
                  output_dir = "output/demonstration_captions", envir = new.env()) }
           
           
